@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-
+@section('title','Super Admin')
 @section('admin_content')
  <!-- BREADCRUMB-->
  <section class="au-breadcrumb m-t-75">
