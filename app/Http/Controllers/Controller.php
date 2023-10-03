@@ -30,4 +30,8 @@ class Controller extends BaseController
         $img_file->move($folder,$img_name);
         return $img_name;
     }
+
+    protected function file_remove($folder, $old_file){
+        return file_exists($folder.$old_file) ? unlink($folder.$old_file) : false;
+    }
 }

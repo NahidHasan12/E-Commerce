@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ajaxCurdRequest;
 use App\Models\AjaxForm;
 use Illuminate\Http\Request;
-use Yajra\DataTables\Facades\DataTables;
 
 class ajaxController extends Controller
 {
@@ -46,31 +45,33 @@ class ajaxController extends Controller
 
     //Student Data Fatch
     public function getData(Request $request){
-        if ($request->ajax()) {
-
-            $getData = AjaxForm::latest('id');
-            // dd($getData);
-
-            return DataTables::eloquent($getData)
-            ->addIndexColumn()
-
-            ->addColumn('avater', function($data) {
-                $image = '<img width="60" height="50" src="' . asset('ajax/img/'.$data->avater).'">';
-                return $image;
-            })
-
-            ->addColumn('action', function($data) {
-                $action = '
-                <button type="submit" class="btn btn-sm btn-primary m-1 edit-btn" data-id="'.$data->id.'"> <i class="fa fa-pencil-square-o"></i> </button>
-                <button type="submit" class="btn btn-sm btn-danger m-1 delete-btn" data-id="'.$data->id.'"> <i class="fa fa-trash" aria-hidden="true"></i> </button>
+        if($request->ajax()){
+            $get_data = AjaxForm::latest('id')->get();
+            $code = '';
+            foreach($get_data as $key=>$student){
+                $serial = $key+1;
+                $code .='
+                <tr>
+                    <td>'.$serial.'</td>
+                    <td><img src="../ajax/img/'.$student->avater.'" alt="'.$student->name.'" width="60px" height="50px"></td>
+                    <td>'.$student->name.'</td>
+                    <td>'.$student->email.'</td>
+                    <td>'.$student->phone.'</td>
+                    <td>'.$student->roll.'</td>
+                    <td>'.$student->reg.'</td>
+                    <td>'.$student->board.'</td>
+                    <td>'.$student->session.'</td>
+                    <td class="d-flex">
+                        <button type="submit" class="btn btn-sm btn-primary m-1 edit-btn" data-id="'.$student->id.'"> <i class="fa fa-pencil-square-o"></i> </button>
+                        <button type="submit" class="btn btn-sm btn-danger m-1 delete-btn" data-id="'.$student->id.'"> <i class="fa fa-trash" aria-hidden="true"></i> </button>
+                    </td>
+                </tr>
                 ';
-                return $action;
-            })
+            }
+            return response()->json($code);
 
-            ->rawColumns(['avater','action'])
-            ->make(true);
-
-
+        }else{
+            $output = ['status'=>'error', 'message'=>'Something Error!'];
         }
     }
 

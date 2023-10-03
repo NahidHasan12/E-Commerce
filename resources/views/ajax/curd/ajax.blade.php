@@ -41,7 +41,7 @@
             <div class="card-body">
                 <div class="col-12 mb-3">
                 <div class="table-responsive mx-auto">
-                    <table class="table table-sm table-bordered table-hover">
+                    <table id="student_table" class="table table-sm table-bordered table-hover">
                         <thead>
                             <tr>
                                 <th>Id</th>
@@ -90,8 +90,8 @@
 //=========DataTable Code Start =======//
 
 
-
-let table = $('#category-datatables').DataTable({
+let _token = "{{ csrf_token() }}";
+let table = $('#student_table').DataTable({
             processing: true,
             serverSide: true,
             order: [], //Initial no order
@@ -105,7 +105,7 @@ let table = $('#category-datatables').DataTable({
             ],
             pageLength: 25, //number of data show per page
             ajax: {
-                url: "{{ route('category.index') }}",
+                url: "{{ route('ajax.getData') }}",
                 type: "POST",
                 dataType: "JSON",
                 data: function(d) {
@@ -114,11 +114,18 @@ let table = $('#category-datatables').DataTable({
             },
             columns: [
                 {data: 'id'},
-                {data: 'category_name'},
-                {data: 'category_slug'}
+                {data: 'avater'},
+                {data: 'name'},
+                {data: 'email'},
+                {data: 'phone'},
+                {data: 'roll'},
+                {data: 'reg'},
+                {data: 'board'},
+                {data: 'session'},
+                {data: 'action'},
             ],
             language: {
-                processing: '<img src="{{ asset('/table-loading.svg') }}">',
+                processing: '<img src="{{ asset('/table-loader.gif') }}">',
                 emptyTable: '<strong class="text-danger">No Data Found</strong>',
                 infoEmpty: '',
                 zeroRecords: '<strong class="text-danger">No Data Found</strong>',
@@ -203,8 +210,13 @@ let table = $('#category-datatables').DataTable({
 
     //Modal Title  and submit Button text dynamic
     function save_btn(modal_title,save_btn_text){
-        $("form#ajax_form")[0].reset();
-        $('form#ajax_form #pro_img').html("");
+        $('form.ajax_form').find('.error_msg').remove();
+
+        $('form.ajax_form input[name="update"]').val('');
+        $('form.ajax_form').removeClass('update_form');
+
+        $("form.ajax_form")[0].reset();
+        $('form.ajax_form #pro_img').html("");
         $("#select_board").html(`
             <label for="board" class="form-label">Board</label>
             <select name="board" class="form-control form-control-sm">
@@ -221,11 +233,11 @@ let table = $('#category-datatables').DataTable({
 
 
     //Curd Operation
-    //Student Data Isert
+    //Student Data Store
     //===================
 
-    let _token = "{{ csrf_token() }}";
-    $(document).on('submit', 'form#ajax_form', function(e){
+
+    $(document).on('submit', 'form.ajax_form', function(e){
         e.preventDefault();
 
         //let form = document.getElementById('ajax_form');
@@ -238,14 +250,24 @@ let table = $('#category-datatables').DataTable({
             contentType:false,
             processData:false,
             success: function(response){
-                if(response.status == 'success'){
+                 //Form Validation Code start
+                 $('form.ajax_form').find('.error_msg').remove();
+                 if(response.status == false){
+                    $.each(response.errors, function(key,value){
+                       // console.log(response.errors);
+                        $('form.ajax_form #'+key).parent().append('<span class="text-danger error_msg">'+value+'</span>');
+                    });
+                         //Form Validation Code end
+                    }else{
 
-                    $("form")[0].reset();
-                    $(".alert-message").append('<span class="alert alert-success d-block">'+response.message+'</span>');
-                    stu_data_fatch();
-                }else{
-                    $(".alert-message").append('<span class="alert alert-danger d-block">'+response.message+'</span>');
-                }
+                       if(response.status == 'success'){
+                            $("form")[0].reset();
+                            $(".alert-message").append('<span class="alert alert-success d-block">'+response.message+'</span>');
+                            stu_data_fatch();
+                        }else{
+                            $(".alert-message").append('<span class="alert alert-danger d-block">'+response.message+'</span>');
+                        }
+                    }
 
 
             }
@@ -275,10 +297,12 @@ let table = $('#category-datatables').DataTable({
         //modal code start
         $("h5#modal-title").text('Student Data Edit');
         $("button#save-btn").text('Save & Change');
+        $('form.ajax_form').addClass('update_form');
+        $('form.update_form').removeClass('ajax_form');
 
         // modal code end
         let student_id = $(this).data('id');
-
+        $('form.update_form input[name="update"]').val(student_id);
         $.ajax({
             url:"{{ route('ajax.editData') }}",
             type:"post",
@@ -286,13 +310,13 @@ let table = $('#category-datatables').DataTable({
             data:{_token:_token, student_id:student_id},
             success: function(response){
                 let img_src = "{{ asset('ajax/img') }}/"+response.avater;
-                $('form#ajax_form input[name="name"]').val(response.name);
-                $('form#ajax_form input[name="email"]').val(response.email);
-                $('form#ajax_form input[name="phone"]').val(response.phone);
-                $('form#ajax_form input[name="roll"]').val(response.roll);
-                $('form#ajax_form input[name="reg"]').val(response.reg);
-                $('form#ajax_form input[name="session"]').val(response.session);
-                $('form#ajax_form #pro_img').html('<img src="'+img_src+'" alt="'+response.name+'" width="60px">');
+                $('form.update_form input[name="name"]').val(response.name);
+                $('form.update_form input[name="email"]').val(response.email);
+                $('form.update_form input[name="phone"]').val(response.phone);
+                $('form.update_form input[name="roll"]').val(response.roll);
+                $('form.update_form input[name="reg"]').val(response.reg);
+                $('form.update_form input[name="session"]').val(response.session);
+                $('form.update_form #pro_img').html('<img src="'+img_src+'" alt="'+response.name+'" width="60px">');
                 student_board(response.id);
 
             }
@@ -301,6 +325,7 @@ let table = $('#category-datatables').DataTable({
         $('#student_modal').modal('show');
     });
 
+    // Select Student Board
     function student_board(id){
         //alert(id);
         $.ajax({
@@ -316,6 +341,46 @@ let table = $('#category-datatables').DataTable({
             }
         })
     }
+
+    //student data update
+
+    $(document).on('submit', 'form.update_form', function(e){
+        e.preventDefault();
+        //let form = document.getElementById('ajax_form');
+        //let form_data = new FormData(form);
+         //console.log(form_data);
+        $.ajax({
+            url: "{{ route('ajax.updateData') }}",
+            type: "post",
+            data:new FormData(this),
+            contentType:false,
+            processData:false,
+            success: function(response){
+                 //Form Validation Code start
+                 $('form.ajax_form').find('.error_msg').remove();
+                 if(response.status == false){
+                    $.each(response.errors, function(key,value){
+                       // console.log(response.errors);
+                        $('form.ajax_form #'+key).parent().append('<span class="text-danger error_msg">'+value+'</span>');
+                    });
+                         //Form Validation Code end
+                    }else{
+
+                       if(response.status == 'success'){
+                            $("form")[0].reset();
+                            $(".alert-message").append('<span class="alert alert-success d-block">'+response.message+'</span>');
+                            stu_data_fatch();
+                        }else{
+                            $(".alert-message").append('<span class="alert alert-danger d-block">'+response.message+'</span>');
+                        }
+                    }
+
+
+            }
+        });
+    });
+
+
 
     //Student data delete
     //==================
