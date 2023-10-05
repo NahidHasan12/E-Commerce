@@ -386,6 +386,7 @@ let table = $('#student_table').DataTable({
     //==================
     $(document).on('click','button.delete-btn', function(){
         let student_id = $(this).data('id');
+        alert(student_id);
         $.ajax({
             url:"{{ route('ajax.delete') }}",
             type:"post",

@@ -22,3 +22,4 @@ class is_Admin
         return redirect()->route('home')->with('error','You are not a Admin');
     }
 }
+

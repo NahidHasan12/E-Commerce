@@ -18,6 +18,10 @@ Route::middleware(['is_admin'])->group(function () {
     Route::prefix('category')->name('category.')->group(function(){
         Route::get('/', [categoryController::class, 'index'])->name('index');
         Route::post('/get-data', [categoryController::class, 'getData'])->name('getData');
+        Route::post('/store', [categoryController::class, 'store'])->name('store');
+        Route::post('/edit', [categoryController::class, 'edit'])->name('edit');
+        Route::post('/update', [categoryController::class, 'update'])->name('update');
+        Route::post('/delete', [categoryController::class, 'delete'])->name('delete');
 
 
     });
