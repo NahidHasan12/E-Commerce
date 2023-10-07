@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title','SuperAdmin- Category')
+@section('title','SuperAdmin- SubCategory')
 @section('admin_content')
  <!-- BREADCRUMB-->
  <section class="au-breadcrumb m-t-75">
@@ -12,7 +12,7 @@
                             <span class="au-breadcrumb-span">You are here:</span>
                             <ul class="list-unstyled list-inline au-breadcrumb__list">
                                 <li class="list-inline-item active">
-                                    <a href="#">Category</a>
+                                    <a href="#">Sub Category</a>
                                 </li>
                                 <li class="list-inline-item seprate">
                                     <span>/</span>
@@ -29,22 +29,23 @@
 
 <section>
     <div class="card">
-        <div class="cat_alert"> </div>
+        <div class="subcat_alert"> </div>
         <div class="card-header d-flex justify-content-between">
-            <h3 class="card-title">Category Data</h3>
-            <button class="btn btn-sm btn-primary" onclick="addBtn()" data-toggle="modal" data-target="#categoryModal">Add New</button>
+            <h3 class="card-title">Sub Category Data</h3>
+            <button class="btn btn-sm btn-primary" onclick="addBtn()" data-toggle="modal" data-target="#subCategory">Add New</button>
         </div>
         <div class="card-body">
-            <table id="category-datatables" class="table table-bordered table-striped">
+            <table id="subcat_datatable" class="table table-bordered table-striped">
                <thead>
                     <tr>
                         <th>Id</th>
+                        <th>Subcategory Name</th>
+                        <th>Subcategory Slug</th>
                         <th>Category Name</th>
-                        <th>Category Slug</th>
                         <th>Action</th>
                     </tr>
                 </thead>
-                <tbody class="cat_data">
+                <tbody>
 
                 </tbody>
 
@@ -55,20 +56,20 @@
 
 
 <!-- Store Modal -->
-   @include('admin.category.cat.modal.store')
+   @include('admin.category.sub_cat.modal.store')
 <!-- Edit Modal -->
-   @include('admin.category.cat.modal.edit')
+   @include('admin.category.sub_cat.modal.edit')
 </section>
 
 @endsection
 
-
 @push('scripts')
 
 <script>
+
+    //Get Sub Category Data with DataTables
     let _token = "{{ csrf_token() }}";
-    //Fatch Data With DataTable
-    let table = $('#category-datatables').DataTable({
+    let table = $('#subcat_datatable').DataTable({
         processing: true,
         serverSide: true,
         order: [], //Initial no order
@@ -82,7 +83,7 @@
         ],
         pageLength: 25, //number of data show per page
         ajax: {
-            url: "{{ route('category.getData') }}",
+            url: "{{ route('sub_cat.getData') }}",
             type: "POST",
             dataType: "JSON",
             data: function(d) {
@@ -91,8 +92,9 @@
         },
         columns: [
             {data: 'id'},
-            {data: 'category_name'},
-            {data: 'category_slug'},
+            {data: 'subcategory_name'},
+            {data: 'subcategory_slug'},
+            {data: 'category_id'},
             {data: 'action'}
         ],
         language: {
@@ -157,27 +159,26 @@
         }
     });
 
-    //Add Button
+    //Add New Button
     function addBtn(){
-        $('form.cat_form').find('.error_msg').remove();
+        $('form.subcat_form').find('.error_msg').remove();
     }
 
-    //Store Data
-    $(document).on('submit', 'form.cat_form', function(e){
+    //Store Sub Category Data
+    $(document).on('submit', 'form.subcat_form', function(e){
         e.preventDefault();
-
         $.ajax({
-            url: "{{ route('category.store') }}",
+            url: "{{ route('sub_cat.store') }}",
             type: "post",
             data:new FormData(this),
             contentType:false,
             processData:false,
             success: function(response){
                 if(response.status == false){
-                    $('form.cat_form').find('.error_msg').remove();
+                    $('form.subcat_form').find('.error_msg').remove();
                     $.each(response.errors, function(key,value){
                        // console.log(response.errors);
-                        $('form.cat_form #'+key).parent().append('<span class="text-danger error_msg">'+value+'</span>');
+                        $('form.subcat_form #'+key).parent().append('<span class="text-danger error_msg">'+value+'</span>');
                     });
                          //Form Validation Code end
                 }else{
@@ -193,65 +194,50 @@
         });
     });
 
-    //Edit Cat Data
-    $(document).on('click', 'button.edit-btn', function(){
+    // Edit Sub Category Data
+    $(document).on('click','button.edit-btn', function(){
         let data_id = $(this).data('id');
-        $('form.cat_form_edit input[name="update"]').val(data_id);
+        $('form.edit_subcat_form input[name="update"]').val(data_id);
         $.ajax({
-            url:"{{ route('category.edit') }}",
-            type: "post",
-            dataType:"json",
-            data:{_token:_token,data_id:data_id},
-            success:function(response){
-                $('form.cat_form_edit input[name="category_name"]').val(response.category_name);
-                $('form.cat_form_edit input[name="category_slug"]').val(response.category_slug);
-            }
-        });
-
-    });
-
-    //Udate Cat Data
-    $(document).on('submit', 'form.cat_form_edit', function(e){
-        e.preventDefault();
-
-        $.ajax({
-            url: "{{ route('category.update') }}",
-            type: "post",
-            data:new FormData(this),
-            contentType:false,
-            processData:false,
-            success: function(response){
-                if(response.status == false){
-                    $('form.cat_form_edit').find('.error_msg').remove();
-                    $.each(response.errors, function(key,value){
-                       // console.log(response.errors);
-                        $('form.cat_form_edit #'+key).parent().append('<span class="text-danger error_msg">'+value+'</span>');
-                    });
-                         //Form Validation Code end
-                }else{
-                    if(response.status == 'success'){
-                        $("form")[0].reset();
-                        $(".alert-message").append('<span class="alert alert-success d-block">'+response.message+'</span>');
-                        fatchData();
-                    }else{
-                        $(".alert-message").append('<span class="alert alert-danger d-block">'+response.message+'</span>');
-                    }
-                }
-            }
-        });
-    });
-
-    // Delete Cat Data
-    $(document).on('click','button.delete-btn', function(){
-    let data_id = $(this).data('id');
-
-        $.ajax({
-            url:"{{ route('category.delete') }}",
+            url:"{{ route('sub_cat.edit') }}",
             type:"post",
             dataType:"json",
             data:{_token:_token,data_id:data_id},
             success:function(response){
-                $(".cat_alert").append('<span class="alert alert-success d-block">'+response.message+'</span>');
+                category_select(response.id);
+                $('form.edit_subcat_form input[name="sub_cat_name"]').val(response.subcategory_name);
+                $('form.edit_subcat_form input[name="sub_cat_slug"]').val(response.subcategory_slug);
+            }
+        });
+    });
+
+    //Category Select
+    function category_select(subcat_id){
+        //alert(cat_id);
+        $.ajax({
+            url:"{{ route('sub_cat.selectCat') }}",
+            type:"post",
+            dataType:"json",
+            data:{_token:_token,subcat_id:subcat_id},
+            success:function(response){
+                if(response){
+                    $('.catSelect').html(response);
+                }
+            }
+        });
+    }
+
+    //Sub Categoey Delete
+    $(document).on('click','button.delete-btn', function(){
+    let data_id = $(this).data('id');
+
+        $.ajax({
+            url:"{{ route('sub_cat.delete') }}",
+            type:"post",
+            dataType:"json",
+            data:{_token:_token,data_id:data_id},
+            success:function(response){
+                $(".subcat_alert").append('<span class="alert alert-success d-block">'+response.message+'</span>');
 
             }
         });

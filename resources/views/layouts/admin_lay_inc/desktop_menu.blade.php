@@ -43,7 +43,7 @@
                                 <i class="far fa-check-square"></i>Category</a>
                         </li>
                         <li>
-                            <a href="#">
+                            <a href="{{ route('sub_cat.index') }}">
                                 <i class="far fa-check-square"></i>Sub Category</a>
                         </li>
                         <li>
