@@ -45,17 +45,19 @@ class categoryController extends Controller
 
     // Store Data
     public function store(categoryRequest $request){
-
-        $data = category::create([
-            'category_name' => $request->category_name,
-            'category_slug' => Str::slug($request->category_slug,'-')
-        ]);
-        if($data){
-            $output = ['status' => 'success', 'message'=> 'Data Has Been Saved'];
-        }else{
-            $output = ['status' => 'error', 'message'=> 'Something Error'];
+        if($request->ajax()){
+            $data = category::create([
+                'category_name' => $request->category_name,
+                'category_slug' => Str::slug($request->category_slug,'-')
+            ]);
+            if($data){
+                $output = ['status' => 'success', 'message'=> 'Data Has Been Saved'];
+            }else{
+                $output = ['status' => 'error', 'message'=> 'Something Error'];
+            }
+           return response()->json($output);
         }
-       return response()->json($output);
+
     }
 
     //Edit Cat Data
@@ -67,7 +69,7 @@ class categoryController extends Controller
     }
 
     //Update Cat Data
-    public function update(Request $request){
+    public function update(categoryRequest $request){
         if($request->ajax()){
             $cat = category::findOrFail($request->update);
             $data = $cat->update([

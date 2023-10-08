@@ -3,24 +3,24 @@
 namespace App\Models;
 
 use App\Models\category;
-use App\Models\Childcategory;
+use App\Models\SubCategory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class SubCategory extends Model
+class Childcategory extends Model
 {
     use HasFactory;
     protected $fillable=[
-        'subcategory_name',
-        'subcategory_slug',
-        'category_id'
+        'childcategory_name',
+        'childcategory_slug',
+        'category_id',
+        'subcategory_id'
     ];
 
     public function category(){
         return $this->belongsTo(category::class);
     }
-
-    public function childCategory(){
-        return $this->hasMany(Childcategory::class);
+    public function subcategory(){
+        return $this->belongsTo(SubCategory::class);
     }
 }

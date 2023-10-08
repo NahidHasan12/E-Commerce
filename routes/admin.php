@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Admin\adminController;
 use App\Http\Controllers\Admin\categoryController;
+use App\Http\Controllers\Admin\childCategoryController;
 use App\Http\Controllers\Admin\subCategoryController;
 
 Route::get('admin-login', [LoginController::class, 'adminLogin'])->name('admin.login');
@@ -32,7 +33,19 @@ Route::middleware(['is_admin'])->group(function () {
         Route::post('/store', [subCategoryController::class, 'store'])->name('store');
         Route::post('/edit', [subCategoryController::class, 'edit'])->name('edit');
         Route::post('/select_cat', [subCategoryController::class, 'selectCategory'])->name('selectCat');
-        // Route::post('/update', [categoryController::class, 'update'])->name('update');
+        Route::post('/update', [subCategoryController::class, 'update'])->name('update');
         Route::post('/delete', [subCategoryController::class, 'delete'])->name('delete');
+    });
+
+    //Child Category Route
+    Route::prefix('child_cat')->name('child_cat.')->group(function(){
+        Route::get('/', [childCategoryController::class, 'index'])->name('index');
+        //Route::post('/get-data', [childCategoryController::class, 'getData'])->name('getData');
+        Route::post('/fatch-data', [childCategoryController::class, 'fatchData'])->name('fatchData');
+        Route::post('/store', [childCategoryController::class, 'store'])->name('store');
+        // Route::post('/edit', [subCategoryController::class, 'edit'])->name('edit');
+        // Route::post('/select_cat', [subCategoryController::class, 'selectCategory'])->name('selectCat');
+        // Route::post('/update', [subCategoryController::class, 'update'])->name('update');
+        // Route::post('/delete', [subCategoryController::class, 'delete'])->name('delete');
     });
 });

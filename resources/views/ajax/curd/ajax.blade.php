@@ -91,7 +91,7 @@
 
 
 let _token = "{{ csrf_token() }}";
-let table = $('#student_table').DataTable({
+    let table = $('#student_table').DataTable({
             processing: true,
             serverSide: true,
             order: [], //Initial no order

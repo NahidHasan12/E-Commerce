@@ -12,6 +12,13 @@ use App\Http\Requests\Admin\subcategoryRequest;
 
 class subCategoryController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+
     public function index(){
         $subcategory = SubCategory::get();
         $category = category::all();
@@ -41,17 +48,20 @@ class subCategoryController extends Controller
     }
 
     public function store(subcategoryRequest $request){
-        $data = SubCategory::create([
-            'subcategory_name' => $request->sub_cat_name,
-            'subcategory_slug' => Str::slug($request->sub_cat_slug),
-            'category_id' => $request->category_id
-        ]);
-        if($data){
-            $output = ['status' => 'success', 'message'=> 'Data Has Been Saved'];
-        }else{
-            $output = ['status' => 'error', 'message'=> 'Something Error'];
+        if($request->ajax()){
+            $data = SubCategory::create([
+                'subcategory_name' => $request->sub_cat_name,
+                'subcategory_slug' => Str::slug($request->sub_cat_slug),
+                'category_id' => $request->category_id
+            ]);
+            if($data){
+                $output = ['status' => 'success', 'message'=> 'Data Has Been Saved'];
+            }else{
+                $output = ['status' => 'error', 'message'=> 'Something Error'];
+            }
+           return response()->json($output);
         }
-       return response()->json($output);
+
     }
 
     public function edit(Request $request){
@@ -66,20 +76,41 @@ class subCategoryController extends Controller
             $subcat_id = SubCategory::findOrFail($request->subcat_id);
             $cat = category::latest('id')->get();
 
-            $output = '<label for="main_category" class="form-label">Category Select</label>
-                       <select name="main_category" class="form-control" id="main_category">';
+            $output = '<label for="category_id" class="form-label">Category Select</label>
+            <select name="category_id" class="form-control" id="category_id">
+            <option value="">--select Please--</option>';
 
             foreach ($cat as $key => $data) {
-                $selected = ($subcat_id->category_id == $data->id) ? 'selected' : '';
+                $selected = ($data->id == $subcat_id->category_id) ? 'selected' : '';
 
-                $output .= '<option value="' . $subcat_id->category_id . '" ' . $selected . '>' . $data->category_name . '</option>';
+                $output .= '<option value="' . $data->id . '" ' . $selected . '>' . $data->category_name . '</option>';
             }
 
             $output .= '</select>';
+
+
             return response()->json($output);
         }
 
     }
+
+    public function update(subcategoryRequest $request){
+        if($request->ajax()){
+            $cat = SubCategory::findOrFail($request->update);
+            $data = $cat->update([
+                'subcategory_name' => $request->sub_cat_name,
+                'subcategory_slug' => Str::slug($request->sub_cat_slug),
+                'category_id' => $request->category_id
+            ]);
+            if($data){
+                $output = ['status'=>'success', 'message'=>'Data Has Been Updated'];
+            }else{
+                $output = ['status'=>'error', 'message'=>'Data Updated Failed'];
+            }
+            return response()->json($output);
+        }
+    }
+
 
 
     public function delete(Request $request){

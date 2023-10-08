@@ -47,7 +47,7 @@
                                 <i class="far fa-check-square"></i>Sub Category</a>
                         </li>
                         <li>
-                            <a href="calendar.html">
+                            <a href="{{ route('child_cat.index') }}">
                                 <i class="far fa-check-square"></i>Child Category</a>
                         </li>
                         <li>

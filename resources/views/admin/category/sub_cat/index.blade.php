@@ -12,7 +12,7 @@
                             <span class="au-breadcrumb-span">You are here:</span>
                             <ul class="list-unstyled list-inline au-breadcrumb__list">
                                 <li class="list-inline-item active">
-                                    <a href="#">Sub Category</a>
+                                    <a href="#">Child Category</a>
                                 </li>
                                 <li class="list-inline-item seprate">
                                     <span>/</span>
@@ -226,6 +226,36 @@
             }
         });
     }
+
+    //sub Category Update
+    $(document).on('submit', 'form.edit_subcat_form', function(e){
+        e.preventDefault();
+        $.ajax({
+            url: "{{ route('sub_cat.update') }}",
+            type: "post",
+            data:new FormData(this),
+            contentType:false,
+            processData:false,
+            success: function(response){
+                if(response.status == false){
+                    $('form.edit_subcat_form').find('.error_msg').remove();
+                    $.each(response.errors, function(key,value){
+                       // console.log(response.errors);
+                        $('form.edit_subcat_form #'+key).parent().append('<span class="text-danger error_msg">'+value+'</span>');
+                    });
+                         //Form Validation Code end
+                }else{
+                    if(response.status == 'success'){
+                        $("form")[0].reset();
+                        $(".edit_alert_sms").append('<span class="alert alert-success d-block">'+response.message+'</span>');
+                        fatchData();
+                    }else{
+                        $(".edit_alert_sms").append('<span class="alert alert-danger d-block">'+response.message+'</span>');
+                    }
+                }
+            }
+        });
+    });
 
     //Sub Categoey Delete
     $(document).on('click','button.delete-btn', function(){
