@@ -12,7 +12,7 @@
                             <span class="au-breadcrumb-span">You are here:</span>
                             <ul class="list-unstyled list-inline au-breadcrumb__list">
                                 <li class="list-inline-item active">
-                                    <a href="#">Sub Category</a>
+                                    <a href="#">Child Category</a>
                                 </li>
                                 <li class="list-inline-item seprate">
                                     <span>/</span>
@@ -29,7 +29,7 @@
 
 <section>
     <div class="card">
-        <div class="subcat_alert"> </div>
+        <div class="childcat_alert"> </div>
         <div class="card-header d-flex justify-content-between">
             <h3 class="card-title">Sub Category Data</h3>
             <button class="btn btn-sm btn-primary" onclick="addBtn()" data-toggle="modal" data-target="#childCategoryStore">Add New</button>
@@ -56,10 +56,14 @@
 
 
 
-<!-- Store Modal -->
+   <!-- Store Modal -->
    @include('admin.category.child_cat.modal.store')
-<!-- Edit Modal -->
-   {{-- @include('admin.category.child_cat.modal.edit') --}}
+
+   <!-- Edit Modal -->
+   @include('admin.category.child_cat.modal.edit')
+
+
+
 </section>
 
 @endsection
@@ -88,6 +92,33 @@
         }
         fatch_childCat();
 
+        //Category wise Sub Category select
+        $(document).ready(function(){
+            $('#category_id').on('change', function(){
+                var category_id =$(this).val();
+                //alert(category_id)
+                if(category_id){
+                    $.ajax({
+                        url:"sub_cat/"+category_id,
+                        type:"get",
+                        dataType:"json",
+                        success:function(data){
+                            $('#subcategory_id').empty().prop('disabled', false);
+                            $.each(data, function(key,subCategory){
+                                $('#subcategory_id').append('<option value="'+subCategory.id+'">'+subCategory.subcategory_name+'</option>');
+                            });
+                        },
+                        error:function(xhr, status, error) {
+                            console.error(xhr.responseText);
+                        }
+                    });
+                }else{
+                    $('#subcategory_id').empty().prop('disabled', true);
+                }
+            });
+        });
+
+        //Store Child Category
         $(document).on('submit', 'form.childcat_form', function(e){
             e.preventDefault();
             $.ajax({
@@ -122,6 +153,61 @@
         });
 
 
+        //Edit Child Category
+        $(document).on('click','button.edit-btn', function(){
+             let data_id = $(this).data('id');
+            $('form.edit_childcat_form input[name="update"]').val(data_id);
+            $.ajax({
+                url:"{{ route('child_cat.edit') }}",
+                type:"post",
+                dataType:"json",
+                data:{_token:_token,data_id:data_id},
+                success:function(response){
+                    //category_select(response.id);
+                    $('form.edit_childcat_form input[name="child_cat_name"]').val(response.childcategory_name);
+                    $('form.edit_childcat_form input[name="child_cat_slug"]').val(response.childcategory_slug);
+                }
+            });
+        });
+
+
+        //Update Child Category
+        $(document).on('submit', 'form.edit_childcat_form', function(e){
+            e.preventDefault();
+            $.ajax({
+                url: "{{ route('child_cat.update') }}",
+                type: "post",
+                data:new FormData(this),
+                contentType:false,
+                processData:false,
+                success: function(response){
+
+                    if(response.status == 'success'){
+                        $("form")[0].reset();
+                        $(".edit_alert_sms").append('<span class="alert alert-success d-block">'+response.message+'</span>');
+                        fatch_childCat();
+                    }else{
+                        $(".edit_alert_sms").append('<span class="alert alert-danger d-block">'+response.message+'</span>');
+                    }
+                }
+            });
+        });
+
+        // Delete Child Category
+        $(document).on('click','button.delete-btn', function(){
+            let data_id = $(this).data('id');
+
+            $.ajax({
+                url:"{{ route('child_cat.delete') }}",
+                type:"post",
+                dataType:"json",
+                data:{_token:_token,data_id:data_id},
+                success:function(response){
+                    $(".childcat_alert").append('<span class="alert alert-danger d-block">'+response.message+'</span>');
+                    fatch_childCat();
+                }
+            });
+        });
 
     </script>
 

@@ -4,7 +4,7 @@
     <div class="modal-content">
         <div class="child_cat_store_alert">  </div>
         <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Add New Sub Category</h5>
+        <h5 class="modal-title" id="exampleModalLongTitle">Add New Child Category</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -23,7 +23,7 @@
             <div class="mb-3">
                 <label for="category_id" class="form-label">Category Select</label>
                 <select name="category_id" class="form-control" id="category_id">
-                    <option value="">Select Category</option>
+                    <option value="">--Select Category--</option>
                     @forelse ($category as $item)
                     <option value="{{ $item->id }}">{{ $item->category_name }}</option>
                     @empty
@@ -34,12 +34,8 @@
             <div class="mb-3">
                 <label for="subcategory_id" class="form-label">Sub Category Select</label>
                 <select name="subcategory_id" class="form-control" id="subcategory_id">
-                    <option value="">Select SubCategory</option>
-                    @forelse ($subCategory as $item)
-                    <option value="{{ $item->id }}">{{ $item->subcategory_name }}</option>
-                    @empty
-                    <option class="text-danger" value="">No data found</option>
-                    @endforelse
+                    <option value="">--Select SubCategory--</option>
+
                 </select>
             </div>
             </div>

@@ -43,9 +43,11 @@ Route::middleware(['is_admin'])->group(function () {
         //Route::post('/get-data', [childCategoryController::class, 'getData'])->name('getData');
         Route::post('/fatch-data', [childCategoryController::class, 'fatchData'])->name('fatchData');
         Route::post('/store', [childCategoryController::class, 'store'])->name('store');
-        // Route::post('/edit', [subCategoryController::class, 'edit'])->name('edit');
-        // Route::post('/select_cat', [subCategoryController::class, 'selectCategory'])->name('selectCat');
-        // Route::post('/update', [subCategoryController::class, 'update'])->name('update');
-        // Route::post('/delete', [subCategoryController::class, 'delete'])->name('delete');
+        Route::post('/edit', [childCategoryController::class, 'edit'])->name('edit');
+        Route::post('/update', [childCategoryController::class, 'update'])->name('update');
+        Route::post('/delete', [childCategoryController::class, 'delete'])->name('delete');
+
     });
+    //Category wise sub Category Selet Route
+    Route::get('sub_cat/{cat_id}',[childCategoryController::class, 'getSubCat'])->name('getSubCat');
 });

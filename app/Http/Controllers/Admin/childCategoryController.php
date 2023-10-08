@@ -21,8 +21,8 @@ class childCategoryController extends Controller
 
     public function index(){
         $category = category::latest('id')->get();
-        $subCategory = SubCategory::latest('id')->get();
-        return view('admin.category.child_cat.index',compact('category','subCategory'));
+        $sub_cat = SubCategory::latest('id')->get();
+        return view('admin.category.child_cat.index',compact('category','sub_cat'));
     }
 
     // public function getData(Request $request){
@@ -54,10 +54,10 @@ class childCategoryController extends Controller
                     <td>'.$serial.'</td>
                     <td>'.$data->childcategory_name.'</td>
                     <td>'.$data->childcategory_slug.'</td>
-                    <td>'.$data->category_id.'</td>
-                    <td>'.$data->subcategory_id.'</td>
+                    <td>'.$data->category->category_name.'</td>
+                    <td>'.$data->SubCategory->subcategory_name.'</td>
                     <td class="d-flex">
-                        <button type="submit" class="btn btn-sm btn-primary m-1 edit-btn" data-id="'.$data->id.'"> <i class="fa fa-pencil-square-o"></i> </button>
+                        <button type="submit" class="btn btn-sm btn-primary m-1 edit-btn" data-id="'.$data->id.'"  data-toggle="modal" data-target="#childCategoryEdit"> <i class="fa fa-pencil-square-o"></i> </button>
                         <button type="submit" class="btn btn-sm btn-danger m-1 delete-btn" data-id="'.$data->id.'"> <i class="fa fa-trash" aria-hidden="true"></i> </button>
                     </td>
                 </tr>
@@ -65,6 +65,12 @@ class childCategoryController extends Controller
             }
             return response()->json($code);
         }
+    }
+
+    // Category wise Sub category Select
+    public function getSubCat($cat_id){
+       $sub_cat = SubCategory::where('category_id',$cat_id)->get();
+       return response()->json($sub_cat);
     }
 
     public function store(childcategoryRequest $request){
@@ -82,5 +88,46 @@ class childCategoryController extends Controller
             }
             return response()->json($output);
         }
+    }
+
+    public function edit(Request $request){
+        if($request->ajax()){
+            $child_cat = Childcategory::findOrFail($request->data_id);
+            return response()->json($child_cat);
+        }
+    }
+
+    public function update(Request $request){
+        if($request->ajax()){
+            $child_cat = Childcategory::findOrFail($request->update);
+            // $request->validate([
+            //     'childcategory_name' => 'required',
+            //     'childcategory_slug' => 'required',
+            //     'subcategory_id' => 'nullable'
+            // ]);
+            $child_cat->update([
+                'childcategory_name'=>$request->child_cat_name,
+                'childcategory_slug'=>Str::slug($request->child_cat_slug,'-'),
+                'subcategory_id'=>$request->subcategory_id
+            ]);
+
+            if($child_cat){
+                $output = ['status'=>'success', 'message'=>'Child Category Updated'];
+            }else{
+                $output = ['status'=>'success', 'message'=>'Child Category Updated Faild'];
+            }
+            return response()->json($output);
+        }
+    }
+
+    public function delete(Request $request){
+        if($request->ajax()){
+            //dd($request->cat_data);
+            $child_cat = Childcategory::find($request->data_id);
+            $child_cat->delete();
+            $output=['status'=>'success', 'message' => 'Data Has Been Deleted'];
+            return response()->json($output);
+        }
+
     }
 }

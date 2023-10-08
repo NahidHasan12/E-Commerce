@@ -33,11 +33,14 @@ class childcategoryRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
+        $rules = [
             'child_cat_name' => ['required', 'min:2', 'max:50'],
             'child_cat_slug' => ['required', 'min:2', 'max:50'],
             'category_id' => ['required', 'min:1', 'max:50'],
             'subcategory_id' => ['required', 'min:1', 'max:50']
         ];
+
+        return $rules;
+
     }
 }
