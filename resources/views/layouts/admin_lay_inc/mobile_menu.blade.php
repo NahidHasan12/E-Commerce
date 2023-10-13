@@ -49,7 +49,7 @@
                                 <i class="far fa-check-square"></i>Child Category</a>
                         </li>
                         <li>
-                            <a href="map.html">
+                            <a href="{{ route('brand.index') }}">
                                 <i class="far fa-check-square"></i>Brand</a>
                         </li>
                     </ul>

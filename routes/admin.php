@@ -4,6 +4,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Admin\adminController;
+use App\Http\Controllers\Admin\brandController;
 use App\Http\Controllers\Admin\categoryController;
 use App\Http\Controllers\Admin\childCategoryController;
 use App\Http\Controllers\Admin\subCategoryController;
@@ -50,4 +51,16 @@ Route::middleware(['is_admin'])->group(function () {
     });
     //Category wise sub Category Selet Route
     Route::get('sub_cat/{cat_id}',[childCategoryController::class, 'getSubCat'])->name('getSubCat');
+
+    Route::prefix('brand')->name('brand.')->group(function(){
+        Route::get('/', [brandController::class, 'index'])->name('index');
+        //Route::post('/get-data', [brandController::class, 'getData'])->name('getData');
+        // Route::post('/fatch-data', [childCategoryController::class, 'fatchData'])->name('fatchData');
+        Route::post('/store', [brandController::class, 'store'])->name('store');
+        Route::post('/edit', [brandController::class, 'edit'])->name('edit');
+        Route::post('/update', [brandController::class, 'update'])->name('update');
+        Route::post('/delete', [brandController::class, 'delete'])->name('delete');
+        Route::post('/fatch', [brandController::class, 'fatch'])->name('fatch');
+
+    });
 });

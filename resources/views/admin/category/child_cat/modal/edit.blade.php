@@ -29,9 +29,10 @@
                     <option class="text-primary" disabled="">--{{ $item->category_name }}--</option>
                     @php
                     $subcategory = DB::table('sub_categories')->where('category_id',$item->id)->get();
+                    $child_cat = DB::table('childcategories')->first();
                     @endphp
                     @foreach ($subcategory as $item)
-                        <option value="{{ $item->id }}">{{ $item->subcategory_name }}</option>
+                        <option value="{{ $item->id }}"{{ $item->id == $child_cat->subcategory_id ? 'selected' : '' }}>{{ $item->subcategory_name }}</option>
                     @endforeach
                     @endforeach
                 </select>
