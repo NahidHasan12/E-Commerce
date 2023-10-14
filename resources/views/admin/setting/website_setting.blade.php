@@ -33,34 +33,80 @@
     <div class="section__content section__content--p30">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-8 mx-auto">
+                <div class="col-10 mx-auto">
                     <div class="card">
                         <div class="card-header">
                             <h4 class="card-title">Website Setting</h4>
                         </div>
                         <div class="card-body">
-                            <form action="" method="POST">
+                            <form action="{{ route('web_setting.update',$web_setting->id) }}" method="POST">
                                 @csrf
-                                <div class="mb-3">
-                                    <label for="old_password" class="form-label">Old Password</label>
-                                    <input type="text" name="old_password" id="old_password" class="form-control">
+                                @method("PUT")
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="mb-3">
+                                            <label for="currency" class="form-label">currency</label>
+                                            <select name="currency" id="currency" class="form-control">
+                                                <option value="$">Dollar</option>
+                                                <option value="৳">Taka</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="phone_one" class="form-label">Phone One</label>
+                                            <input type="text" name="phone_one" value="{{ $web_setting->phone_one }}" id="phone_one" class="form-control">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="phone_two" class="form-label">Phone Two</label>
+                                            <input type="text" name="phone_two" value="{{ $web_setting->phone_two }}" id="phone_two" class="form-control">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="main_email" class="form-label">Main Email</label>
+                                            <input type="text" name="main_email" value="{{ $web_setting->main_email }}" id="main_email" class="form-control">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="support_mail" class="form-label">Support EMail</label>
+                                            <input type="text" name="support_mail" value="{{ $web_setting->support_mail }}" id="support_mail" class="form-control">
+                                        </div>
+                                        <div class="mb-0">
+                                            <label for="logo" class="form-label">Logo</label>
+                                            <input type="file" name="logo" value="" id="logo" class="form-control">
+                                            <img class="mt-1" src="{{ asset('admin/logo_favicon/').$web_setting->logo }}" alt="" width="60" height="55">
+                                        </div>
+                                        <div class="mb-0">
+                                            <label for="favicon" class="form-label">Favicon</label>
+                                            <input type="file" name="favicon" value="" id="favicon" class="form-control">
+                                            <img class="mt-1" src="{{ asset('admin/logo_favicon/').$web_setting->favicon }}" alt="" width="60" height="55">
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="text-primary py-1"> --- Others Option ---</div>
+                                        <div class="mb-3">
+                                            <label for="address" class="form-label">Address</label>
+                                            <input type="text" name="address" value="{{ $web_setting->address }}" id="address" class="form-control">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="facebook" class="form-label">Facebook</label>
+                                            <input type="text" name="facebook" value="{{ $web_setting->facebook }}" id="facebook" class="form-control">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="twitter" class="form-label">Twitter</label>
+                                            <input type="text" name="twitter" value="{{ $web_setting->twitter }}" id="twitter" class="form-control">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="linkedin" class="form-label">Linkedin</label>
+                                            <input type="text" name="linkedin" value="{{ $web_setting->linkedin }}" id="linkedin" class="form-control">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="youtube" class="form-label">Youtube</label>
+                                            <input type="text" name="youtube" value="{{ $web_setting->youtube }}" id="youtube" class="form-control">
+                                        </div>
+                                        <div class="text-end">
+                                            <button type="submit" class="btn btn-sm btn-primary">Update & Change</button>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="mb-3">
-                                    <label for="password" class="form-label">New Password</label>
-                                    <input type="text" name="password" id="password" class="form-control @error('password') is-invalid @enderror">
-                                    @error('password')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                                <div class="mb-3">
-                                    <label for="confirm_pass" class="form-label">Confirm Password</label>
-                                    <input type="text" name="password_confirmation" id="confirm_pass" class="form-control">
-                                </div>
-                                <div class="text-end">
-                                    <button type="submit" class="btn btn-sm btn-primary">Update</button>
-                                </div>
+
+
                             </form>
                         </div>
                     </div>

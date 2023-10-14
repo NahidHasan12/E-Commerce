@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
 use App\Models\Seo;
+use App\Models\Page;
 use App\Models\Smtp;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Models\Web_setting;
+use Yajra\DataTables\Facades\DataTables;
 
 class settingController extends Controller
 {
@@ -52,6 +56,142 @@ class settingController extends Controller
 
     //start website setting method
     public function web_setting(){
-        return view('admin.setting.website_setting');
+        $web_setting = Web_setting::first('id');
+        return view('admin.setting.website_setting',['web_setting'=>$web_setting]);
     }
+
+    public function web_settingUpdate(Request $request, $id){
+        $websiteSettings = Web_setting::findOrFail($id);
+
+            if($request->hasFile('logo')){
+                $logo = $this->file_update($request->file('logo'),'admin/logo_favicon/',$websiteSettings->logo);
+            }else{
+                $logo = $websiteSettings->logo;
+            }
+
+            if($request->hasFile('favicon')){
+                $favicon = $this->file_update($request->file('favicon'),'admin/logo_favicon/',$websiteSettings->favicon);
+            }else{
+                $favicon = $websiteSettings->favicon;
+            }
+
+            $data = $websiteSettings->update([
+                'currency'     => $request->currency,
+                'phone_one'    => $request->phone_one,
+                'phone_two'    => $request->phone_two,
+                'main_email'   => $request->main_email,
+                'support_mail' => $request->support_mail,
+                'logo'         => $logo,
+                'favicon'      => $favicon,
+                'address'      => $request->address,
+                'facebook'     => $request->facebook,
+                'twitter'      => $request->twitter,
+                'linkedin'     => $request->linkedin,
+                'youtube'      => $request->youtube
+            ]);
+            if ($data) {
+                $message = array('message'=>'Data Update Success','alert-type'=>'success' );
+            }else {
+                $message = array('message'=>'Data Not Update','alert-type'=>'error' );
+            }
+
+            return redirect()->back()->with($message);
+    }
+    //end Website Setting methods
+
+    // Start Website Setting methods
+    public function pages(){
+        return view('admin.setting.pages.index');
+    }
+    public function fatch_pages(Request $request){
+        if ($request->ajax()) {
+
+            $getData = Page::latest('id');
+            // dd($getData);
+
+            return DataTables::eloquent($getData)
+            ->addIndexColumn()
+            ->addColumn('action', function($data){
+                $action='
+                <button  class="btn btn-sm btn-primary m-1 edit-btn" data-id="'.$data->id.'"  data-toggle="modal" data-target="#pageEditeModal"> <i class="fa fa-edit"></i> </button>
+                <button  class="btn btn-sm btn-danger m-1 delete-btn" data-id="'.$data->id.'"> <i class="fa fa-trash"></i> </button>
+                ';
+                return $action;
+            })
+            ->rawColumns(['action'])
+            ->make(true);
+
+        }
+    }
+    public function store_pages(Request $request){
+        if($request->ajax()){
+            $data = Page::create([
+                'page_position' => $request->page_position,
+                'page_name' => $request->page_name,
+                'page_slug' => Str::slug($request->page_name,'-'),
+                'page_title' => $request->page_title,
+                'page_description' => $request->page_description,
+            ]);
+            if($data){
+                $output = ['status' => 'success', 'message'=> 'Data Has Been Saved'];
+            }else{
+                $output = ['status' => 'error', 'message'=> 'Something Error'];
+            }
+           return response()->json($output);
+        }
+
+    }
+
+    public function edit_pages(Request $request){
+        if($request->ajax()){
+            $data = Page::findOrFail($request->data_id);
+            return response()->json($data);
+        }
+    }
+
+    public function select_page_position(Request $request){
+        if($request->ajax()){
+            $pageData = Page::findOrFail($request->page_id);
+            $line1 = $pageData->page_position == 1 ? 'selected' : '';
+            $line2 = $pageData->page_position == 2 ? 'selected' : '';
+            $output='';
+            $output.='
+            <label for="page_position" class="form-label">Page Position</label>
+            <select name="page_position" class="form-control" id="page_position">
+                <option value="1"'.$line1.'>Line One</option>
+                <option value="2"'.$line2.'>Line Two</option>
+            </select>
+            ';
+            return response()->json($output);
+        }
+    }
+
+    public function update_page(Request $request){
+        if($request->ajax()){
+            $page = Page::findOrFail($request->update);
+            $data = $page->update([
+                'page_position' => $request->page_position,
+                'page_name' => $request->page_name,
+                'page_slug' => Str::slug($request->page_name,'-'),
+                'page_title' => $request->page_title,
+                'page_description' => $request->page_description,
+            ]);
+            if($data){
+                $output = ['status'=>'success', 'message'=>'Data Has Been Updated'];
+            }else{
+                $output = ['status'=>'error', 'message'=>'Data Updated Failed'];
+            }
+            return response()->json($output);
+        }
+    }
+
+    public function pages_delete(Request $request){
+        if($request->ajax()){
+            $brand = Page::findOrFail($request->brand_id);
+            $brand->delete();
+            $output=['status'=>'success','message'=>'data deleted successfully'];
+            return response()->json($output);
+        }
+    }
+
 }

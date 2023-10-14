@@ -73,7 +73,7 @@
                                 <i class="far fa-check-square"></i>Website Setting</a>
                         </li>
                         <li>
-                            <a href="">
+                            <a href="{{ route('pages.pages') }}">
                                 <i class="far fa-check-square"></i>Page Management</a>
                         </li>
                         <li>

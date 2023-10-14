@@ -77,5 +77,15 @@ Route::middleware(['is_admin'])->group(function () {
     });
     Route::prefix('web_setting')->name('web_setting.')->group(function(){
         Route::get('/', [settingController::class, 'web_setting'])->name('web_setting');
+        Route::put('/update/{id}', [settingController::class, 'web_settingUpdate'])->name('update');
+    });
+    Route::prefix('pages')->name('pages.')->group(function(){
+        Route::get('/', [settingController::class, 'pages'])->name('pages');
+        Route::post('/fatch_pages', [settingController::class, 'fatch_pages'])->name('fatch_pages');
+        Route::post('/store_pages', [settingController::class, 'store_pages'])->name('store_pages');
+        Route::post('/edit_pages', [settingController::class, 'edit_pages'])->name('edit_pages');
+        Route::post('/select_page_position', [settingController::class, 'select_page_position'])->name('select_page_position');
+        Route::post('/update_page', [settingController::class, 'update_page'])->name('update_page');
+        Route::post('/delete', [settingController::class, 'pages_delete'])->name('delete');
     });
 });
