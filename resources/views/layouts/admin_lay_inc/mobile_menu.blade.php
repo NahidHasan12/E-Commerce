@@ -10,7 +10,9 @@
                 <img src="{{ asset('admin') }}/images/icon/avatar-big-01.jpg" alt="John Doe" />
             </div>
             <h4 class="name">john doe</h4>
-            <a href="#">Sign out</a>
+            <a href="{{ route('admin.logout') }}">
+                {{ __('Logout') }}
+            </a>
         </div>
         <nav class="navbar-sidebar2">
             <ul class="list-unstyled navbar__list">
@@ -54,6 +56,32 @@
                         </li>
                     </ul>
                 </li>
+                <li class="has-sub">
+                    <a class="js-arrow" href="#">
+                        <i class="fas fa-copy"></i>Settings
+                        <span class="arrow">
+                            <i class="fas fa-angle-down"></i>
+                        </span>
+                    </a>
+                    <ul class="list-unstyled navbar__sub-list js-sub-list">
+                        <li>
+                            <a href="{{ route('seo.seo') }}">
+                                <i class="far fa-check-square"></i>SEO Setting</a>
+                        </li>
+                        <li>
+                            <a href="{{ route('web_setting.web_setting') }}">
+                                <i class="far fa-check-square"></i>Website Setting</a>
+                        </li>
+                        <li>
+                            <a href="">
+                                <i class="far fa-check-square"></i>Page Management</a>
+                        </li>
+                        <li>
+                            <a href="{{ route('smtp.smtp') }}">
+                                <i class="far fa-check-square"></i>SMTP Setting</a>
+                        </li>
+                    </ul>
+                </li>
 
                 <li class="has-sub">
                     <a class="js-arrow" href="#">
@@ -83,22 +111,22 @@
                 </li>
                 <li class="has-sub">
                     <a class="js-arrow" href="#">
-                        <i class="fas fa-copy"></i>Pages
+                        <i class="fas fa-copy"></i>Account
                         <span class="arrow">
                             <i class="fas fa-angle-down"></i>
                         </span>
                     </a>
                     <ul class="list-unstyled navbar__sub-list js-sub-list">
                         <li>
-                            <a href="login.html">
-                                <i class="fas fa-sign-in-alt"></i>Login</a>
+                            <a href="{{ route('admin.logout') }}">
+                                <i class="fas fa-sign-out-alt"></i>LogOut</a>
                         </li>
                         <li>
                             <a href="register.html">
                                 <i class="fas fa-user"></i>Register</a>
                         </li>
                         <li>
-                            <a href="forget-pass.html">
+                            <a href="{{ route('admin.password.change') }}">
                                 <i class="fas fa-unlock-alt"></i>Forget Password</a>
                         </li>
                     </ul>

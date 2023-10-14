@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\adminController;
 use App\Http\Controllers\Admin\brandController;
 use App\Http\Controllers\Admin\categoryController;
 use App\Http\Controllers\Admin\childCategoryController;
+use App\Http\Controllers\Admin\settingController;
 use App\Http\Controllers\Admin\subCategoryController;
 
 Route::get('admin-login', [LoginController::class, 'adminLogin'])->name('admin.login');
@@ -16,6 +17,8 @@ Route::get('admin-login', [LoginController::class, 'adminLogin'])->name('admin.l
 Route::middleware(['is_admin'])->group(function () {
     Route::get('admin/home', [adminController::class, 'admin'])->name('admin.home');
     Route::get('admin/logout', [adminController::class, 'logout'])->name('admin.logout');
+    Route::get('admin/pass/change', [adminController::class, 'passwordChange'])->name('admin.password.change');
+    Route::post('admin/pass/update', [adminController::class, 'passwordUpdate'])->name('admin.password.update');
 
     //Category Route
     Route::prefix('category')->name('category.')->group(function(){
@@ -61,6 +64,18 @@ Route::middleware(['is_admin'])->group(function () {
         Route::post('/update', [brandController::class, 'update'])->name('update');
         Route::post('/delete', [brandController::class, 'delete'])->name('delete');
         Route::post('/fatch', [brandController::class, 'fatch'])->name('fatch');
+    });
 
+    //Settings Route
+    Route::prefix('seo')->name('seo.')->group(function(){
+        Route::get('/', [settingController::class, 'seo'])->name('seo');
+        Route::put('/update/{id}', [settingController::class, 'seoUpdate'])->name('update');
+    });
+    Route::prefix('smtp')->name('smtp.')->group(function(){
+        Route::get('/', [settingController::class, 'smtp'])->name('smtp');
+        Route::put('/update/{id}', [settingController::class, 'smtpUpdate'])->name('update');
+    });
+    Route::prefix('web_setting')->name('web_setting.')->group(function(){
+        Route::get('/', [settingController::class, 'web_setting'])->name('web_setting');
     });
 });

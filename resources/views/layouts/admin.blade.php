@@ -31,9 +31,14 @@
     <link href="{{ asset('admin') }}/vendor/perfect-scrollbar/perfect-scrollbar.css" rel="stylesheet" media="all">
     <link href="{{ asset('admin') }}/vendor/vector-map/jqvmap.min.css" rel="stylesheet" media="all">
 
-    <!-- DataTables CSS-->
- <link href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap4.min.css" rel="stylesheet">
- <link href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap4.min.css" rel="stylesheet">
+        <!-- DataTables CSS-->
+    <link href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap4.min.css" rel="stylesheet">
+
+    {{-- toastr --}}
+    <link href="{{ asset('/') }}assets/toastr.css" rel="stylesheet" />
+
+
 
      <!-- Main CSS-->
     <link rel="stylesheet" type="text/css" href="{{ asset('admin') }}/css/login.css">
@@ -66,6 +71,8 @@
 
     </div>
 
+    {{-- toasr --}}
+    <script src="{{ asset('/') }}assets/toastr.min.js" type="text/javascript"></script>
     <!-- Jquery JS-->
     <script src="{{ asset('admin') }}/vendor/jquery-3.2.1.min.js"></script>
     <!-- Bootstrap JS-->
@@ -109,50 +116,79 @@
      <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.print.min.js"></script>
      <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.colVis.min.js"></script>
 
-      @stack('scripts')
 
 
         <script>
+            @if (Session::has('message'))
+                var type ="{{ Session::get('alert-type','info') }}"
+                switch(type){
+                    case 'success':
+                        toastr.success("{{ Session::get('message') }}")
+                        break;
+                    case 'info':
+                        toastr.info("{{ Session::get('message') }}")
+                        break;
+                    case 'warning':
+                        toastr.warning("{{ Session::get('message') }}")
+                        break;
+                    case 'error':
+                        toastr.error("{{ Session::get('message') }}")
+                        break;
+                }
+            @endif
 
-            // Swal.fire({
-            // title: 'Are you sure?',
-            // text: "You won't be able to revert this!",
-            // icon: 'warning',
-            // showCancelButton: true,
-            // confirmButtonColor: '#3085d6',
-            // cancelButtonColor: '#d33',
-            // confirmButtonText: 'Yes, delete it!'
-            // }).then((result) => {
-            // if (result.isConfirmed) {
-            //     Swal.fire(
-            //     'Deleted!',
-            //     'Your file has been deleted.',
-            //     'success'
-            //     )
-            // }
-            // })
+            function alertMessage(status,message){
+
+                toastr.options = {
+                    "closeButton": false,
+                    "debug": false,
+                    "newestOnTop": false,
+                    "progressBar": true,
+                    "positionClass": "toast-top-right",
+                    "preventDuplicates": false,
+                    "onclick": null,
+                    "showDuration": "300",
+                    "hideDuration": "1000",
+                    "timeOut": "5000",
+                    "extendedTimeOut": "1000",
+                    "showEasing": "swing",
+                    "hideEasing": "linear",
+                    "showMethod": "fadeIn",
+                    "hideMethod": "fadeOut"
+                }
+
+                switch(status) {
+                case 'success':
+                    toastr.success(message)
+                    break;
+                case 'error':
+                    toastr.error(message)
+                    break;
+                case 'warning':
+                    toastr.warning(message)
+                    break;
+                case 'info':
+                    toastr.info(message)
+                    break;
+                }
+
+
+            }
+
+            @if (session()->get('success'))
+                alertMessage('success',"{{ session()->get('success') }}");
+            @elseif (session()->get('error'))
+                alertMessage('error',"{{ session()->get('error') }}");
+            @elseif (session()->get('info'))
+                alertMessage('info',"{{ session()->get('info') }}");
+            @elseif (session()->get('warning'))
+                alertMessage('warning',"{{ session()->get('warning') }}");
+            @endif
+
         </script>
 
-        <script>
 
-           // const Toast = Swal.mixin({
-           // toast: true,
-           // position: 'top-end',
-           // showConfirmButton: false,
-           // timer: 3000,
-           // timerProgressBar: true,
-           // didOpen: (toast) => {
-           //     toast.addEventListener('mouseenter', Swal.stopTimer)
-            //    toast.addEventListener('mouseleave', Swal.resumeTimer)
-            //}
-            //})
-
-            //Toast.fire({
-            //icon: 'success',
-            //title: 'Signed in successfully'
-            //})
-        </script>
-
+@stack('scripts')
 
 </body>
 
