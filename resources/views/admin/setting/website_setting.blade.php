@@ -39,7 +39,7 @@
                             <h4 class="card-title">Website Setting</h4>
                         </div>
                         <div class="card-body">
-                            <form action="{{ route('web_setting.update',$web_setting->id) }}" method="POST">
+                            <form action="{{ route('web_setting.update',$web_setting->id) }}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 @method("PUT")
                                 <div class="row">
@@ -69,13 +69,13 @@
                                         </div>
                                         <div class="mb-0">
                                             <label for="logo" class="form-label">Logo</label>
-                                            <input type="file" name="logo" value="" id="logo" class="form-control">
-                                            <img class="mt-1" src="{{ asset('admin/logo_favicon/').$web_setting->logo }}" alt="" width="60" height="55">
+                                            <input type="file" name="logo" id="logo" class="form-control">
+                                            <img class="mt-1" src="{{ asset('admin/logo_favicon/'.$web_setting->logo) }}" alt="" width="60" height="55">
                                         </div>
                                         <div class="mb-0">
                                             <label for="favicon" class="form-label">Favicon</label>
-                                            <input type="file" name="favicon" value="" id="favicon" class="form-control">
-                                            <img class="mt-1" src="{{ asset('admin/logo_favicon/').$web_setting->favicon }}" alt="" width="60" height="55">
+                                            <input type="file" name="favicon" id="favicon" class="form-control">
+                                            <img class="mt-1" src="{{ asset('admin/logo_favicon/'.$web_setting->favicon )}}" alt="" width="60" height="55">
                                         </div>
                                     </div>
                                     <div class="col-6">
@@ -118,4 +118,25 @@
 </section>
 @endsection
 
+@push('scripts')
+    {{-- <script>
+        let _token = "{{ csrf_token() }}";
+
+        $(document).on('click', 'button.edit-btn', function(){
+        let data_id = $(this).data('id');
+        $('form.cat_form_edit input[name="update"]').val(data_id);
+        $.ajax({
+            url:"{{ route('category.edit') }}",
+            type: "post",
+            dataType:"json",
+            data:{_token:_token,data_id:data_id},
+            success:function(response){
+                $('form.cat_form_edit input[name="category_name"]').val(response.category_name);
+                $('form.cat_form_edit input[name="category_slug"]').val(response.category_slug);
+            }
+        });
+
+    });
+    </script> --}}
+@endpush
 

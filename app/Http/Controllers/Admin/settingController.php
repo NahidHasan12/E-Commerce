@@ -56,26 +56,28 @@ class settingController extends Controller
 
     //start website setting method
     public function web_setting(){
-        $web_setting = Web_setting::first('id');
-        return view('admin.setting.website_setting',['web_setting'=>$web_setting]);
+        $web_setting = Web_setting::first();
+        return view('admin.setting.website_setting',compact('web_setting'));
     }
 
     public function web_settingUpdate(Request $request, $id){
-        $websiteSettings = Web_setting::findOrFail($id);
+        //dd($request->logo);
+        $web_Setting = Web_setting::findOrFail($id);
+
 
             if($request->hasFile('logo')){
-                $logo = $this->file_update($request->file('logo'),'admin/logo_favicon/',$websiteSettings->logo);
+                $logo = $this->file_update($request->file('logo'),'admin/logo_favicon/', $web_Setting->logo);
             }else{
-                $logo = $websiteSettings->logo;
+                $logo = $web_Setting->logo;
             }
 
             if($request->hasFile('favicon')){
-                $favicon = $this->file_update($request->file('favicon'),'admin/logo_favicon/',$websiteSettings->favicon);
+                $favicon = $this->file_update($request->file('favicon'),'admin/logo_favicon/',$web_Setting->favicon);
             }else{
-                $favicon = $websiteSettings->favicon;
+                $favicon = $web_Setting->favicon;
             }
 
-            $data = $websiteSettings->update([
+            $data = $web_Setting->update([
                 'currency'     => $request->currency,
                 'phone_one'    => $request->phone_one,
                 'phone_two'    => $request->phone_two,
