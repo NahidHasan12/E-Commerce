@@ -7,8 +7,10 @@ use App\Http\Controllers\Admin\adminController;
 use App\Http\Controllers\Admin\brandController;
 use App\Http\Controllers\Admin\categoryController;
 use App\Http\Controllers\Admin\childCategoryController;
+use App\Http\Controllers\Admin\couponController;
 use App\Http\Controllers\Admin\settingController;
 use App\Http\Controllers\Admin\subCategoryController;
+use App\Http\Controllers\Admin\warehouseController;
 
 Route::get('admin-login', [LoginController::class, 'adminLogin'])->name('admin.login');
 
@@ -87,5 +89,23 @@ Route::middleware(['is_admin'])->group(function () {
         Route::post('/select_page_position', [settingController::class, 'select_page_position'])->name('select_page_position');
         Route::post('/update_page', [settingController::class, 'update_page'])->name('update_page');
         Route::post('/delete', [settingController::class, 'pages_delete'])->name('delete');
+    });
+
+    //Warehouse Route
+    Route::prefix('warehouse')->name('warehouse.')->group(function(){
+        Route::get('/', [warehouseController::class, 'index'])->name('index');
+        Route::post('/fatch_warehouse', [warehouseController::class, 'fatch_warehouse'])->name('fatch_warehouse');
+        Route::post('/store', [warehouseController::class, 'store'])->name('store');
+        Route::post('/edit', [warehouseController::class, 'edit'])->name('edit');
+        Route::post('/update', [warehouseController::class, 'update'])->name('update');
+        Route::post('/delete', [warehouseController::class, 'delete'])->name('delete');
+    });
+
+    //Coupon Route
+    Route::prefix('coupon')->name('coupon.')->group(function(){
+        Route::get('/', [couponController::class, 'index'])->name('index');
+        Route::post('/fatch_coupon', [couponController::class, 'fatch_coupon'])->name('fatch_coupon');
+        Route::post('/store', [couponController::class, 'store'])->name('store');
+        Route::post('/delete', [couponController::class, 'delete'])->name('delete');
     });
 });
