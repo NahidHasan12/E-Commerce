@@ -38,6 +38,9 @@
     {{-- toastr --}}
     <link href="{{ asset('/') }}assets/toastr.css" rel="stylesheet" />
 
+    <!-- Toggole Switch-->
+    <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
+
 
 
      <!-- Main CSS-->
@@ -116,7 +119,8 @@
      <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.print.min.js"></script>
      <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.colVis.min.js"></script>
 
-
+    <!-- Toggole Switch-->
+     <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
 
         <script>
             @if (Session::has('message'))

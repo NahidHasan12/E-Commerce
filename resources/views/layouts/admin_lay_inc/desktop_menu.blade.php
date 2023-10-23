@@ -58,6 +58,24 @@
                 </li>
                 <li class="has-sub">
                     <a class="js-arrow" href="#">
+                        <i class="fa fa-cubes"></i>Product
+                        <span class="arrow">
+                            <i class="fas fa-angle-down"></i>
+                        </span>
+                    </a>
+                    <ul class="list-unstyled navbar__sub-list js-sub-list">
+                        <li>
+                            <a href="{{ route('product.index') }}">
+                                <i class="far fa-check-square"></i>New Product</a>
+                        </li>
+                        <li>
+                            <a href="">
+                                <i class="far fa-check-square"></i>Manage Product</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="has-sub">
+                    <a class="js-arrow" href="#">
                         <i class="fa fa-gift"></i>Offer
                         <span class="arrow">
                             <i class="fas fa-angle-down"></i>
@@ -71,6 +89,10 @@
                         <li>
                             <a href="">
                                 <i class="far fa-check-square"></i>Campaing</a>
+                        </li>
+                        <li>
+                            <a href="{{ route('pickup_point.index') }}">
+                                <i class="far fa-check-square"></i>Pickup Point</a>
                         </li>
                     </ul>
                 </li>

@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title','SuperAdmin- SubCategory')
+@section('title','SuperAdmin- Coupon')
 @section('admin_content')
  <!-- BREADCRUMB-->
  <section class="au-breadcrumb m-t-75">
@@ -61,7 +61,7 @@
    @include('admin.Offer.coupon.modal.create')
 
    <!-- Edit Modal -->
-   {{-- @include('admin.Offer.coupon.modal.edit') --}}
+   @include('admin.Offer.coupon.modal.edit')
 
 
 
@@ -186,6 +186,74 @@
             });
         });
 
+        $(document).on('click','button.edit-btn', function(){
+            let coupon_id = $(this).data('id');
+            $('form.coupon_edit_form input[name="update"]').val(coupon_id);
+            $.ajax({
+                url:"{{ route('coupon.edit') }}",
+                type:"post",
+                dataType:"json",
+                data:{_token:_token, coupon_id:coupon_id},
+                success: function(response){
+                    $('form.coupon_edit_form input[name="coupon_code"]').val(response.coupon_code);
+                    $('form.coupon_edit_form input[name="valid_date"]').val(response.valid_date);
+                    $('form.coupon_edit_form input[name="coupon_amount"]').val(response.coupon_amount);
+                    selectType(response.id);
+                    selectStatus(response.id);
+                }
+            });
+        });
+
+        function selectType(type){
+            $.ajax({
+                url:"{{ route('coupon.selectType') }}",
+                type:"post",
+                dataType:"json",
+                data:{_token:_token,type:type},
+                success:function(response){
+                    if(response){
+                    $('.coupon_type').html(response);
+                    }
+                }
+            });
+        }
+
+        function selectStatus(status){
+            $.ajax({
+                url:"{{ route('coupon.selectStatus') }}",
+                type:"post",
+                dataType:"json",
+                data:{_token:_token,status:status},
+                success:function(response){
+                    if(response){
+                    $('.coupon_status').html(response);
+                    }
+                }
+            });
+        }
+
+        $(document).on('submit', 'form.coupon_edit_form', function(e){
+            e.preventDefault();
+            $.ajax({
+                url: "{{ route('coupon.update') }}",
+                type: "post",
+                data:new FormData(this),
+                contentType:false,
+                processData:false,
+                success: function(response){
+                    if(response.status == 'success'){
+                        table.draw();
+                        $("form")[0].reset();
+                        $(".coupon_edit_alert_sms").append('<span class="alert alert-success d-block">'+response.message+'</span>');
+
+                    }else{
+                        $(".coupon_edit_alert_sms").append('<span class="alert alert-danger d-block">'+response.message+'</span>');
+                    }
+
+                }
+            });
+        });
+
         $(document).on('click','button.delete-btn', function(){
             let data_id = $(this).data('id');
             $.ajax({
@@ -194,6 +262,7 @@
                 dataType:"json",
                 data:{_token:_token,data_id:data_id},
                 success:function(response){
+                    //toastr.success(response);
                     $(".coupon_table_alert").append('<span class="alert alert-success d-block">'+response.message+'</span>');
                     table.draw();
                 }

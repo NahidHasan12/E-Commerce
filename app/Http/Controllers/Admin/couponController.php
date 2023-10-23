@@ -9,6 +9,10 @@ use Yajra\DataTables\Facades\DataTables;
 
 class couponController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     public function index(){
         return view('admin.Offer.coupon.index');
     }
@@ -34,7 +38,7 @@ class couponController extends Controller
             })
             ->addColumn('action', function($coupon){
                 $action='
-                <button class="btn btn-sm btn-primary m-1 edit-btn" data-id="'.$coupon->id.'"  data-toggle="modal" data-target="#warehouse_edit"> <i class="fa fa-edit"></i> </button>
+                <button class="btn btn-sm btn-primary m-1 edit-btn" data-id="'.$coupon->id.'"  data-toggle="modal" data-target="#coupon_edit"> <i class="fa fa-edit"></i> </button>
                 <button class="btn btn-sm btn-danger m-1 delete-btn" data-id="'.$coupon->id.'"> <i class="fa fa-trash"></i> </button>
                 ';
                 return $action;
@@ -60,6 +64,66 @@ class couponController extends Controller
                 $output = ['status' => 'error', 'message'=> 'Something Error'];
             }
            return response()->json($output);
+        }
+    }
+
+    public function edit(Request $request){
+        if($request->ajax()){
+            $coupon = Coupon::findOrFail($request->coupon_id);
+            return response()->json($coupon);
+        }
+    }
+
+    public function selectType(Request $request){
+        if($request->ajax()){
+            $type = Coupon::findOrFail($request->type);
+            $fixed = $type->type == 1 ? 'selected' : '';
+            $percentage = $type->type == 2 ? 'selected' : '';
+            $output='';
+            $output.='
+                <label for="type" class="form-label">Coupon Type</label>
+                <select name="type" id="type" class="form-control">
+                    <option value="1" '.$fixed.'>Fixed</option>
+                    <option value="2" '.$percentage.'>Percentage</option>
+                </select>
+            ';
+            return response()->json($output);
+        }
+    }
+    public function selectStatus(Request $request){
+        if($request->ajax()){
+            $status = Coupon::findOrFail($request->status);
+            $pending = $status->status == 0 ? 'selected' : '';
+            $active = $status->status == 1 ? 'selected' : '';
+            $output='';
+            $output.='
+                <label for="status" class="form-label">Coupon Status</label>
+                <select name="status" id="status" class="form-control">
+                    <option value="0" '.$pending.'>Pending</option>
+                    <option value="1" '.$active.'>Active</option>
+                </select>
+            ';
+            return response()->json($output);
+        }
+    }
+
+    public function update(Request $request){
+        if($request->ajax()){
+            $coupon = Coupon::findOrFail($request->update);
+            $data = $coupon->update([
+                'coupon_code' => $request->coupon_code,
+                'valid_date' => $request->valid_date,
+                'type' => $request->type,
+                'coupon_amount' => $request->coupon_amount,
+                'status' => $request->status
+            ]);
+
+            if($data){
+                $output = ['status'=>'success', 'message'=>'Data has been Updated'];
+            }else{
+                $output =['status'=>'error', 'message'=>'Something Error'];
+            }
+            return response()->json($output);
         }
     }
 

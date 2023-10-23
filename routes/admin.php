@@ -8,6 +8,8 @@ use App\Http\Controllers\Admin\brandController;
 use App\Http\Controllers\Admin\categoryController;
 use App\Http\Controllers\Admin\childCategoryController;
 use App\Http\Controllers\Admin\couponController;
+use App\Http\Controllers\Admin\pickup_pointController;
+use App\Http\Controllers\Admin\productController;
 use App\Http\Controllers\Admin\settingController;
 use App\Http\Controllers\Admin\subCategoryController;
 use App\Http\Controllers\Admin\warehouseController;
@@ -106,6 +108,29 @@ Route::middleware(['is_admin'])->group(function () {
         Route::get('/', [couponController::class, 'index'])->name('index');
         Route::post('/fatch_coupon', [couponController::class, 'fatch_coupon'])->name('fatch_coupon');
         Route::post('/store', [couponController::class, 'store'])->name('store');
+        Route::post('/edit', [couponController::class, 'edit'])->name('edit');
+        Route::post('/selectType', [couponController::class, 'selectType'])->name('selectType');
+        Route::post('/selectStatus', [couponController::class, 'selectStatus'])->name('selectStatus');
+        Route::post('/update', [couponController::class, 'update'])->name('update');
         Route::post('/delete', [couponController::class, 'delete'])->name('delete');
+    });
+    //Coupon Route
+    Route::prefix('pickup_point')->name('pickup_point.')->group(function(){
+        Route::get('/', [pickup_pointController::class, 'index'])->name('index');
+        Route::post('/getData', [pickup_pointController::class, 'getData'])->name('getData');
+        Route::post('/store', [pickup_pointController::class, 'store'])->name('store');
+        Route::post('/edit', [pickup_pointController::class, 'edit'])->name('edit');
+        Route::post('/update', [pickup_pointController::class, 'update'])->name('update');
+        Route::post('/delete', [pickup_pointController::class, 'delete'])->name('delete');
+    });
+    //Product Route
+    Route::prefix('product')->name('product.')->group(function(){
+        Route::get('/', [productController::class, 'index'])->name('index');
+        Route::get('/create', [productController::class, 'create'])->name('create');
+        // Route::post('/getData', [pickup_pointController::class, 'getData'])->name('getData');
+        // Route::post('/store', [pickup_pointController::class, 'store'])->name('store');
+        // Route::post('/edit', [pickup_pointController::class, 'edit'])->name('edit');
+        // Route::post('/update', [pickup_pointController::class, 'update'])->name('update');
+        // Route::post('/delete', [pickup_pointController::class, 'delete'])->name('delete');
     });
 });
