@@ -127,10 +127,12 @@ Route::middleware(['is_admin'])->group(function () {
     Route::prefix('product')->name('product.')->group(function(){
         Route::get('/', [productController::class, 'index'])->name('index');
         Route::get('/create', [productController::class, 'create'])->name('create');
-        // Route::post('/getData', [pickup_pointController::class, 'getData'])->name('getData');
-        // Route::post('/store', [pickup_pointController::class, 'store'])->name('store');
-        // Route::post('/edit', [pickup_pointController::class, 'edit'])->name('edit');
-        // Route::post('/update', [pickup_pointController::class, 'update'])->name('update');
-        // Route::post('/delete', [pickup_pointController::class, 'delete'])->name('delete');
+        Route::post('/getData', [productController::class, 'getData'])->name('getData');
+        Route::post('/store', [productController::class, 'store'])->name('store');
+        Route::get('product/edit/{id}', [productController::class, 'edit'])->name('edit');
+        Route::put('product/update/{id}', [productController::class, 'update'])->name('update');
+        Route::post('/delete', [productController::class, 'delete'])->name('delete');
+
+        Route::post('/select_childCat', [productController::class, 'childCatSelect'])->name('select_childCat');
     });
 });

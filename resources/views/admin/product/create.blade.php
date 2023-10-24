@@ -37,7 +37,9 @@
                 <div class="col-12 mx-auto">
                     <div class="card">
                         <div class="card-header">
-                            <h4 class="card-title">Add New Product</h4>
+                            <h4 class="card-title d-flex justify-content-between">Add New Product
+                                <a href="{{ route('product.index') }}" id=""  class="btn btn-outline-danger">Back</a>
+                            </h4>
                         </div>
                         <div class="card-body">
                             @if ($errors->any())
@@ -49,11 +51,11 @@
                                     </ul>
                                 </div>
                             @endif
-                            <form action="" method="POST" enctype="multipart/form-data">
+                            <form action="{{ route('product.store') }}" method="POST" enctype="multipart/form-data">
                                 @csrf
 
                                 <div class="row ${1| ,row-cols-2,row-cols-3, auto,justify-content-md-center,|}">
-                                    <div class="col-md-9">
+                                    <div class="col-md-8">
                                         <div class="ibox">
 
                                             <div class="ibox-body">
@@ -61,11 +63,11 @@
                                                 <div class="form-group row">
                                                     <div class="col-sm-6">
                                                         <label for="">Product Name</label>
-                                                        <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="" placeholder="write product name">
+                                                        <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" placeholder="write product name">
                                                     </div>
                                                     <div class="col-sm-6">
                                                         <label for="">Product Code</label>
-                                                        <input type="text" class="form-control" name="code" value="" placeholder="write product code">
+                                                        <input type="text" class="form-control" name="code" value="{{ old('code') }}" placeholder="write product code">
                                                     </div>
                                                 </div>
 
@@ -87,7 +89,7 @@
                                                         </select>
                                                     </div>
                                                     <div class="col-sm-6">
-                                                        <label for="">Child Category</label>
+                                                        <label for="child_category_id">Child Category</label>
                                                         <select name="child_category_id" id="child_category_id" class="form-control">
 
                                                         </select>
@@ -120,12 +122,12 @@
                                                 <div class="form-group row">
                                                     <div class="col-sm-6">
                                                         <label for="">Tags</label>
-                                                        <input type="text" name="tags" value="" class="form-control" id="tags" data-role="tagsinput" >
+                                                        <input type="text" name="tags" value="{{ old('tags') }}" class="form-control" id="tags" data-role="tagsinput" >
                                                     </div>
 
                                                     <div class="col-sm-6">
                                                         <label for="">Unit</label>
-                                                        <input type="text" name="unit" value="" class="form-control @error('unit') is-invalid @enderror">
+                                                        <input type="text" name="unit" value="{{ old('unit') }}" class="form-control @error('unit') is-invalid @enderror">
                                                     </div>
                                                 </div>
 
@@ -133,15 +135,15 @@
                                                 <div class="form-group row">
                                                     <div class="col-sm-4">
                                                         <label for="">Purchase Price</label>
-                                                        <input type="number" name="purchase_price" value="" class="form-control">
+                                                        <input type="number" name="purchase_price" value="{{ old('purchase_price') }}" class="form-control">
                                                     </div>
                                                     <div class="col-sm-4">
                                                         <label for="">Selling Price</label>
-                                                        <input type="number" name="selling_price" value="" class="form-control @error('selling_price') is-invalid @enderror">
+                                                        <input type="number" name="selling_price" value="{{ old('selling_price') }}" class="form-control @error('selling_price') is-invalid @enderror">
                                                     </div>
                                                     <div class="col-sm-4">
                                                         <label for="">Discount Price</label>
-                                                        <input type="number" name="discount_price" value="" class="form-control">
+                                                        <input type="number" name="discount_price" value="{{ old('discount_price') }}" class="form-control">
                                                     </div>
                                                 </div>
 
@@ -157,38 +159,38 @@
                                                     </div>
                                                     <div class="col-sm-6">
                                                         <label for="">Stock</label>
-                                                        <input type="number" name="stock" value=""  class="form-control">
+                                                        <input type="number" name="stock" value="{{ old('stock') }}"  class="form-control">
                                                     </div>
                                                 </div>
 
                                                 <div class="form-group row">
                                                     <div class="col-sm-6">
                                                         <label for="">Color</label>
-                                                        <input type="text" name="color" value=""  class="form-control @error('color') is-invalid @enderror" id="tags" data-role="tagsinput">
+                                                        <input type="text" name="color" value="{{ old('color') }}"  class="form-control @error('color') is-invalid @enderror" id="tags" data-role="tagsinput">
                                                     </div>
                                                     <div class="col-sm-6">
                                                         <label for="">Size</label>
-                                                        <input type="number" name="size" class="form-control" id="tags" data-role="tagsinput">
+                                                        <input type="number" name="size" value="{{ old('size') }}" class="form-control" id="tags" data-role="tagsinput">
                                                     </div>
                                                 </div>
 
                                                 <div class="form-group row">
                                                     <div class="col-sm-12">
                                                         <label for="summernote">Description</label>
-                                                        <textarea class="form-control @error('description') is-invalid @enderror" name="description" id="summernote" cols="30" rows="10"></textarea>
+                                                        <textarea class="form-control @error('description') is-invalid @enderror" name="description"  id="summernote" cols="30" rows="10">{{ old('description') }}</textarea>
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
                                                     <div class="col-sm-12">
                                                         <label for="summernote">Video Embaded Code</label>
-                                                        <textarea class="form-control" name="video"></textarea>
+                                                        <textarea class="form-control" name="video">{{ old('video') }}</textarea>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div class="col-md-3 bg-white">
+                                    <div class="col-md-4 bg-white">
                                         <div class="form-group">
                                             <label for="">Main Thumbnail</label>
                                             {{-- <input type="file" name="thumbnail" data-height="150" class="form-control dropify"> --}}
@@ -207,40 +209,60 @@
                                         </div>
 
                                         <div class="card p-5">
-                                            <h6>Featured Product</h6>
-                                            <div class="form-check form-switch">
-                                                <input type="checkbox" name="featured" value="1" id="featured" class="input-status" checked data-toggle="toggle" data-onstyle="success" data-offstyle="outline-danger">
+                                            <h6 class="mb-2 mx-auto">Featured Product</h6>
+                                            <div class = "toggle-switch mx-auto">
+                                                <label class="switch-label" for="featured">
+                                                <input type = "checkbox" name="featured" value="1" class="input-feature" id="featured">
+                                                    <span class = "pr-2 text-right switch_slider"> <span style="padding-right:15px">OFF</span> </span>
+                                                    <span class = "switch_slider">ON</span>
+                                                </label>
                                             </div>
                                         </div>
 
                                         <div class="card p-5">
-                                            <h6 class="mb-2">Today Deal</h6>
-                                            <div class="form-check form-switch">
-                                                <input type="checkbox" name="today_deal" value="1" id="today_deal" class="input-status" checked data-toggle="toggle" data-onstyle="success" data-offstyle="outline-danger">
+                                            <h6 class="mb-2 mx-auto">Today Deal</h6>
+                                            <div class = "toggle-switch mx-auto">
+                                                <label class="switch-label" for="todaydeal">
+                                                <input type = "checkbox" name="today_deal"  value="1" class="input-todaydeal" id="todaydeal">
+                                                    <span class = "pr-2 text-right switch_slider"> <span style="padding-right:15px">OFF</span> </span>
+                                                    <span class = "switch_slider">ON</span>
+                                                </label>
                                             </div>
                                         </div>
 
                                         <div class="card p-5">
-                                            <h6 class="mb-2">Status</h6>
-                                            <div class="form-check form-switch">
-                                                <input type="checkbox" name="status" value="1" id="status" class="input-status" checked data-toggle="toggle" data-onstyle="success" data-offstyle="outline-danger">
+                                            <h6 class="mb-2 mx-auto">Status</h6>
+                                            <div class = "toggle-switch mx-auto">
+                                                <label class="switch-label" for="status">
+                                                <input type = "checkbox" name="status"  value="1" class="input-status" id="status">
+                                                    <span class = "pr-2 text-right switch_slider"> <span style="padding-right:15px">OFF</span> </span>
+                                                    <span class = "switch_slider">ON</span>
+                                                </label>
                                             </div>
                                         </div>
 
                                         <div class="card p-5">
-                                            <h6 class="mb-2">Slider Show Switch</h6>
-                                            <div class="form-check form-switch">
-                                                <input type="checkbox" name="slider_show" value="1" id="slider_show" class="input-status" checked data-toggle="toggle" data-onstyle="success" data-offstyle="outline-danger">
+                                            <h6 class="mb-2 mx-auto">Slider Show Switch</h6>
+                                            <div class = "toggle-switch mx-auto">
+                                                <label class="switch-label" for="slider_show">
+                                                <input type = "checkbox" name="slider_show"  value="1" class="input-status" id="slider_show">
+                                                    <span class = "pr-2 text-right switch_slider"> <span style="padding-right:15px">OFF</span> </span>
+                                                    <span class = "switch_slider">ON</span>
+                                                </label>
                                             </div>
-                                            <small class="mt-5"> If you on this switch then This product show on website top slider </small>
+                                            <small class="mt-5 text-center"> If you on this switch then This product show on website top slider </small>
                                         </div>
 
                                         <div class="card p-5">
-                                            <h6 class="mb-2">Trendy Show Switch</h6>
-                                            <div class="form-check form-switch">
-                                                <input type="checkbox" name="trendy" value="1" id="trendy_show" class="input-status" checked data-toggle="toggle" data-onstyle="success" data-offstyle="outline-danger">
+                                            <h6 class="mb-2 mx-auto">Trendy Show Switch</h6>
+                                            <div class = "toggle-switch mx-auto">
+                                                <label class="switch-label" for="trendy_show">
+                                                <input type = "checkbox" name="trendy"  value="1" class="input-status" id="trendy_show">
+                                                    <span class = "pr-2 text-right switch_slider"> <span style="padding-right:15px">OFF</span> </span>
+                                                    <span class = "switch_slider">ON</span>
+                                                </label>
                                             </div>
-                                            <small class="mt-5"> If you on this switch then product show on website Trendy </small>
+                                            <small class="mt-5 text-center"> If you on this switch then product show on website Trendy </small>
                                         </div>
 
 
@@ -259,6 +281,30 @@
 
 @push('scripts')
     <script>
+
+
+
+
+        let _token = "{{ csrf_token() }}";
+        $(document).on('change','#subcategory_id',function (e) {
+            e.preventDefault();
+            //alert('ok')
+            var categoryId = $(this).val();
+            $.ajax({
+                url: "{{ route('product.select_childCat') }}",
+                type: "post",
+                data: {_token:_token,data_id:categoryId},
+                dataType: 'json',
+                success: function (response) {
+                    $('#child_category_id').html(response);
+                }
+            });
+
+        });
+
+
+
+        // Dynamic file Button
         var i = 0;
         $("#dynamic-ar").click(function () {
             ++i;

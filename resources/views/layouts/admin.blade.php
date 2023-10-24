@@ -8,6 +8,7 @@
     <meta name="description" content="au theme template">
     <meta name="author" content="Hau Nguyen">
     <meta name="keywords" content="au theme template">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- Title Page-->
     <title>@yield('title')</title>
@@ -41,11 +42,97 @@
     <!-- Toggole Switch-->
     <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
 
+    {{-- summernote link --}}
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
 
+    {{-- drofify link --}}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/css/dropify.css" integrity="sha512-In/+MILhf6UMDJU4ZhDL0R0fEpsp4D3Le23m6+ujDWXwl3whwpucJG1PEmI3B07nyJx+875ccs+yX2CqQJUxUw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
      <!-- Main CSS-->
     <link rel="stylesheet" type="text/css" href="{{ asset('admin') }}/css/login.css">
     <link href="{{ asset('admin') }}/css/theme.css" rel="stylesheet" media="all">
+
+    <style>
+
+        /* css switch style */
+
+        .toggle-switch {
+            position: relative;
+            width: 100px;
+        }
+
+        .switch-label {
+            position: absolute;
+            width: 84%;
+            height: 30px;
+            background-color: red;
+            border-radius: 50px;
+            cursor: pointer;
+        }
+
+        .switch-label input {
+            position: absolute;
+            display: none;
+        }
+
+        .switch_slider {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50px;
+            color:white;
+            transition: 0.3s;
+            padding: 2px 0 0 9px;
+        }
+
+        .switch-label input:checked ~ .switch_slider {
+            background-color: green;
+        }
+
+        .switch_slider::before {
+            content: "";
+            position: absolute;
+            top: 1px;
+            left: 3px;
+            width: 30px;
+            height: 28px;
+            border-radius: 50%;
+            box-shadow: inset 0px 0px 0px 0px #d8dbe0;
+            background-color: #f9f8f8;
+            transition: 0.8s;
+        }
+
+        .switch-label input:checked ~ .switch_slider::before {
+            transform: translateX(50px);
+            background-color: 28292c;
+            box-shadow: none;
+        }
+
+        /* switch end */
+
+
+        .table th{
+            font-weight: 600 !important;
+        }
+        .table th:first-child,
+        .table tr td:first-child{
+            text-align: left;
+            padding-left: 15px;
+        }
+        .table th:last-child,
+        .table tr td:last-child{
+            text-align: right;
+            padding-right: 15px;
+        }
+        .pr-15{
+            padding-right: 15px;
+        }
+        .dataTables_length,
+        .dataTables_info{
+            padding-left: 15px
+        }
+
+    </style>
 
 </head>
 
@@ -119,10 +206,25 @@
      <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.print.min.js"></script>
      <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.colVis.min.js"></script>
 
+         {{-- Drofify link --}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/js/dropify.min.js" integrity="sha512-8QFTrG0oeOiyWo/VM9Y8kgxdlCryqhIxVeRpWSezdRRAvarxVtwLnGroJgnVW9/XBRduxO/z1GblzPrMQoeuew==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    {{-- summer note js link --}}
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+
     <!-- Toggole Switch-->
      <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
 
         <script>
+
+            // summernote run code
+            $(document).ready(function() {
+                $('#summernote').summernote();
+            });
+
+            // Dropify
+            $('.dropify').dropify();
+
             @if (Session::has('message'))
                 var type ="{{ Session::get('alert-type','info') }}"
                 switch(type){
