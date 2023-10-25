@@ -49,9 +49,24 @@ class productController extends Controller
     //get Data
     public function getData(Request $request){
         if ($request->ajax()) {
-
+            $getData= "";
             $getData = Product::latest('id');
             // dd($getData);
+            if ($request->category_id) {
+                $getData->where('category_id',$request->category_id); // request coming from index page
+            }
+            if ($request->brand_id) {
+                $getData->where('brand_id',$request->brand_id);  // request coming from index page
+            }
+            if ($request->warehouse_id) {
+                $getData->where('warehouse',$request->warehouse_id); // request coming from index page
+            }
+            if ($request->status == 1) {
+                $getData->where('status',$request->status); // request coming from index page
+            }
+            if ($request->status == 0) {
+                $getData->where('status',$request->status); // request coming from index page
+            }
 
             return DataTables::eloquent($getData)
             ->addIndexColumn()
@@ -82,23 +97,23 @@ class productController extends Controller
             })
             ->addColumn('featured', function($product) {
                 if ($product->featured == 1) {
-                    return '<a href="" class="deactive_featured" data-id="'.$product->id.'"> <i class="fa fa-thumbs-down text-danger"> </i> </a> <span class="badge badge-success"> Active </span>';
+                    return '<button class="deactive_featured" data-id="'.$product->id.'"> <i title="Click to Deactive" class="fa fa-thumbs-down text-danger"> </i> </button> <span class="badge badge-success"> Active </span>';
                 }else {
-                    return '<a href="" class="active_featured" data-id="'.$product->id.'"> <i class="fa fa-thumbs-up text-success"> </i> </a> <span class="badge badge-warning"> Deactive </span>';
+                    return '<button class="active_featured" data-id="'.$product->id.'"> <i title="Click to Active" class="fa fa-thumbs-up text-success"> </i> </button> <span class="badge badge-warning"> Deactive </span>';
                 }
             })
             ->addColumn('today_deal', function($product) {
                 if ($product->today_deal == 1) {
-                    return '<a href="" class="deactive_featured" data-id="'.$product->id.'"> <i class="fa fa-thumbs-down text-danger"> </i> </a> <span class="badge badge-success"> Active </span>';
+                    return '<button class="deactive_todayDeal" data-id="'.$product->id.'"> <i title="Click to Deactive" class="fa fa-thumbs-down text-danger"> </i> </button> <span class="badge badge-success"> Active </span>';
                 }else {
-                    return '<a href="" class="active_featured" data-id="'.$product->id.'"> <i class="fa fa-thumbs-up text-success"> </i> </a> <span class="badge badge-warning"> Deactive </span>';
+                    return '<button class="active_todayDeal" data-id="'.$product->id.'"> <i title="Click to Active" class="fa fa-thumbs-up text-success"> </i> </button> <span class="badge badge-warning"> Deactive </span>';
                 }
             })
             ->addColumn('status', function($product) {
                 if ($product->status == 1) {
-                    return '<a href="" class="deactive_featured" data-id="'.$product->id.'"> <i class="fa fa-thumbs-down text-danger"> </i> </a> <span class="badge badge-success"> Active </span>';
+                    return '<button class="deactive_status" data-id="'.$product->id.'"> <i title="Click to Deactive" class="fa fa-thumbs-down text-danger"> </i> </button> <span class="badge badge-success"> Active </span>';
                 }else {
-                    return '<a href="" class="active_featured" data-id="'.$product->id.'"> <i class="fa fa-thumbs-up text-success"> </i> </a> <span class="badge badge-warning"> Deactive </span>';
+                    return '<button class="active_status" data-id="'.$product->id.'"> <i title="Click to Active" class="fa fa-thumbs-up text-success"> </i> </button> <span class="badge badge-warning"> Deactive </span>';
                 }
             })
             ->addColumn('created_at', function($product){
@@ -107,6 +122,55 @@ class productController extends Controller
             ->rawColumns(['action','thumbnail','category_id','subcategory_id','brand_id','featured','today_deal','status','created_at'])
             ->make(true);
 
+        }
+    }
+
+    // featured active
+    public function featuredActive(Request $request) {
+        if ($request->ajax()) {
+            Product::where('id',$request->data_id)->update(['featured'=>1]);
+            $message = ['status'=>'success','message'=>'featured has been update - 1'];
+            return response()->json($message);
+        }
+    }
+    // featured Deactive
+    public function featuredDeactivate(Request $request) {
+        if ($request->ajax()) {
+            Product::where('id',$request->data_id)->update(['featured'=>0]);
+            $message = ['status'=>'success','message'=>'featured has been update - 0'];
+            return response()->json($message);
+        }
+    }
+    // Today Deal active
+    public function todayDeal_active(Request $request) {
+        if ($request->ajax()) {
+            Product::where('id',$request->data_id)->update(['today_deal'=>1]);
+            $message = ['status'=>'success','message'=>'Today Deal has been update - 1'];
+            return response()->json($message);
+        }
+    }
+    // Today Deal Deactive
+    public function todayDeal_deactivate(Request $request) {
+        if ($request->ajax()) {
+            Product::where('id',$request->data_id)->update(['today_deal'=>0]);
+            $message = ['status'=>'success','message'=>'Today Deal has been update - 0'];
+            return response()->json($message);
+        }
+    }
+    // Status active
+    public function status_active(Request $request) {
+        if ($request->ajax()) {
+            Product::where('id',$request->data_id)->update(['status'=>1]);
+            $message = ['status'=>'success','message'=>'Status has been update - 1'];
+            return response()->json($message);
+        }
+    }
+    // Status Deactive
+    public function status_deactivate(Request $request) {
+        if ($request->ajax()) {
+            Product::where('id',$request->data_id)->update(['status'=>0]);
+            $message = ['status'=>'success','message'=>'Status has been update - 0'];
+            return response()->json($message);
         }
     }
 

@@ -53,7 +53,17 @@ class Product extends Model
     public function subcategory(){
         return $this->belongsTo(SubCategory::class);
     }
+    public function child_category(){
+        return $this->belongsTo(Childcategory::class,'childcategory_id');
+    }
     public function brand(){
         return $this->belongsTo(Brand::class);
+    }
+    public function pickup_point(){
+        return $this->belongsTo(Pickup_point::class);
+    }
+
+    public function warehouse_name(){
+        return $this->belongsTo(warehouse::class,"warehouse");
     }
 }

@@ -132,7 +132,16 @@ Route::middleware(['is_admin'])->group(function () {
         Route::get('product/edit/{id}', [productController::class, 'edit'])->name('edit');
         Route::put('product/update/{id}', [productController::class, 'update'])->name('update');
         Route::post('/delete', [productController::class, 'delete'])->name('delete');
-
+        //Select Child Category
         Route::post('/select_childCat', [productController::class, 'childCatSelect'])->name('select_childCat');
+        // Featured switch
+        Route::post('featured_active', [productController::class, 'featuredActive'])->name('featured_active');
+        Route::post('featured_deactivate', [productController::class, 'featuredDeactivate'])->name('featured_deactivate');
+        // Featured switch
+        Route::post('todayDeal_active', [productController::class, 'todayDeal_active'])->name('todayDeal_active');
+        Route::post('todayDeal_deactivate', [productController::class, 'todayDeal_deactivate'])->name('todayDeal_deactivate');
+        // Status switch
+        Route::post('status_active', [productController::class, 'status_active'])->name('status_active');
+        Route::post('status_deactivate', [productController::class, 'status_deactivate'])->name('status_deactivate');
     });
 });
