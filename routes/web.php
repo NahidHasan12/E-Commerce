@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ajaxController;
+use App\Http\Controllers\Website\indexController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,8 +16,9 @@ use App\Http\Controllers\ajaxController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+
+Route::get('frontend/product', function () {
+    return view('frontend.pages.product_details');
 });
 
 Auth::routes();
@@ -44,3 +46,10 @@ Route::post('ajax/select_board',[ajaxController::class, 'selectBoard'])->name('a
 Route::post('ajax/update_data',[ajaxController::class, 'updateData'])->name('ajax.updateData');
 Route::post('ajax/delete_data',[ajaxController::class, 'deleteData'])->name('ajax.delete');
 
+
+// Website Route
+Route::get('/', [indexController::class, 'index'])->name('website.index');
+
+// Route::prefix('index')->name('website.')->group(function(){
+//     Route::get('/', [indexController::class, 'index'])->name('index');
+// });

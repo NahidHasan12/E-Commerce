@@ -142,13 +142,13 @@
         @guest()
 
         @else
-        @include('layouts.admin_lay_inc.desktop_menu')
+        @include('layouts.admin_partial.desktop_menu')
         <!-- END MENU SIDEBAR-->
         <!-- PAGE CONTAINER-->
         <div class="page-container2">
             <!-- HEADER DESKTOP-->
-            @include('layouts.admin_lay_inc.header')
-            @include('layouts.admin_lay_inc.mobile_menu')
+            @include('layouts.admin_partial.header')
+            @include('layouts.admin_partial.mobile_menu')
 
 
 
