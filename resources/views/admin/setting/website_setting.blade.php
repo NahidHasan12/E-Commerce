@@ -47,8 +47,9 @@
                                         <div class="mb-3">
                                             <label for="currency" class="form-label">currency</label>
                                             <select name="currency" id="currency" class="form-control">
-                                                <option value="$">Dollar</option>
-                                                <option value="৳">Taka</option>
+                                                <option value="$" {{ $web_setting->currency == "$" ? "selected" : ''}}>USD ($)</option>
+                                                <option value="৳" {{ $web_setting->currency == "৳" ? "selected" : ''}}>TAKA (৳)</option>
+                                                <option value="₹" {{ $web_setting->currency == "₹" ? "selected" : ''}}>Rupee (₹)</option>
                                             </select>
                                         </div>
                                         <div class="mb-3">

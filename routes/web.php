@@ -49,7 +49,6 @@ Route::post('ajax/delete_data',[ajaxController::class, 'deleteData'])->name('aja
 
 // Website Route
 Route::get('/', [indexController::class, 'index'])->name('website.index');
-
-// Route::prefix('index')->name('website.')->group(function(){
-//     Route::get('/', [indexController::class, 'index'])->name('index');
-// });
+Route::prefix('index')->name('product.')->group(function(){
+    Route::get('/product_details/{slug}', [indexController::class, 'product_details'])->name('details');
+});

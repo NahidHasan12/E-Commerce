@@ -31,6 +31,31 @@ class Controller extends BaseController
         return $img_name;
     }
 
+    protected function multiple_file_upload($files, $folder){
+        foreach ($files as $key => $image) {
+            $file_extension = $image->getClientOriginalExtension();
+            $img_name = time().rand().'.'.$file_extension;
+            $image->move($folder,$img_name);
+            $new_file_names[] = $img_name;
+        }
+        return $new_file_names;
+
+    }
+    protected function multiple_file_update($files, $folder, $old_file){
+        if($old_file != NULL){
+            file_exists($folder.$old_file) ? unlink($folder.$old_file) : false;
+        }
+
+        foreach ($files as $key => $image) {
+            $file_extension = $image->getClientOriginalExtension();
+            $img_name = time().rand().'.'.$file_extension;
+            $image->move($folder,$img_name);
+            $new_file_names[] = $img_name;
+        }
+        return $new_file_names;
+
+    }
+
     protected function file_remove($folder, $old_file){
         return file_exists($folder.$old_file) ? unlink($folder.$old_file) : false;
     }

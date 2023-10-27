@@ -170,7 +170,7 @@
                                                     </div>
                                                     <div class="col-sm-6">
                                                         <label for="">Size</label>
-                                                        <input type="number" name="size" value="{{ $product_edit->size }}" class="form-control" id="tags" data-role="tagsinput">
+                                                        <input type="text" name="size" value="{{ $product_edit->size }}" class="form-control" id="tags" data-role="tagsinput">
                                                     </div>
                                                 </div>
 
@@ -183,7 +183,7 @@
                                                 <div class="form-group row">
                                                     <div class="col-sm-12">
                                                         <label for="summernote">Video Embaded Code</label>
-                                                        <textarea class="form-control" name="video">{{ $product_edit->video }}</textarea>
+                                                        <input type="text" class="form-control" name="video" value="{{ $product_edit->video }}">
                                                     </div>
                                                 </div>
                                             </div>

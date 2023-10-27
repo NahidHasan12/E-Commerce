@@ -196,17 +196,7 @@ class productController extends Controller
         // $images = $this->file_upload($request->file('images'),'admin/product-images/');
 
 
-        $imageArray = array();
-        if ($request->hasFile('images')) {
-            $file = $request->file('images');
-            foreach ($file as $key => $image) {
-                $file_extension = $image->getClientOriginalExtension();
-                $image_rename = time().rand().'.'.$file_extension;
-                $image->move('admin/product_img/',$image_rename);
-                $imageArray[] = $image_rename;
-
-            }
-        }
+        $product_imgs = $this->multiple_file_upload($request->file('images'),'admin/product_img/');
 
         $product = Product::create([
             'name'             => $request->name,
@@ -230,7 +220,7 @@ class productController extends Controller
             'video'            => $request->video,
             'thumbnail'        => $thumbnail_image,
             // 'images'           => implode(",",$imageArray),
-            'images'           => json_encode($imageArray),
+            'images'           => json_encode($product_imgs),
             'featured'         => $request->featured,
             'slider_show'      => $request->slider_show,
             'trendy'           => $request->trendy,
@@ -282,9 +272,9 @@ class productController extends Controller
         // ]);
 
 
-        if ($request->has('thumbnail_edit')) {
+        if ($request->has('thumbnail_image')) {
             file_exists('admin/product_img/'.$product_update->thumbnail) ? unlink('admin/product_img/'.$product_update->thumbnail) : false;
-            $file = $request->file('thumbnail_edit');
+            $file = $request->file('thumbnail_image');
             $extension = $file->getClientOriginalExtension();
             $imageName = uniqid(rand().time()).'.'.$extension;
             $file->move('admin/product_img/',$imageName);
@@ -296,14 +286,9 @@ class productController extends Controller
 
         $imageArray = array();
         if ($request->hasFile('images')) {
-            $file = $request->file('images');
-            foreach ($file as $key => $image) {
-                $file_extension = $image->getClientOriginalExtension();
-                $image_rename = time().rand().'.'.$file_extension;
-                $image->move('admin/product_img/',$image_rename);
-                $imageArray[] = $image_rename;
-
-            }
+            $imageArray = $this->multiple_file_update($request->file('images'),'admin/product_img/',$product_update->images);
+        }else{
+            $imageArray[] = $product_update->images;
         }
 
         $subcategory = Subcategory::where('id',$request->subcategory_id)->first();

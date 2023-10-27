@@ -170,7 +170,7 @@
                                                     </div>
                                                     <div class="col-sm-6">
                                                         <label for="">Size</label>
-                                                        <input type="number" name="size" value="{{ old('size') }}" class="form-control" id="tags" data-role="tagsinput">
+                                                        <input type="text" name="size" value="{{ old('size') }}" class="form-control" id="tags" data-role="tagsinput">
                                                     </div>
                                                 </div>
 
@@ -182,8 +182,9 @@
                                                 </div>
                                                 <div class="form-group row">
                                                     <div class="col-sm-12">
-                                                        <label for="summernote">Video Embaded Code</label>
-                                                        <textarea class="form-control" name="video">{{ old('video') }}</textarea>
+                                                        <label for="summernote" class="form-label">Video Embaded Code</label>
+                                                        <input type="text" class="form-control" name="video" value="{{ old('video') }}" placeholder="only code after embed">
+                                                        <small class="text-danger">Only code after embed</small>
                                                     </div>
                                                 </div>
                                             </div>

@@ -14,4 +14,10 @@ class indexController extends Controller
         $product = Product::where('slider_show',1)->latest()->first();
         return view('frontend.pages.index', compact('category','product'));
     }
+
+    public function product_details($slug){
+        $product_details = Product::where('slug',$slug)->first();
+        $related_product = Product::where('subcategory_id',$product_details->subcategory_id)->orderBy('id','DESC')->take(10)->get();
+        return view('frontend/pages/product_details', compact('product_details','related_product'));
+    }
 }

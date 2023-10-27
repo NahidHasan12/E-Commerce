@@ -22,6 +22,7 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('frontend') }}/styles/main_styles.css">
     <link rel="stylesheet" type="text/css" href="{{ asset('frontend') }}/styles/responsive.css">
 
+
     @yield('main_nav_css_link')
 
     </head>
@@ -265,6 +266,8 @@
     <script src="{{ asset('frontend') }}/plugins/slick-1.8.0/slick.js"></script>
     <script src="{{ asset('frontend') }}/plugins/easing/easing.js"></script>
     <script src="{{ asset('frontend') }}/js/custom.js"></script>
+
+
 
     @yield('main_nav_js_link')
 

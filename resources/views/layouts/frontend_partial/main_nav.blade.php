@@ -1,3 +1,6 @@
+@php
+    $category = DB::table('categories')->get()
+@endphp
 
 <nav class="main_nav">
     <div class="container">
@@ -14,31 +17,31 @@
                         </div>
 
                         <ul class="cat_menu">
-                            <li><a href="#">Computers & Laptops <i class="fas fa-chevron-right ml-auto"></i></a></li>
-                            <li><a href="#">Cameras & Photos<i class="fas fa-chevron-right"></i></a></li>
+                          @foreach ($category as $cat)
+                            @php
+                                $sub_category = DB::table('sub_categories')->where('category_id',$cat->id)->get();
+                            @endphp
                             <li class="hassubs">
-                                <a href="#">Hardware<i class="fas fa-chevron-right"></i></a>
+                                <a href="#">{{ $cat->category_name }}<i class="fas fa-chevron-right"></i></a>
                                 <ul>
+                                  @foreach ($sub_category as $sub_cat)
+                                    @php
+                                        $child_cat = DB::table('childcategories')->where('subcategory_id',$sub_cat->id)->get();
+                                    @endphp
                                     <li class="hassubs">
-                                        <a href="#">Menu Item<i class="fas fa-chevron-right"></i></a>
+                                        <a href="#">{{ $sub_cat->subcategory_name }}<i class="fas fa-chevron-right"></i></a>
                                         <ul>
-                                            <li><a href="#">Menu Item<i class="fas fa-chevron-right"></i></a></li>
-                                            <li><a href="#">Menu Item<i class="fas fa-chevron-right"></i></a></li>
-                                            <li><a href="#">Menu Item<i class="fas fa-chevron-right"></i></a></li>
-                                            <li><a href="#">Menu Item<i class="fas fa-chevron-right"></i></a></li>
+                                            @foreach ($child_cat as $child_cat)
+                                                <li><a href="#">{{ $child_cat->childcategory_name }}<i class="fas fa-chevron-right"></i></a></li>
+                                            @endforeach
+
                                         </ul>
                                     </li>
-                                    <li><a href="#">Menu Item<i class="fas fa-chevron-right"></i></a></li>
-                                    <li><a href="#">Menu Item<i class="fas fa-chevron-right"></i></a></li>
-                                    <li><a href="#">Menu Item<i class="fas fa-chevron-right"></i></a></li>
+                                  @endforeach
                                 </ul>
                             </li>
-                            <li><a href="#">Smartphones & Tablets<i class="fas fa-chevron-right"></i></a></li>
-                            <li><a href="#">TV & Audio<i class="fas fa-chevron-right"></i></a></li>
-                            <li><a href="#">Gadgets<i class="fas fa-chevron-right"></i></a></li>
-                            <li><a href="#">Car Electronics<i class="fas fa-chevron-right"></i></a></li>
-                            <li><a href="#">Video Games & Consoles<i class="fas fa-chevron-right"></i></a></li>
-                            <li><a href="#">Accessories<i class="fas fa-chevron-right"></i></a></li>
+                          @endforeach
+
                         </ul>
                     </div>
 

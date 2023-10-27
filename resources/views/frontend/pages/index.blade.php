@@ -18,13 +18,13 @@
                     <div class="banner_content">
                         <h1 class="banner_text">new era of smartphones</h1>
                         @if ($product->discount_price == NULL)
-                           <div class="banner_price">{{ $product->selling_price }}</div>
+                           <div class="banner_price">{{ $web_settings->currency }}{{ $product->selling_price }}</div>
                         @else
-                           <div class="banner_price"><span>{{ $product->discount_price }}</span>{{ $product->selling_price }}</div>
+                           <div class="banner_price"><span>{{ $web_settings->currency }}{{ $product->discount_price }}</span>{{ $web_settings->currency }}{{ $product->selling_price }}</div>
                         @endif
 
                         <div class="banner_product_name">{{ $product->name }}</div>
-                        <div class="button banner_button"><a href="#">Shop Now</a></div>
+                        <div class="button banner_button"><a href="{{ route('product.details',$product->slug) }}">Shop Now</a></div>
                     </div>
                 </div>
             </div>
