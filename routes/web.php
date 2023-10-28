@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ajaxController;
+use App\Http\Controllers\Website\cartController;
 use App\Http\Controllers\Website\indexController;
 
 /*
@@ -22,8 +23,16 @@ Route::get('frontend/product', function () {
 });
 
 Auth::routes();
+Route::get('/', function(){
+    return redirect()->to('/');
+})->name('login');
+
+// Route::get('/register', function(){
+//     return redirect()->to('/');
+// })->name('register');
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/customer/logout', [App\Http\Controllers\HomeController::class, 'logout'])->name('customer.logout');
 
 
 //======={Practice Ajax}==========//
@@ -49,6 +58,15 @@ Route::post('ajax/delete_data',[ajaxController::class, 'deleteData'])->name('aja
 
 // Website Route
 Route::get('/', [indexController::class, 'index'])->name('website.index');
-Route::prefix('index')->name('product.')->group(function(){
-    Route::get('/product_details/{slug}', [indexController::class, 'product_details'])->name('details');
+Route::prefix('product_details')->name('product.')->group(function(){
+    Route::get('/{slug}', [indexController::class, 'product_details'])->name('details');
+    // this route for product details page review
+    Route::post('/product/review', [indexController::class,'review'])->name('review.store');
 });
+
+
+//WishList Route
+Route::get('wishlist/add/{id}',[cartController::class, 'wishlistAdd'])->name('wishlist.add');
+
+//Quick Route
+Route::get('quick_view',[indexController::class, 'quickView'])->name('quick.view');

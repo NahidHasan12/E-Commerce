@@ -31,7 +31,7 @@
     <div class="super_container">
 
         <!-- Header -->
-
+        @include('frontend.modal.login_modal')
         <header class="header">
 
             <!-- Top Bar -->
@@ -63,11 +63,28 @@
                                         </li>
                                     </ul>
                                 </div>
-                                <div class="top_bar_user">
-                                    <div class="user_icon"><img src="{{ asset('frontend') }}/images/user.svg" alt=""></div>
-                                    <div><a href="#">Register</a></div>
-                                    <div><a href="#">Sign in</a></div>
-                                </div>
+                                @guest()
+                                    <div class="top_bar_user">
+                                        <div class="user_icon"><img src="{{ asset('frontend') }}/images/user.svg" alt=""></div>
+                                        <div><a href="{{ route('register') }}">Register</a></div>
+                                        <div><a style="cursor: pointer" data-toggle="modal" data-target="#login_modal">Sign in</a></div>
+                                    </div>
+                                @else
+                                    <div class="top_bar_user">
+                                        <ul class="standard_dropdown top_bar_dropdown">
+                                            <li>
+                                                <a href="#">{{ Auth::user()->name }}<i class="fas fa-chevron-down"></i></a>
+                                                <ul>
+                                                    <li><a href="{{ route('home') }}">Profile</a></li>
+                                                    <li><a href="#">Setting</a></li>
+                                                    <li><a href="#">Order List</a></li>
+                                                    <li><a href="{{ route('customer.logout') }}">Log Out</a></li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                @endguest
+
                             </div>
                         </div>
                     </div>
@@ -116,13 +133,16 @@
                         </div>
 
                         <!-- Wishlist -->
+                        @php
+                            $wishlist = DB::table('wishlists')->where('user_id', Auth::id())->count();
+                        @endphp
                         <div class="col-lg-4 col-9 order-lg-3 order-2 text-lg-left text-right">
                             <div class="wishlist_cart d-flex flex-row align-items-center justify-content-end">
                                 <div class="wishlist d-flex flex-row align-items-center justify-content-end">
                                     <div class="wishlist_icon"><img src="images/heart.png" alt=""></div>
                                     <div class="wishlist_content">
                                         <div class="wishlist_text"><a href="#">Wishlist</a></div>
-                                        <div class="wishlist_count">115</div>
+                                        <div class="wishlist_count ml-4">{{ $wishlist }}</div>
                                     </div>
                                 </div>
 
@@ -270,6 +290,8 @@
 
 
     @yield('main_nav_js_link')
+
+    @stack('web_script')
 
 
     </body>
