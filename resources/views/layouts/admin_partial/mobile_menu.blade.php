@@ -87,7 +87,7 @@
                                 <i class="far fa-check-square"></i>Coupon</a>
                         </li>
                         <li>
-                            <a href="">
+                            <a href="{{ route('campaing.index') }}">
                                 <i class="far fa-check-square"></i>Campaing</a>
                         </li>
                         <li>

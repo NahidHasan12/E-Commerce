@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Admin\adminController;
 use App\Http\Controllers\Admin\brandController;
+use App\Http\Controllers\Admin\campaingController;
 use App\Http\Controllers\Admin\categoryController;
 use App\Http\Controllers\Admin\childCategoryController;
 use App\Http\Controllers\Admin\couponController;
@@ -123,6 +124,18 @@ Route::middleware(['is_admin'])->group(function () {
         Route::post('/update', [pickup_pointController::class, 'update'])->name('update');
         Route::post('/delete', [pickup_pointController::class, 'delete'])->name('delete');
     });
+    //campaing Route
+    Route::prefix('campaing')->name('campaing.')->group(function(){
+        Route::get('/', [campaingController::class, 'index'])->name('index');
+        Route::post('/getData', [campaingController::class, 'getData'])->name('getData');
+        Route::post('/store', [campaingController::class, 'store'])->name('store');
+        Route::post('/edit', [campaingController::class, 'edit'])->name('edit');
+        Route::post('/select_campaingStatus', [campaingController::class, 'select_campaingStatus'])->name('select_campaingStatus');
+        Route::post('/update', [campaingController::class, 'update'])->name('update');
+        Route::post('/delete', [campaingController::class, 'delete'])->name('delete');
+    });
+
+
     //Product Route
     Route::prefix('product')->name('product.')->group(function(){
         Route::get('/', [productController::class, 'index'])->name('index');

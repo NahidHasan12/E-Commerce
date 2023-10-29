@@ -22,6 +22,7 @@ class indexController extends Controller
 
     public function product_details($slug){
         $product_details = Product::where('slug',$slug)->first();
+                           Product::where('slug',$slug)->increment('product_views');
         $related_product = Product::where('subcategory_id',$product_details->subcategory_id)->orderBy('id','DESC')->take(10)->get();
         $review = Review::where('product_id',$product_details->id)->get();
         return view('frontend/pages/product_details', compact('product_details','related_product','review'));
@@ -60,6 +61,7 @@ class indexController extends Controller
         if($request->ajax()){
             $product = Product::where('id',$request->button_id)->first();
             return view('frontend.modal.quick_view',compact('product'));
+            //return response()->json();
         }
         // return response()->json($view);
     }

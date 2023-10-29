@@ -274,7 +274,7 @@
                             <div class="tabs">
                                 <ul class="clearfix">
                                     <li class="active">Featured</li>
-                                    <li>On Sale</li>
+                                    <li>Popular</li>
                                     <li>Best Rated</li>
                                 </ul>
                                 <div class="tabs_line"><span></span></div>
@@ -2602,11 +2602,11 @@
                                         </div>
                                         <div class="trends_content">
                                             @if ($trendy_products->discount_price==null)
-                                                <div class="product_price" style="margin-top: 20px">{{ $currency_symbol->currency }} {{ $trendy_products->selling_price }}</div>
+                                                <div class="product_price" style="margin-top: 20px">{{ $web_settings->currency }} {{ $trendy_products->selling_price }}</div>
                                             @else
                                                 <div class="product_price" style="margin-top: 20px">
                                                     <del class="text-danger">{{ $web_settings->currency }}{{ $trendy_products->selling_price }}</del>
-                                                    {{ $web_settings->currency }}{{ $web_settings->discount_price }}
+                                                    {{ $web_settings->currency }}{{ $trendy_products->discount_price }}
                                                 </div>
                                             @endif
                                             <div class="trends_info clearfix">
@@ -2927,6 +2927,7 @@
 
 @push('web_script')
     <script>
+        let _token = "{{ csrf_token() }}";
         $(document).on('click',".quick_modal",function (e) {
             e.preventDefault();
              let button_id = $(this).attr("id");

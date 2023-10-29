@@ -338,6 +338,9 @@ class productController extends Controller
     {
         if ($request->ajax()) {
             $product= Product::find($request->product_id);
+            if(file_exists('admin/product_img/'.$product->images)){
+                unlink('admin/product_img/'.$product->images);
+            }
             $product->delete();
             $message = ['status'=>'success','message'=>'Data has been update'];
             return response()->json($message);
