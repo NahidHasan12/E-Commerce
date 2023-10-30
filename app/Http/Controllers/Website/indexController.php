@@ -17,12 +17,13 @@ class indexController extends Controller
         $featured = Product::where('status',1)->where('featured',1)->orderBy('id','DESC')->limit(16)->get();
         $popular_product = Product::where('status',1)->orderBy('product_views','DESC')->limit(16)->get();
         $trendy_product = Product::where('status',1)->where('trendy',1)->orderBy('id','DESC')->limit(8)->get();
-        return view('frontend.pages.index', compact('category','slider_product','featured','popular_product','trendy_product'));
+        $home_category = category::orderBy('category_name','ASC')->get();
+        return view('frontend.pages.index', compact('category','slider_product','featured','popular_product','trendy_product','home_category'));
     }
 
     public function product_details($slug){
         $product_details = Product::where('slug',$slug)->first();
-                           Product::where('slug',$slug)->increment('product_views');
+                           Product::where('slug',$slug)->increment('product_views');//product veiw count
         $related_product = Product::where('subcategory_id',$product_details->subcategory_id)->orderBy('id','DESC')->take(10)->get();
         $review = Review::where('product_id',$product_details->id)->get();
         return view('frontend/pages/product_details', compact('product_details','related_product','review'));
