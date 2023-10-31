@@ -3,14 +3,14 @@
 <div class="modal fade" id="catEditModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
-        <div class="alert-message">  </div>
+        <div class="edit_alert">  </div>
         <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLongTitle">Edit Category Data</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
         </div>
-        <form class="cat_form_edit" action="{{ route('category.edit') }}" method="post">
+        <form class="cat_form_edit" action="{{ route('category.edit') }}" method="post" enctype="multipart/form-data">
             @csrf
             <input type="hidden" name="update">
             <div class="modal-body">
@@ -30,11 +30,9 @@
                     @enderror
                 </div>
                 <div class="mb-3">
-                    <label for="home_page" class="form-label">Category Show Home Page</label>
-                    <select name="home_page" id="home_page" class="form-control">
-                        <option value="1">YES</option>
-                        <option value="0">NO</option>
-                    </select>
+                    <div id="select_home_status">
+
+                    </div>
                     <small>If yes, it will be show your website home page</small>
                     @error('home_page')
                     <span class="text-danger">{{ $message }}</span></span>

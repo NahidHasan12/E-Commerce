@@ -28,6 +28,17 @@ class categoryController extends Controller
 
             return DataTables::eloquent($getData)
             ->addIndexColumn()
+            ->addColumn('icon', function($data) {
+                $icon = '<img width="100" height="30" src="' . ($data->icon != null ? asset('admin/category_icon/'.$data->icon) : 'https://via.placeholder.com/80') . '">';
+                return $icon;
+            })
+            ->addColumn('home_page', function($data) {
+                if ($data->home_page ==1) {
+                    return '<span class="badge badge-success"> YES </span>';
+                }else {
+                    return '<span class="badge badge-danger"> No </span>';
+                }
+            })
             ->addColumn('action', function($data){
                 $action='
                 <button  class="btn btn-sm btn-primary m-1 edit-btn" data-id="'.$data->id.'"  data-toggle="modal" data-target="#catEditModal"> <i class="fa fa-edit"></i> </button>
@@ -35,7 +46,7 @@ class categoryController extends Controller
                 ';
                 return $action;
             })
-            ->rawColumns(['action'])
+            ->rawColumns(['action','icon','home_page'])
             ->make(true);
 
         }
@@ -71,19 +82,38 @@ class categoryController extends Controller
         }
     }
 
+    // Select Home Page Status
+    public function select_home(Request $request){
+        if($request->ajax()){
+            $home_page = category::findOrFail($request->cat_id);
+            // dd($student->all());
+            $yes = $home_page->home_page == 1 ? 'selected' : '';
+            $no = $home_page->home_page == 0 ? 'selected' : '';
+            $output = '';
+            $output .='
+                <label for="home_page" class="form-label">Category Show Home Page</label>
+                <select name="home_page" id="home_page" class="form-control">
+                    <option value="1" '.$yes.'>YES</option>
+                    <option value="0" '.$no.'>NO</option>
+                </select>
+            ';
+            return response()->json($output);
+        }
+    }
+
     //Update Cat Data
     public function update(categoryRequest $request){
         if($request->ajax()){
             $cat = category::findOrFail($request->update);
 
             if($request->hasFile('icon')){
-                $image = $this->file_update($request->file('image'),'admin/category_icon/', $cat->image);
+                $icon = $this->file_update($request->file('icon'),'admin/category_icon/', $cat->icon);
             }else{
-                $image = $cat->icon;
+                $icon = $cat->icon;
             }
 
             $data = $cat->update([
-                'icon' => $image,
+                'icon' => $icon,
                 'category_name' => $request->category_name,
                 'category_slug' => Str::slug($request->category_slug,'-'),
                 'home_page' => $request->home_page

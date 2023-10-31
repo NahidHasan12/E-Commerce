@@ -188,10 +188,10 @@
                     if(response.status == 'success'){
                         table.draw();
                         $("form")[0].reset();
-                        $(".alert-message").append('<span class="alert alert-success d-block">'+response.message+'</span>');
+                        $(".create_alert").append('<span class="alert alert-success d-block">'+response.message+'</span>');
 
                     }else{
-                        $(".alert-message").append('<span class="alert alert-danger d-block">'+response.message+'</span>');
+                        $(".create_alert").append('<span class="alert alert-danger d-block">'+response.message+'</span>');
                     }
                 }
             }
@@ -212,10 +212,26 @@
                 $('form.cat_form_edit input[name="category_name"]').val(response.category_name);
                 $('form.cat_form_edit input[name="category_slug"]').val(response.category_slug);
                 $('form.cat_form_edit #cat_icon').html('<img src="'+img_src+'" alt="'+response.name+'" width="100%">');
+                selectHomeStatus(response.id);
             }
         });
 
     });
+
+    function selectHomeStatus(id){
+        $.ajax({
+            url:"{{ route('category.select_home') }}",
+            type:"post",
+            dataType:"json",
+            data:{_token:_token,cat_id:id},
+            success: function(response){
+                    // alert('ok');
+                if(response){
+                    $("#select_home_status").html(response);
+                }
+            }
+        })
+    }
 
     //Udate Cat Data
     $(document).on('submit', 'form.cat_form_edit', function(e){
@@ -238,15 +254,17 @@
                 }else{
                     if(response.status == 'success'){
                         $("form")[0].reset();
-                        $(".alert-message").append('<span class="alert alert-success d-block">'+response.message+'</span>');
+                        $(".edit_alert").append('<span class="alert alert-success d-block">'+response.message+'</span>');
                         table.draw();
                     }else{
-                        $(".alert-message").append('<span class="alert alert-danger d-block">'+response.message+'</span>');
+                        $(".edit_alert").append('<span class="alert alert-danger d-block">'+response.message+'</span>');
                     }
                 }
             }
         });
     });
+
+
 
     // Delete Cat Data
     $(document).on('click','button.delete-btn', function(){
