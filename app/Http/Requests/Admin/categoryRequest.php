@@ -32,8 +32,11 @@ class categoryRequest extends FormRequest
     public function rules(): array
     {
         return [
+
+            'icon' => ['required'],
             'category_name' => ['required', 'min:2', 'max:50'],
-            'category_slug' => ['required', 'min:2', 'max:50']
+            'category_slug' => ['required', 'min:2', 'max:50'],
+            'home_page' => ['required']
         ];
     }
 }

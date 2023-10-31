@@ -225,7 +225,7 @@
     }
 
         //student data update
-        $(document).on('submit', 'form.campaing_form_edit', function(e){
+    $(document).on('submit', 'form.campaing_form_edit', function(e){
         e.preventDefault();
         $.ajax({
             url: "{{ route('campaing.update') }}",

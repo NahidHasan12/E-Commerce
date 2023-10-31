@@ -46,9 +46,12 @@ class categoryController extends Controller
     // Store Data
     public function store(categoryRequest $request){
         if($request->ajax()){
+            $image = $this->file_upload($request->file('icon'),'admin/category_icon/');
             $data = category::create([
+                'icon' => $image,
                 'category_name' => $request->category_name,
-                'category_slug' => Str::slug($request->category_slug,'-')
+                'category_slug' => Str::slug($request->category_slug,'-'),
+                'home_page' => $request->home_page
             ]);
             if($data){
                 $output = ['status' => 'success', 'message'=> 'Data Has Been Saved'];
@@ -72,9 +75,18 @@ class categoryController extends Controller
     public function update(categoryRequest $request){
         if($request->ajax()){
             $cat = category::findOrFail($request->update);
+
+            if($request->hasFile('icon')){
+                $image = $this->file_update($request->file('image'),'admin/category_icon/', $cat->image);
+            }else{
+                $image = $cat->icon;
+            }
+
             $data = $cat->update([
+                'icon' => $image,
                 'category_name' => $request->category_name,
-                'category_slug' => $request->category_slug
+                'category_slug' => Str::slug($request->category_slug,'-'),
+                'home_page' => $request->home_page
             ]);
             if($data){
                 $output = ['status'=>'success', 'message'=>'Data Has Been Updated'];

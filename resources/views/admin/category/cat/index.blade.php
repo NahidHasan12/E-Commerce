@@ -39,8 +39,10 @@
                <thead>
                     <tr>
                         <th>Id</th>
+                        <th>Category Icon</th>
                         <th>Category Name</th>
                         <th>Category Slug</th>
+                        <th>Home Page</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -91,8 +93,10 @@
         },
         columns: [
             {data: 'id'},
+            {data: 'icon'},
             {data: 'category_name'},
             {data: 'category_slug'},
+            {data: 'home_page'},
             {data: 'action'}
         ],
         language: {
@@ -182,6 +186,7 @@
                          //Form Validation Code end
                 }else{
                     if(response.status == 'success'){
+                        table.draw();
                         $("form")[0].reset();
                         $(".alert-message").append('<span class="alert alert-success d-block">'+response.message+'</span>');
 
@@ -203,8 +208,10 @@
             dataType:"json",
             data:{_token:_token,data_id:data_id},
             success:function(response){
+                let img_src = "{{ asset('admin/category_icon/') }}/"+response.icon;
                 $('form.cat_form_edit input[name="category_name"]').val(response.category_name);
                 $('form.cat_form_edit input[name="category_slug"]').val(response.category_slug);
+                $('form.cat_form_edit #cat_icon').html('<img src="'+img_src+'" alt="'+response.name+'" width="100%">');
             }
         });
 
@@ -232,7 +239,7 @@
                     if(response.status == 'success'){
                         $("form")[0].reset();
                         $(".alert-message").append('<span class="alert alert-success d-block">'+response.message+'</span>');
-                        fatchData();
+                        table.draw();
                     }else{
                         $(".alert-message").append('<span class="alert alert-danger d-block">'+response.message+'</span>');
                     }
@@ -251,6 +258,7 @@
             dataType:"json",
             data:{_token:_token,data_id:data_id},
             success:function(response){
+                table.draw();
                 $(".cat_alert").append('<span class="alert alert-success d-block">'+response.message+'</span>');
 
             }

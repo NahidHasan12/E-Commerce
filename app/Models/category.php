@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class category extends Model
 {
     use HasFactory;
-    protected $fillable = ['category_name','category_slug'];
+    protected $fillable = ['icon','category_name','category_slug','home_page'];
 
     public function subcategory(){
         return $this->hasMany(SubCategory::class);
