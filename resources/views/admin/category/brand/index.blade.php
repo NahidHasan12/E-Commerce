@@ -42,6 +42,7 @@
                         <th>Brand Logo</th>
                         <th>Brand Name</th>
                         <th>Brand Slug</th>
+                        <th>Brand Front Page</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -96,6 +97,7 @@
             {data: 'brand_logo'},
             {data: 'brand_name'},
             {data: 'brand_slug'},
+            {data: 'front_page'},
             {data: 'action'}
         ],
         language: {
@@ -222,9 +224,26 @@
                     $('form.edit_brand_form input[name="brand_name"]').val(response.brand_name);
                     $('form.edit_brand_form input[name="brand_slug"]').val(response.brand_slug);
                     $('form.edit_brand_form #brand_logo').html('<img src="'+img_src+'" alt="'+response.brand_name+'" width="60px">');
+                    select_homePage_status(response.id);
                 }
             });
         });
+
+        //select Brand home page status
+        function select_homePage_status(id){
+            $.ajax({
+            url:"{{ route('brand.select_home') }}",
+            type:"post",
+            dataType:"json",
+            data:{_token:_token,brand_id:id},
+            success: function(response){
+                    // alert('ok');
+                if(response){
+                    $("#select_home_status").html(response);
+                }
+            }
+        })
+        }
 
         //Brand Update
         $(document).on('submit', 'form.edit_brand_form', function(e){

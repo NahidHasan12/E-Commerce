@@ -36,54 +36,17 @@
     <div class="characteristics">
         <div class="container">
             <div class="row">
-
                 <!-- Char. Item -->
-                <div class="col-lg-3 col-md-6 char_col">
-
-                    <div class="char_item d-flex flex-row align-items-center justify-content-start">
-                        <div class="char_icon"><img src="{{ asset('frontend') }}/images/char_1.png" alt=""></div>
-                        <div class="char_content">
-                            <div class="char_title">Free Delivery</div>
-                            <div class="char_subtitle">from $50</div>
+                @foreach ($brand as $item)
+                    <div style="border: 1px solid" class="col-lg-1 col-md-1 char_col">
+                        <div class="char_icon">
+                            <a href="#">
+                                <img width="70" height="60" src="{{ asset('admin/brand_img/'.$item->brand_logo) }}" alt="{{ $item->brand_name }}">
+                            </a>
                         </div>
                     </div>
-                </div>
+                @endforeach
 
-                <!-- Char. Item -->
-                <div class="col-lg-3 col-md-6 char_col">
-
-                    <div class="char_item d-flex flex-row align-items-center justify-content-start">
-                        <div class="char_icon"><img src="{{ asset('frontend') }}/images/char_2.png" alt=""></div>
-                        <div class="char_content">
-                            <div class="char_title">Free Delivery</div>
-                            <div class="char_subtitle">from $50</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Char. Item -->
-                <div class="col-lg-3 col-md-6 char_col">
-
-                    <div class="char_item d-flex flex-row align-items-center justify-content-start">
-                        <div class="char_icon"><img src="{{ asset('frontend') }}/images/char_3.png" alt=""></div>
-                        <div class="char_content">
-                            <div class="char_title">Free Delivery</div>
-                            <div class="char_subtitle">from $50</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Char. Item -->
-                <div class="col-lg-3 col-md-6 char_col">
-
-                    <div class="char_item d-flex flex-row align-items-center justify-content-start">
-                        <div class="char_icon"><img src="{{ asset('frontend') }}/images/char_4.png" alt=""></div>
-                        <div class="char_content">
-                            <div class="char_title">Free Delivery</div>
-                            <div class="char_subtitle">from $50</div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
@@ -127,23 +90,32 @@
                             <div class="owl-carousel owl-theme deals_slider">
 
                                 <!-- Deals Item -->
+                              @foreach ($today_deal as $deal)
                                 <div class="owl-item deals_item">
-                                    <div class="deals_image"><img src="{{ asset('frontend') }}/images/deals.png" alt=""></div>
+                                    <div class="deals_image"><img src="{{ asset('admin/product_img/'.$deal->thumbnail) }}" alt="{{ $deal->name }}"></div>
                                     <div class="deals_content">
                                         <div class="deals_info_line d-flex flex-row justify-content-start">
-                                            <div class="deals_item_category"><a href="#">Headphones</a></div>
-                                            <div class="deals_item_price_a ml-auto">$300</div>
+                                            <div class="deals_item_category">{{ $deal->category->category_name }} > {{ $deal->subcategory->subcategory_name }}</div>
+                                            @if ($deal->discount_price==null)
+                                                <div class="deals_item_price_a ml-auto mt-1">{{ $web_settings->currency }} {{ $deal->selling_price }}</div>
+                                            @else
+                                                <div class="deals_item_price_a ml-auto mt-1">
+                                                    <del class="text-danger">{{ $web_settings->currency }}{{ $deal->selling_price }}</del>
+                                                    {{ $web_settings->currency }}{{ $deal->discount_price }}
+                                                </div>
+                                            @endif
                                         </div>
                                         <div class="deals_info_line d-flex flex-row justify-content-start">
-                                            <div class="deals_item_name">Beoplay H7</div>
-                                            <div class="deals_item_price ml-auto">$225</div>
+                                            <a href="{{ route('product.details',$deal->slug) }}">
+                                                <div class="deals_item_name">{{ substr($deal->name,0,30)  }}..</div>
+                                            </a>
                                         </div>
                                         <div class="available">
                                             <div class="available_line d-flex flex-row justify-content-start">
-                                                <div class="available_title">Available: <span>6</span></div>
+                                                <div class="available_title">Available: <span>{{ $deal->stock_quantity }}</span></div>
                                                 <div class="sold_title ml-auto">Already sold: <span>28</span></div>
                                             </div>
-                                            <div class="available_bar"><span style="width:17%"></span></div>
+                                            <div class="available_bar"><span style="width:50%"></span></div>
                                         </div>
                                         <div class="deals_timer d-flex flex-row align-items-center justify-content-start">
                                             <div class="deals_timer_title_container">
@@ -169,94 +141,7 @@
                                         </div>
                                     </div>
                                 </div>
-
-                                <!-- Deals Item -->
-                                <div class="owl-item deals_item">
-                                    <div class="deals_image"><img src="{{ asset('frontend') }}/images/deals.png" alt=""></div>
-                                    <div class="deals_content">
-                                        <div class="deals_info_line d-flex flex-row justify-content-start">
-                                            <div class="deals_item_category"><a href="#">Headphones</a></div>
-                                            <div class="deals_item_price_a ml-auto">$300</div>
-                                        </div>
-                                        <div class="deals_info_line d-flex flex-row justify-content-start">
-                                            <div class="deals_item_name">Beoplay H7</div>
-                                            <div class="deals_item_price ml-auto">$225</div>
-                                        </div>
-                                        <div class="available">
-                                            <div class="available_line d-flex flex-row justify-content-start">
-                                                <div class="available_title">Available: <span>6</span></div>
-                                                <div class="sold_title ml-auto">Already sold: <span>28</span></div>
-                                            </div>
-                                            <div class="available_bar"><span style="width:17%"></span></div>
-                                        </div>
-                                        <div class="deals_timer d-flex flex-row align-items-center justify-content-start">
-                                            <div class="deals_timer_title_container">
-                                                <div class="deals_timer_title">Hurry Up</div>
-                                                <div class="deals_timer_subtitle">Offer ends in:</div>
-                                            </div>
-                                            <div class="deals_timer_content ml-auto">
-                                                <div class="deals_timer_box clearfix" data-target-time="">
-                                                    <div class="deals_timer_unit">
-                                                        <div id="deals_timer2_hr" class="deals_timer_hr"></div>
-                                                        <span>hours</span>
-                                                    </div>
-                                                    <div class="deals_timer_unit">
-                                                        <div id="deals_timer2_min" class="deals_timer_min"></div>
-                                                        <span>mins</span>
-                                                    </div>
-                                                    <div class="deals_timer_unit">
-                                                        <div id="deals_timer2_sec" class="deals_timer_sec"></div>
-                                                        <span>secs</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Deals Item -->
-                                <div class="owl-item deals_item">
-                                    <div class="deals_image"><img src="{{ asset('frontend') }}/images/deals.png" alt=""></div>
-                                    <div class="deals_content">
-                                        <div class="deals_info_line d-flex flex-row justify-content-start">
-                                            <div class="deals_item_category"><a href="#">Headphones</a></div>
-                                            <div class="deals_item_price_a ml-auto">$300</div>
-                                        </div>
-                                        <div class="deals_info_line d-flex flex-row justify-content-start">
-                                            <div class="deals_item_name">Beoplay H7</div>
-                                            <div class="deals_item_price ml-auto">$225</div>
-                                        </div>
-                                        <div class="available">
-                                            <div class="available_line d-flex flex-row justify-content-start">
-                                                <div class="available_title">Available: <span>6</span></div>
-                                                <div class="sold_title ml-auto">Already sold: <span>28</span></div>
-                                            </div>
-                                            <div class="available_bar"><span style="width:17%"></span></div>
-                                        </div>
-                                        <div class="deals_timer d-flex flex-row align-items-center justify-content-start">
-                                            <div class="deals_timer_title_container">
-                                                <div class="deals_timer_title">Hurry Up</div>
-                                                <div class="deals_timer_subtitle">Offer ends in:</div>
-                                            </div>
-                                            <div class="deals_timer_content ml-auto">
-                                                <div class="deals_timer_box clearfix" data-target-time="">
-                                                    <div class="deals_timer_unit">
-                                                        <div id="deals_timer3_hr" class="deals_timer_hr"></div>
-                                                        <span>hours</span>
-                                                    </div>
-                                                    <div class="deals_timer_unit">
-                                                        <div id="deals_timer3_min" class="deals_timer_min"></div>
-                                                        <span>mins</span>
-                                                    </div>
-                                                    <div class="deals_timer_unit">
-                                                        <div id="deals_timer3_sec" class="deals_timer_sec"></div>
-                                                        <span>secs</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                @endforeach
 
                             </div>
 
@@ -470,7 +355,7 @@
                                                             </div>
                                                         @endif
 
-                                                        <div class="product_name"><div><a href="product.html">{{ $item->name }}</a></div></div>
+                                                        <div class="product_name"><div><a href="{{ route('product.details',$item->slug) }}">{{ $item->name }}</a></div></div>
                                                         <a data-toggle="modal" class="quick_modal" id="{{ $item->id }}" data-target=".bd-example-modal-lg">quick view</a>
                                                         <div class="product_extras mt-1">
                                                             <div class="product_color">
@@ -629,7 +514,7 @@
             <div class="row">
                 <div class="col">
                     <div class="viewed_title_container">
-                        <h3 class="viewed_title">Recently Viewed</h3>
+                        <h3 class="viewed_title">Product fo you</h3>
                         <div class="viewed_nav_container">
                             <div class="viewed_nav viewed_prev"><i class="fas fa-chevron-left"></i></div>
                             <div class="viewed_nav viewed_next"><i class="fas fa-chevron-right"></i></div>
@@ -643,94 +528,29 @@
                         <div class="owl-carousel owl-theme viewed_slider">
 
                             <!-- Recently Viewed Item -->
-                            <div class="owl-item">
-                                <div class="viewed_item discount d-flex flex-column align-items-center justify-content-center text-center">
-                                    <div class="viewed_image"><img src="{{ asset('frontend') }}/images/view_1.jpg" alt=""></div>
-                                    <div class="viewed_content text-center">
-                                        <div class="viewed_price">$225<span>$300</span></div>
-                                        <div class="viewed_name"><a href="#">Beoplay H7</a></div>
+                            @foreach ($random_product as $item)
+                                <div class="owl-item">
+                                    <div class="viewed_item discount d-flex flex-column align-items-center justify-content-center text-center">
+                                        <div class="viewed_image">
+                                            <img src="{{ asset('admin/product_img/'.$item->thumbnail) }}" alt="{{ $item->name }}">
+                                        </div>
+                                        <div class="viewed_content text-center">
+                                            @if ($trendy_products->discount_price==null)
+                                                <div class="viewed_price" style="margin-top: 20px">{{ $web_settings->currency }} {{ $item->selling_price }}</div>
+                                            @else
+                                                <div class="viewed_price" style="margin-top: 20px">
+                                                    <del class="text-danger">{{ $web_settings->currency }}{{ $item->selling_price }}</del>
+                                                    {{ $web_settings->currency }}{{ $item->discount_price }}
+                                                </div>
+                                            @endif
+                                            <div class="viewed_name"><a href="{{ route('product.details',$item->slug) }}">{{ substr($item->name,0,30)  }}..</a></div>
+                                        </div>
+                                        <ul class="item_marks">
+                                            <li class="item_mark item_new">new</li>
+                                        </ul>
                                     </div>
-                                    <ul class="item_marks">
-                                        <li class="item_mark item_discount">-25%</li>
-                                        <li class="item_mark item_new">new</li>
-                                    </ul>
                                 </div>
-                            </div>
-
-                            <!-- Recently Viewed Item -->
-                            <div class="owl-item">
-                                <div class="viewed_item d-flex flex-column align-items-center justify-content-center text-center">
-                                    <div class="viewed_image"><img src="{{ asset('frontend') }}/images/view_2.jpg" alt=""></div>
-                                    <div class="viewed_content text-center">
-                                        <div class="viewed_price">$379</div>
-                                        <div class="viewed_name"><a href="#">LUNA Smartphone</a></div>
-                                    </div>
-                                    <ul class="item_marks">
-                                        <li class="item_mark item_discount">-25%</li>
-                                        <li class="item_mark item_new">new</li>
-                                    </ul>
-                                </div>
-                            </div>
-
-                            <!-- Recently Viewed Item -->
-                            <div class="owl-item">
-                                <div class="viewed_item d-flex flex-column align-items-center justify-content-center text-center">
-                                    <div class="viewed_image"><img src="{{ asset('frontend') }}/images/view_3.jpg" alt=""></div>
-                                    <div class="viewed_content text-center">
-                                        <div class="viewed_price">$225</div>
-                                        <div class="viewed_name"><a href="#">Samsung J730F...</a></div>
-                                    </div>
-                                    <ul class="item_marks">
-                                        <li class="item_mark item_discount">-25%</li>
-                                        <li class="item_mark item_new">new</li>
-                                    </ul>
-                                </div>
-                            </div>
-
-                            <!-- Recently Viewed Item -->
-                            <div class="owl-item">
-                                <div class="viewed_item is_new d-flex flex-column align-items-center justify-content-center text-center">
-                                    <div class="viewed_image"><img src="{{ asset('frontend') }}/images/view_4.jpg" alt=""></div>
-                                    <div class="viewed_content text-center">
-                                        <div class="viewed_price">$379</div>
-                                        <div class="viewed_name"><a href="#">Huawei MediaPad...</a></div>
-                                    </div>
-                                    <ul class="item_marks">
-                                        <li class="item_mark item_discount">-25%</li>
-                                        <li class="item_mark item_new">new</li>
-                                    </ul>
-                                </div>
-                            </div>
-
-                            <!-- Recently Viewed Item -->
-                            <div class="owl-item">
-                                <div class="viewed_item discount d-flex flex-column align-items-center justify-content-center text-center">
-                                    <div class="viewed_image"><img src="{{ asset('frontend') }}/images/view_5.jpg" alt=""></div>
-                                    <div class="viewed_content text-center">
-                                        <div class="viewed_price">$225<span>$300</span></div>
-                                        <div class="viewed_name"><a href="#">Sony PS4 Slim</a></div>
-                                    </div>
-                                    <ul class="item_marks">
-                                        <li class="item_mark item_discount">-25%</li>
-                                        <li class="item_mark item_new">new</li>
-                                    </ul>
-                                </div>
-                            </div>
-
-                            <!-- Recently Viewed Item -->
-                            <div class="owl-item">
-                                <div class="viewed_item d-flex flex-column align-items-center justify-content-center text-center">
-                                    <div class="viewed_image"><img src="{{ asset('frontend') }}/images/view_6.jpg" alt=""></div>
-                                    <div class="viewed_content text-center">
-                                        <div class="viewed_price">$375</div>
-                                        <div class="viewed_name"><a href="#">Speedlink...</a></div>
-                                    </div>
-                                    <ul class="item_marks">
-                                        <li class="item_mark item_discount">-25%</li>
-                                        <li class="item_mark item_new">new</li>
-                                    </ul>
-                                </div>
-                            </div>
+                            @endforeach
                         </div>
                     </div>
                 </div>
@@ -749,15 +569,13 @@
                         <!-- Brands Slider -->
 
                         <div class="owl-carousel owl-theme brands_slider">
-
-                            <div class="owl-item"><div class="brands_item d-flex flex-column justify-content-center"><img src="{{ asset('frontend') }}/images/brands_1.jpg" alt=""></div></div>
-                            <div class="owl-item"><div class="brands_item d-flex flex-column justify-content-center"><img src="{{ asset('frontend') }}/images/brands_2.jpg" alt=""></div></div>
-                            <div class="owl-item"><div class="brands_item d-flex flex-column justify-content-center"><img src="{{ asset('frontend') }}/images/brands_3.jpg" alt=""></div></div>
-                            <div class="owl-item"><div class="brands_item d-flex flex-column justify-content-center"><img src="{{ asset('frontend') }}/images/brands_4.jpg" alt=""></div></div>
-                            <div class="owl-item"><div class="brands_item d-flex flex-column justify-content-center"><img src="{{ asset('frontend') }}/images/brands_5.jpg" alt=""></div></div>
-                            <div class="owl-item"><div class="brands_item d-flex flex-column justify-content-center"><img src="{{ asset('frontend') }}/images/brands_6.jpg" alt=""></div></div>
-                            <div class="owl-item"><div class="brands_item d-flex flex-column justify-content-center"><img src="{{ asset('frontend') }}/images/brands_7.jpg" alt=""></div></div>
-                            <div class="owl-item"><div class="brands_item d-flex flex-column justify-content-center"><img src="{{ asset('frontend') }}/images/brands_8.jpg" alt=""></div></div>
+                            @foreach ($brand as $brand)
+                            <div class="owl-item">
+                                <div class="brands_item d-flex flex-column justify-content-center">
+                                    <img width="70" height="50" src="{{ asset('admin/brand_img/'.$brand->brand_logo) }}" alt="{{ $brand->brand_name }}">
+                                </div>
+                            </div>
+                            @endforeach
 
                         </div>
 
@@ -817,5 +635,29 @@
             });
 
         });
+
+
+        $(document).on("submit",'form#cartForm',function(e) {
+            e.preventDefault();
+            $.ajax({
+                type: "post",
+                url: "{{ route('add.to.cart.quickview') }}",
+                data: new FormData(this),
+                contentType:false,
+                processData:false,
+                success: function(response) {
+                    toastr.success(response);
+                    $('form#cartForm')[0].reset();
+                    cardCount();
+
+                },
+                error: function (response) {
+                    toastr.error('Opps! cart not add');
+                }
+            });
+        });
+
+      
+
     </script>
 @endpush

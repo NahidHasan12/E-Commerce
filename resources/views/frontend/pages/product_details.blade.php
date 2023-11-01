@@ -97,7 +97,16 @@
 
 						{{-- <div class="product_text"><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas fermentum. laoreet turpis, nec sollicitudin dolor cursus at. Maecenas aliquet, dolor a faucibus efficitur, nisi tellus cursus urna, eget dictum lacus turpis.</p></div> --}}
 						<div class="order_info d-flex flex-row">
-							<form action="#">
+							<form action="{{ route('add.to.cart.quickview') }}" method="post" id="singleCartForm">
+                                @csrf
+
+                                <input type="hidden" name="id" value="{{ $product_details->id }}">
+                                @if ($product_details->discount_price==null)
+                                    <input type="hidden" name="price" value="{{ $product_details->selling_price }}">
+                                @else
+                                    <input type="hidden" name="price" value="{{ $product_details->discount_price }}">
+                                @endif
+
 								<div class="clearfix" style="z-index: 1000;">
                                     <div class="row mb-3">
                                         <!-- Product Size -->
@@ -126,7 +135,7 @@
 									<!-- Product Quantity -->
 									<div class="product_quantity clearfix" style="margin-left:10px">
 										<span>Quantity: </span>
-										<input id="quantity_input" type="text" pattern="[0-9]*" value="1">
+										<input id="quantity_input" name="qty" type="text" pattern="[0-9]*" value="1">
 										<div class="quantity_buttons">
 											<div id="quantity_inc_button" class="quantity_inc quantity_control"><i class="fas fa-chevron-up"></i></div>
 											<div id="quantity_dec_button" class="quantity_dec quantity_control"><i class="fas fa-chevron-down"></i></div>
@@ -135,9 +144,22 @@
 
 								</div>
 
+                                @if ($product_details->discount_price==null)
+                                    <div class="product_price" style="margin-top: 20px">{{ $web_settings->currency }} {{ $product_details->selling_price }}</div>
+                                @else
+                                    <div class="product_price" style="margin-top: 20px">
+                                        <del class="text-danger">{{ $web_settings->currency }}{{ $product_details->selling_price }}</del>
+                                        {{ $web_settings->currency }}{{ $product_details->discount_price }}
+                                    </div>
+                                @endif
+
 								<div class="button_container">
+                                    @if($product_details->stock_quantity < 1)
+                                    <span class="text-danger"> Stock Out</span>
+                                    @else
 									<button type="submit" class="button cart_button">Add to Cart</button>
-                                    <a href="{{ route('wishlist.add',$product_details->id) }}" class="btn btn-sm btn-danger"><i class="fas fa-heart"></i> </a>
+                                    @endif
+                                    <a href="{{ route('wishlist.add',$product_details->id) }}" class="btn btn-sm btn-danger"><i class="fas fa-heart" style="font-size: 20px; padding:8.5px"></i> </a>
 								</div>
 
 							</form>
@@ -405,3 +427,28 @@
 @section('main_nav_js_link')
     <script src="{{ asset('frontend') }}/js/product_custom.js"></script>
 @endsection
+
+
+@push('web_script')
+    <script>
+        $(document).on("submit",'form#singleCartForm',function(e) {
+            e.preventDefault();
+            $.ajax({
+                type: "post",
+                url: "{{ route('add.to.cart.quickview') }}",
+                data: new FormData(this),
+                contentType:false,
+                processData:false,
+                success: function(response) {
+                    toastr.success(response);
+                    $('form#singleCartForm')[0].reset();
+                    cardCount();
+
+                },
+                error: function (response) {
+                    toastr.error('Opps! cart not add');
+                }
+            });
+        });
+    </script>
+@endpush

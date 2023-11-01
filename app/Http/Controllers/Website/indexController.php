@@ -7,18 +7,22 @@ use App\Models\Product;
 use App\Models\category;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Brand;
 use Illuminate\Support\Facades\Auth;
 
 class indexController extends Controller
 {
     public function index(){
         $category = category::get();
+        $brand = Brand::inRandomOrder()->limit(12)->get();
         $slider_product = Product::where('status',1)->where('slider_show',1)->latest()->first();
         $featured = Product::where('status',1)->where('featured',1)->orderBy('id','DESC')->limit(16)->get();
         $popular_product = Product::where('status',1)->orderBy('product_views','DESC')->limit(16)->get();
+        $today_deal = Product::where('status',1)->where('today_deal',1)->orderBy('id','DESC')->limit(6)->get();
         $trendy_product = Product::where('status',1)->where('trendy',1)->orderBy('id','DESC')->limit(8)->get();
         $home_category = category::where('home_page',1)->orderBy('category_name','ASC')->get();
-        return view('frontend.pages.index', compact('category','slider_product','featured','popular_product','trendy_product','home_category'));
+        $random_product = Product::where('status',1)->inRandomOrder()->limit(16)->get();
+        return view('frontend.pages.index', compact('category','slider_product','featured','popular_product','trendy_product','home_category','brand','random_product','today_deal'));
     }
 
     public function product_details($slug){

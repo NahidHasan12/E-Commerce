@@ -4,11 +4,32 @@ namespace App\Http\Controllers\Website;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Product;
 use App\Models\Wishlist;
+use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Facades\Auth;
 
 class cartController extends Controller
 {
+    // Add to cart
+    public function addToCartQv(Request $request){
+        if($request->ajax()){
+            $product = Product::findOrFail($request->id);
+            Cart::Add([
+                'id'     => $product->id,
+                'name'   => $product->name,
+                'qty'    => $request->qty,
+                'price'  => $request->price,
+                'weight' => '1',
+                'options' => [
+                    'size'      => $request->size,
+                    'color'     => $request->color,
+                    'thumbnail' => $product->thumbnail,
+                ]
+            ]);
+            return response()->json("Cart added");
+        }
+    }
     //wishList Code
     public function wishlistAdd($product_id){
         if (Auth::check()) {

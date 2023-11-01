@@ -36,6 +36,7 @@ class brandRequest extends FormRequest
             'brand_name'=>['required','min:3','max:50'],
             'brand_slug'=>['required','min:2','max:20'],
             'brand_logo'=>['required'],
+            'front_page'=>['required'],
         ];
         if(request()->update != ''){
             $rules['brand_logo'][0] = 'nullable';

@@ -21,6 +21,14 @@
                 <input type="text" name="brand_slug" id="brand_slug" class="form-control">
             </div>
             <div class="mb-3">
+                <label for="front_page" class="form-label">Brand Show Front Page</label>
+                <select name="front_page" id="front_page" class="form-control">
+                    <option value="1">Yes</option>
+                    <option value="0">NO</option>
+                </select>
+                <small>If you select yes, it will be show home page</small>
+            </div>
+            <div class="mb-3">
                 <label for="brand_logo" class="form-label">Brand Logo</label>
                 <input type="file" name="brand_logo" id="brand_logo" class="form-control">
             </div>

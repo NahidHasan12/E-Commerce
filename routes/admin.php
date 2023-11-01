@@ -63,10 +63,9 @@ Route::middleware(['is_admin'])->group(function () {
 
     Route::prefix('brand')->name('brand.')->group(function(){
         Route::get('/', [brandController::class, 'index'])->name('index');
-        //Route::post('/get-data', [brandController::class, 'getData'])->name('getData');
-        // Route::post('/fatch-data', [childCategoryController::class, 'fatchData'])->name('fatchData');
         Route::post('/store', [brandController::class, 'store'])->name('store');
         Route::post('/edit', [brandController::class, 'edit'])->name('edit');
+        Route::post('/select_home', [brandController::class, 'select_home'])->name('select_home');
         Route::post('/update', [brandController::class, 'update'])->name('update');
         Route::post('/delete', [brandController::class, 'delete'])->name('delete');
         Route::post('/fatch', [brandController::class, 'fatch'])->name('fatch');

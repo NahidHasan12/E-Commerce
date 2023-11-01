@@ -29,9 +29,16 @@ class brandController extends Controller
             ->addIndexColumn()
             ->addColumn('brand_logo', function($data){
                 $brand_logo='
-                 <img src="admin/brand_img/'.$data->brand_logo.'" class="w-50">
+                 <img src="admin/brand_img/'.$data->brand_logo.'" width="50" height="45">
                 ';
                 return $brand_logo;
+            })
+            ->addColumn('front_page', function($data) {
+                if ($data->front_page == 1) {
+                    return '<span class="badge badge-success"> YES </span>';
+                }else {
+                    return '<span class="badge badge-danger"> No </span>';
+                }
             })
             ->addColumn('action', function($data){
                 $action='
@@ -40,7 +47,7 @@ class brandController extends Controller
                 ';
                 return $action;
             })
-            ->rawColumns(['action','brand_logo'])
+            ->rawColumns(['action','brand_logo','front_page'])
             ->make(true);
 
         }
@@ -79,6 +86,7 @@ class brandController extends Controller
         $data = Brand::create([
             'brand_name'=>$request->brand_name,
             'brand_slug'=>Str::slug($request->brand_slug,'-'),
+            'front_page'=>$request->front_page,
             'brand_logo'=>$brand_logo
         ]);
 
@@ -103,6 +111,7 @@ class brandController extends Controller
             $data = $brand->update([
                 'brand_name'=>$request->brand_name,
                 'brand_slug'=>Str::slug($request->brand_slug,'-'),
+                'front_page'=>$request->front_page,
                 'brand_logo'=>$brand_logo
             ]);
 
@@ -119,6 +128,24 @@ class brandController extends Controller
         if($request->ajax()){
             $brand = Brand::findOrFail($request->brand_id);
             return response()->json($brand);
+        }
+    }
+
+    public function select_home(Request $request){
+        if($request->ajax()){
+            $home_page = Brand::findOrFail($request->brand_id);
+            // dd($student->all());
+            $yes = $home_page->front_page == 1 ? 'selected' : '';
+            $no = $home_page->front_page == 0 ? 'selected' : '';
+            $output = '';
+            $output .='
+                <label for="front_page" class="form-label">Brand Show Front Page</label>
+                <select name="front_page" id="front_page" class="form-control">
+                    <option value="1"'.$yes.'>Yes</option>
+                    <option value="0"'.$no.'>NO</option>
+                </select>
+            ';
+            return response()->json($output);
         }
     }
     //Brand Delete

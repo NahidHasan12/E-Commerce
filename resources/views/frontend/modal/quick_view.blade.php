@@ -36,7 +36,7 @@ $size=explode(',',$product->size);
         </div>
     @endif
 
-    <form action="" method="post" id="cartForm">
+    <form action="{{ route('add.to.cart.quickview') }}" method="post" id="cartForm">
         @csrf
         <input type="hidden" name="id" value="{{ $product->id }}">
         @if ($product->discount_price==null)
@@ -45,7 +45,8 @@ $size=explode(',',$product->size);
             <input type="hidden" name="price" value="{{ $product->discount_price }}">
         @endif
 
-        <input type="number" min="1" max="100" name="qty" value="1" class="form-control py-2" style="width: 200px">
+        <label for="qty">Product Quantity</label>
+        <input type="number" min="1" max="100" id="qty" name="qty" value="1" class="form-control py-2" style="width: 200px">
 
         <div class="row py-2">
             @isset($product->size)
@@ -71,7 +72,7 @@ $size=explode(',',$product->size);
                 </div>
             @endisset
         </div>
-        @if ($product->stock_quantity<1)
+        @if ($product->stock_quantity < 1)
             <span class="text-danger"> Stock Out</span>
         @else
             <button type="submit" class="btn btn-sm btn-outline-info my-3"> add to Cart</button>

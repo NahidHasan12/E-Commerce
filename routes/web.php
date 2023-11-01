@@ -68,5 +68,8 @@ Route::prefix('product_details')->name('product.')->group(function(){
 //WishList Route
 Route::get('wishlist/add/{id}',[cartController::class, 'wishlistAdd'])->name('wishlist.add');
 
-//Quick Route
+//Quick View Route
 Route::get('quick_view',[indexController::class, 'quickView'])->name('quick.view');
+
+// Add to card
+Route::post('add-to-cart', [cartController::class,'addToCartQv'])->name('add.to.cart.quickview');
