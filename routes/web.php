@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ajaxController;
+use Gloudemans\Shoppingcart\Facades\Cart;
 use App\Http\Controllers\Website\cartController;
 use App\Http\Controllers\Website\indexController;
 
@@ -73,3 +74,7 @@ Route::get('quick_view',[indexController::class, 'quickView'])->name('quick.view
 
 // Add to card
 Route::post('add-to-cart', [cartController::class,'addToCartQv'])->name('add.to.cart.quickview');
+Route::get('my_cart',[cartController::class,'myCart'])->name('my.cart');
+Route::get('/cart/destroy', function(){
+  Cart::destroy();
+});

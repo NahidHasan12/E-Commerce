@@ -30,6 +30,13 @@ class cartController extends Controller
             return response()->json("Cart added");
         }
     }
+
+    public function myCart(){
+        $content = Cart::content();
+        return response()->json($content);
+    }
+
+
     //wishList Code
     public function wishlistAdd($product_id){
         if (Auth::check()) {

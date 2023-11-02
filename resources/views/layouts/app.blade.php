@@ -154,7 +154,7 @@
                                             <div class="cart_count"><span>{{ Cart::count() }}</span></div>
                                         </div>
                                         <div class="cart_content">
-                                            <div class="cart_text"><a href="#">Cart</a></div>
+                                            <div class="cart_text"><a href="{{ route('my.cart') }}">Cart</a></div>
                                             <div class="cart_price">{{ $web_settings->currency }}{{ Cart::total() }}</div>
                                         </div>
                                     </div>
@@ -261,10 +261,10 @@
     </div>
                             <div class="logos ml-sm-auto">
                                 <ul class="logos_list">
-                                    <li><a href="#"><img src="images/logos_1.png" alt=""></a></li>
-                                    <li><a href="#"><img src="images/logos_2.png" alt=""></a></li>
-                                    <li><a href="#"><img src="images/logos_3.png" alt=""></a></li>
-                                    <li><a href="#"><img src="images/logos_4.png" alt=""></a></li>
+                                    <li><a href="#"><img src="{{ asset('frontend') }}/images/logos_1.png" alt=""></a></li>
+                                    <li><a href="#"><img src="{{ asset('frontend') }}/images/logos_2.png" alt=""></a></li>
+                                    <li><a href="#"><img src="{{ asset('frontend') }}/images/logos_3.png" alt=""></a></li>
+                                    <li><a href="#"><img src="{{ asset('frontend') }}/images/logos_4.png" alt=""></a></li>
                                 </ul>
                             </div>
                         </div>
