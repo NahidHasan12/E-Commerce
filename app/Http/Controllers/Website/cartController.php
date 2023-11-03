@@ -32,8 +32,20 @@ class cartController extends Controller
     }
 
     public function myCart(){
-        $content = Cart::content();
-        return response()->json($content);
+        $cart_content = Cart::content();
+        return view('frontend.cart.cart', compact('cart_content'));
+    }
+
+    public function cartDestroy(){
+        Cart::destroy();
+        $alert = array('message'=>'Cart item clear', 'alert-type'=>'success');
+        return redirect('/')->with($alert);
+    }
+
+    public function cartRemove(Request $request) {
+        Cart::remove($request->button_id);
+        return response()->json("Cart removed !");
+
     }
 
 
