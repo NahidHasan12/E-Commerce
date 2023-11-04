@@ -48,6 +48,9 @@ class cartController extends Controller
 
     }
 
+    public function demo_faul(){
+        return view('bal');
+    }
 
     //wishList Code
     public function wishlistAdd($product_id){
