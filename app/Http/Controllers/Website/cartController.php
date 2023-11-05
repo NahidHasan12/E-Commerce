@@ -49,7 +49,7 @@ class cartController extends Controller
     }
 
     public function demo_faul(){
-        return view('bal');
+        return view('Deme function for delete');
     }
 
     //wishList Code
