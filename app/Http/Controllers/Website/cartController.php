@@ -48,10 +48,6 @@ class cartController extends Controller
 
     }
 
-    public function demo_faul(){
-        return view('Deme function for delete');
-    }
-
     //wishList Code
     public function wishlistAdd($product_id){
         if (Auth::check()) {
