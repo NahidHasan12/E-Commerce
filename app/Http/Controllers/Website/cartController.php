@@ -89,7 +89,6 @@ class cartController extends Controller
     }
 
 
-
     //wishList Code
     public function wishlistAdd($product_id){
         if (Auth::check()) {
