@@ -36,6 +36,46 @@ class cartController extends Controller
         return view('frontend.cart.cart', compact('cart_content'));
     }
 
+    public function cartReload(Request $request) {
+        if ($request->ajax()) {
+            $cartLoad = Cart::total();
+            $cartCount = Cart::count();
+            return response()->json([
+                'cartLoad'=>$cartLoad,
+                'cartCount'=>$cartCount,
+            ]);
+        }
+    }
+
+    public function cartUpdateQty(Request $request){
+        // dd($request->all());
+        $cartId = $request->cartId;
+        $qty = $request->qty;
+        Cart::update($cartId, ['qty' => $qty ]);
+        return response()->json("Cart quantity Update");
+    }
+
+    public function cartUpdateColor(Request $request){
+        $cartId = $request->cartId;
+        $color = $request->color;
+        $cart_color = Cart::get($cartId);
+        $thumbnail = $cart_color->options->thumbnail;
+        $size = $cart_color->options->size;
+        Cart::update($cartId, ['options'=> ['color' => $color, 'thumbnail'=>$thumbnail, 'size'=>$size]]);
+        return response()->json("Cart color Update");
+    }
+
+    public function cartUpdateSize(Request $request){
+        $cartId = $request->cartId;
+        $size = $request->size;
+
+        $cart_size = Cart::get($cartId);
+        $thumbnail = $cart_size->options->thumbnail;
+        $color = $cart_size->options->color;
+        Cart::update($cartId, ['options'=> ['size'=>$size,'thumbnail'=>$thumbnail,'color' => $color]]);
+        return response()->json("Cart Size Update");
+    }
+
     public function cartDestroy(){
         Cart::destroy();
         $alert = array('message'=>'Cart item clear', 'alert-type'=>'success');
@@ -47,6 +87,7 @@ class cartController extends Controller
         return response()->json("Cart removed !");
 
     }
+
 
 
     //wishList Code

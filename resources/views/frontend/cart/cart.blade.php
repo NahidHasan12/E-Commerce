@@ -98,11 +98,9 @@
 
 @endsection
 
-@section('main_nav_js_link')
-    <script src="{{ asset('frontend') }}/js/product_custom.js"></script>
-@endsection
 
 @push('web_script')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script>
     let _token = "{{ csrf_token() }}";
     $(document).on('click',".cart_remove",function (e) {
@@ -112,14 +110,61 @@
         $.ajax({
             url: "{{ route('cart.remove') }}",
             type: "POST",
+            async:false,
             data: {_token:_token,button_id:button_id},
             success: function (response) {
                 toastr.success(response);
                 location.reload();
-
             }
         });
     });
+
+     // cart qty
+    $(document).on('blur','.qty',function() {
+        let qty = $(this).val();
+        let cartId = $(this).data('id');
+        $.ajax({
+            url: "{{ route('cart.qty.update') }}",
+            type: "POST",
+            data: {_token:_token,qty:qty,cartId:cartId},
+            success: function (response) {
+                toastr.success(response);
+                location.reload();
+            }
+        });
+    })
+    // cart color
+    $(document).on('change','.color',function() {
+        let color = $(this).val();
+        let cartId = $(this).data('id');
+         alert($cartId);
+
+        $.ajax({
+            url: "{{ route('cart.color.update') }}",
+            type: "POST",
+            data: {_token:_token,color:color,cartId:cartId},
+            success: function (response) {
+                toastr.success(response);
+                location.reload();
+            }
+        });
+    })
+
+     // cart size
+     $(document).on('change','.size',function() {
+        let size = $(this).val();
+        let cartId = $(this).data('id');
+
+        $.ajax({
+            url: "{{ route('cart.size.update') }}",
+            type: "POST",
+            data: {_token:_token,size:size,cartId:cartId},
+            success: function (response) {
+                toastr.success(response);
+                location.reload();
+            }
+        });
+    })
 
 
 </script>

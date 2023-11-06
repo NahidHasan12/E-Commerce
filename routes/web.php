@@ -75,6 +75,12 @@ Route::get('quick_view',[indexController::class, 'quickView'])->name('quick.view
 // Add to card
 Route::post('add-to-cart', [cartController::class,'addToCartQv'])->name('add.to.cart.quickview');
 Route::get('my_cart',[cartController::class,'myCart'])->name('my.cart');
+Route::post('cart-qty/update', [cartController::class,'cartUpdateQty'])->name('cart.qty.update');
+Route::post('cart-color/update', [CartController::class,'cartUpdateColor'])->name('cart.color.update');
+Route::post('cart-size/update', [CartController::class,'cartUpdateSize'])->name('cart.size.update');
+
+
+Route::post('cart/reload', [cartController::class,'cartReload'])->name('cart.reload');
 Route::get('/cart/destroy',[cartController::class,'cartDestroy'])->name('cart.destroy');
 Route::post('cart/remove', [cartController::class,'cartRemove'])->name('cart.remove');
 
