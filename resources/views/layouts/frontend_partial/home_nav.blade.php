@@ -21,17 +21,17 @@
                             @endphp
 
                             <li class="hassubs">
-                                <a href="#">{{ $cat->category_name }}<i class="fas fa-chevron-right"></i></a>
+                                <a href="{{ route('category_wise.product',$cat->id) }}">{{ $cat->category_name }}<i class="fas fa-chevron-right"></i></a>
                                 <ul>
                                     @foreach ($sub_cat as $sub_cat)
                                         @php
                                             $child_cat = DB::table('childcategories')->where('subcategory_id',$sub_cat->id)->get();
                                         @endphp
                                         <li class="hassubs">
-                                            <a href="#">{{ $sub_cat->subcategory_name }}<i class="fas fa-chevron-right"></i></a>
+                                            <a href="{{ route('subCategory_wise.product',$sub_cat->id) }}">{{ $sub_cat->subcategory_name }}<i class="fas fa-chevron-right"></i></a>
                                             <ul>
                                                 @foreach ($child_cat as $child_cat)
-                                                    <li><a href="#">{{ $child_cat->childcategory_name }}<i class="fas fa-chevron-right"></i></a></li>
+                                                    <li><a href="{{ route('childCategory_wise.product',$child_cat->id) }}">{{ $child_cat->childcategory_name }}<i class="fas fa-chevron-right"></i></a></li>
                                                 @endforeach
                                             </ul>
                                         </li>
@@ -63,7 +63,6 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>

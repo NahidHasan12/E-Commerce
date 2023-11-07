@@ -66,8 +66,6 @@ Route::prefix('product_details')->name('product.')->group(function(){
 });
 
 
-//WishList Route
-Route::get('wishlist/add/{id}',[cartController::class, 'wishlistAdd'])->name('wishlist.add');
 
 //Quick View Route
 Route::get('quick_view',[indexController::class, 'quickView'])->name('quick.view');
@@ -80,8 +78,21 @@ Route::post('cart-color/update', [CartController::class,'cartUpdateColor'])->nam
 Route::post('cart-size/update', [CartController::class,'cartUpdateSize'])->name('cart.size.update');
 
 
+//WishList Route
+Route::get('wishlist', [cartController::class,'wishlist'])->name('wishlist');
+Route::get('wishlist/add/{id}',[cartController::class, 'wishlistAdd'])->name('wishlist.add');
+Route::get('wishlist/remove/{id}',[cartController::class, 'wishlistProduct_remove'])->name('wishlist.product.remove');
+Route::get('empty/wishlist',[cartController::class, 'empty_wishlist'])->name('wishlist.empty');
+
+
 Route::post('cart/reload', [cartController::class,'cartReload'])->name('cart.reload');
 Route::get('/cart/destroy',[cartController::class,'cartDestroy'])->name('cart.destroy');
 Route::post('cart/remove', [cartController::class,'cartRemove'])->name('cart.remove');
+
+// Category Wise Product show
+Route::get('categorywise/product/{id}',[indexController::class, 'categoryWise_product'])->name('category_wise.product');
+Route::get('subcategorywise/product/{id}',[indexController::class, 'subCategoryWise_product'])->name('subCategory_wise.product');
+Route::get('childcategorywise/product/{id}',[indexController::class, 'childCategoryWise_product'])->name('childCategory_wise.product');
+Route::get('brandwise/product/{id}',[indexController::class, 'brandWise_product'])->name('brand_wise.product');
 
 

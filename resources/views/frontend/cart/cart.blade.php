@@ -4,6 +4,8 @@
 @section('main_nav_css_link')
     <link rel="stylesheet" type="text/css" href="{{ asset('frontend') }}/styles/product_styles.css">
     <link rel="stylesheet" type="text/css" href="{{ asset('frontend') }}/styles/product_responsive.css">
+    <link rel="stylesheet" type="text/css" href="{{ asset('frontend') }}/styles/cart_styles.css">
+    <link rel="stylesheet" type="text/css" href="{{ asset('frontend') }}/styles/cart_responsive.css">
 @endsection
 
 @section('content')
@@ -98,9 +100,12 @@
 
 @endsection
 
+@section('main_nav_js_link')
+    <script src="{{ asset('frontend') }}/js/cart_custom.js"></script>
+@endsection
 
 @push('web_script')
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
 <script>
     let _token = "{{ csrf_token() }}";
     $(document).on('click',".cart_remove",function (e) {
@@ -137,7 +142,7 @@
     $(document).on('change','.color',function() {
         let color = $(this).val();
         let cartId = $(this).data('id');
-         alert($cartId);
+         //alert($cartId);
 
         $.ajax({
             url: "{{ route('cart.color.update') }}",

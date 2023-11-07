@@ -470,7 +470,7 @@
 							    <div class="owl-item">
                                     <div class="trends_item is_new">
                                         <div class="trends_image d-flex flex-column align-items-center justify-content-center">
-                                            <img src="{{ asset('admin/product_img/'.$trendy_products->thumbnail) }}" alt="" height="70%" width="60%">
+                                            <img src="{{ asset('admin/product_img/'.$trendy_products->thumbnail) }}" alt="{{ $trendy_products->name }}" height="70%" width="60%">
                                         </div>
                                         <div class="trends_content">
                                             @if ($trendy_products->discount_price==null)
@@ -657,7 +657,7 @@
             });
         });
 
-      
+
 
     </script>
 @endpush

@@ -8,6 +8,7 @@ use App\Models\category;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Brand;
+use App\Models\SubCategory;
 use Illuminate\Support\Facades\Auth;
 
 class indexController extends Controller
@@ -69,5 +70,36 @@ class indexController extends Controller
             //return response()->json();
         }
         // return response()->json($view);
+    }
+
+    // Category Wise Product
+    public function categoryWise_product($id){
+        $categoryItem = category::where('id',$id)->first();
+        $subcategory = SubCategory::where('category_id',$id)->get();
+        $brand = Brand::get();
+        $products = Product::where('category_id',$id)->paginate(20);
+        $random_product = Product::where('status',1)->inRandomOrder()->limit(12)->get();
+        $category = category::get(); //for navbar
+
+        return  view('frontend.pages.category_product',compact(
+            'subcategory',
+            'products',
+            'brand',
+            'category',
+            'random_product',
+            'categoryItem'
+        ));
+    }
+
+    public function subCategoryWise_product($id){
+        return view('frontend.pages.subcategory_product');
+    }
+
+    public function childCategoryWise_product($id){
+        return view('frontend.pages.childcategory_product');
+    }
+
+    public function brandWise_product($id){
+        return view('frontend.pages.brand_product');
     }
 }

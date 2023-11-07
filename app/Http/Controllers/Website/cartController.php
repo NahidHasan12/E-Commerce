@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Website;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\category;
 use App\Models\Product;
 use App\Models\Wishlist;
 use Gloudemans\Shoppingcart\Facades\Cart;
@@ -89,7 +90,19 @@ class cartController extends Controller
     }
 
 
+
     //wishList Code
+
+    public function wishlist() {
+        if (Auth::check()) {
+            $category = category::all();
+            $products = Wishlist::where('user_id',auth::id())->get();
+            return view('frontend.pages.wishlist',compact('category','products'));
+        }
+        $alert = array('message'=>'at first login your account', 'alert-type'=>'success');
+        return redirect('/')->with($alert);
+    }
+
     public function wishlistAdd($product_id){
         if (Auth::check()) {
             $check = Wishlist::where('product_id',$product_id)->where('user_id',auth::id())->first();
@@ -101,6 +114,7 @@ class cartController extends Controller
                 $addWishlist=Wishlist::create([
                     'user_id'    => Auth::id(),
                     'product_id' => $product_id,
+                    'date' => date('d, m y'),
                 ]);
                 $message = array('message'=>'Product Added on Wishlist !','alert-type'=>'success');
                 return redirect()->back()->with($message);
@@ -109,5 +123,17 @@ class cartController extends Controller
             $message = array('message'=>'At first login to your account !','alert-type'=>'error');
             return redirect()->back()->with($message);
         }
+    }
+
+    public function wishlistProduct_remove($id){
+        Wishlist::where('id',$id)->delete();
+        $message = array('message'=>'Product remove successfully!','alert-type'=>'success');
+        return redirect()->back()->with($message);
+    }
+
+    public function empty_wishlist(){
+        Wishlist::where('user_id',Auth::id())->delete();
+        $message = array('message'=>'Wishlist clear !','alert-type'=>'success');
+        return redirect()->back()->with($message);
     }
 }
