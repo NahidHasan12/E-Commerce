@@ -19,7 +19,7 @@ Route::get('admin-login', [LoginController::class, 'adminLogin'])->name('admin.l
 
 
 
-Route::middleware(['is_admin'])->group(function () {
+Route::middleware(['is_admin','auth'])->group(function () {
     Route::get('admin/home', [adminController::class, 'admin'])->name('admin.home');
     Route::get('admin/logout', [adminController::class, 'logout'])->name('admin.logout');
     Route::get('admin/pass/change', [adminController::class, 'passwordChange'])->name('admin.password.change');

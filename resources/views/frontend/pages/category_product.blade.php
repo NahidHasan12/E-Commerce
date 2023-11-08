@@ -8,18 +8,22 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('frontend') }}/styles/shop_responsive.css">
 @endsection
 
-@section('content')
-
+@section('nav')
     {{-- main nav --}}
     @include('layouts.frontend_partial.main_nav')
     {{-- main nav --}}
+@endsection
+
+@section('content')
 
     <!-- Home -->
     <div class="home">
 		<div class="home_background parallax-window" data-parallax="scroll" data-image-src="images/shop_background.jpg"></div>
 		<div class="home_overlay"></div>
 		<div class="home_content d-flex flex-column align-items-center justify-content-center">
-			<h2 class="home_title">{{ $categoryItem->category_name }}</h2>
+            @isset($categoryItem->category_name)
+			    <h2 class="home_title">{{ $categoryItem->category_name }}</h2>
+            @endisset
 		</div>
 	</div>
 
@@ -31,10 +35,10 @@
                     <div class="brands_slider_container">
                         <!-- Brands Slider -->
                         <div class="owl-carousel owl-theme brands_slider">
-                            @foreach ($brand as $all_brands)
+                            @foreach ($brands as $all_brands)
                                 <div class="owl-item">
                                     <div class="brands_item d-flex flex-column justify-content-center">
-                                        <a href=""><img src="{{ asset('admin/brand_img/'.$all_brands->brand_logo) }}" alt="{{ $all_brands->brand_logo }}" width="60" height="50"></a>
+                                        <a href="{{ route('brand_wise.product',$all_brands->id) }}"><img src="{{ asset('admin/brand_img/'.$all_brands->brand_logo) }}" alt="{{ $all_brands->brand_name }}" width="80" height="50"></a>
                                     </div>
                                 </div>
                             @endforeach
@@ -138,7 +142,7 @@
                                     <div class="product_fav"><i class="fas fa-heart"></i></div>
                                 </a>
 								<ul class="product_marks">
-									<a data-toggle="modal" class="quick_modal" id="{{ $item->id }}" data-target=".bd-example-modal-lg">
+									<a data-toggle="modal" class="quick_modal" id="{{ $item->id }}" data-target=".qick_modal">
                                         <li class="product_mark product_discount"> <i class="fa fa-eye"></i></li>
                                     </a>
 								</ul>
@@ -205,7 +209,7 @@
                                             <div class="viewed_name"><a href="{{ route('product.details',$random_products->slug) }}">{{ Str::substr($random_products->name, 0, 30) }}</a></div>
                                         </div>
                                         <ul class="item_marks">
-                                            <a data-toggle="modal" class="quick_modal" id="{{ $random_products->id }}" data-target=".bd-example-modal-lg">
+                                            <a data-toggle="modal" class="quick_modal" id="{{ $random_products->id }}" data-target=".qick_modal">
                                                 <li class="item_mark item_discount">
                                                     <i class="fa fa-eye"></i>
                                                 </li>
@@ -227,7 +231,7 @@
 
     {{-- quick view modal  --}}
 
-    <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal fade qick_modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
 
             <div class="modal-content">

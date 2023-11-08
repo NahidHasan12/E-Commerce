@@ -22,6 +22,7 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('frontend') }}/styles/main_styles.css">
     <link rel="stylesheet" type="text/css" href="{{ asset('frontend') }}/styles/responsive.css">
 
+    @yield('web_style')
 
     @yield('main_nav_css_link')
 
@@ -75,8 +76,8 @@
                                             <li>
                                                 <a href="#">{{ Auth::user()->name }}<i class="fas fa-chevron-down"></i></a>
                                                 <ul>
-                                                    <li><a href="{{ route('home') }}">Profile</a></li>
-                                                    <li><a href="#">Setting</a></li>
+                                                    <li><a href="{{ route('customer.dashboard') }}">Profile</a></li>
+                                                    <li><a href="{{ route('profile.setting') }}">Setting</a></li>
                                                     <li><a href="#">Order List</a></li>
                                                     <li><a href="{{ route('customer.logout') }}">Log Out</a></li>
                                                 </ul>
@@ -164,7 +165,7 @@
                     </div>
                 </div>
             </div>
-
+            @yield('nav')
         </header>
         {{-- header end --}}
 

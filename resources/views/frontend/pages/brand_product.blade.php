@@ -8,11 +8,21 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('frontend') }}/styles/shop_responsive.css">
 @endsection
 
-@section('content')
-
+@section('nav')
     {{-- main nav --}}
     @include('layouts.frontend_partial.main_nav')
     {{-- main nav --}}
+@endsection
+
+@section('content')
+     <!-- Home -->
+	<div class="home mt-5">
+		<div class="home_background parallax-window" data-parallax="scroll" data-image-src="images/shop_background.jpg"></div>
+		<div class="home_overlay"></div>
+		<div class="home_content d-flex flex-column align-items-center justify-content-center">
+			<h2 class="home_title">Smartphones & Tablets</h2>
+		</div>
+	</div>
 
     <div class="brands">
 		<div class="container">

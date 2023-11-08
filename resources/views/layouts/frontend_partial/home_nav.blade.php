@@ -46,7 +46,7 @@
 
                     <div class="main_nav_menu ml-auto">
                         <ul class="standard_dropdown main_nav_dropdown">
-                            <li><a href="#">Home<i class="fas fa-chevron-down"></i></a></li>
+                            <li><a href="{{ url('/') }}">Home<i class="fas fa-chevron-down"></i></a></li>
                             <li><a href="#">Campaing<i class="fas fa-chevron-down"></i></a></li>
                             <li><a href="#">Contact<i class="fas fa-chevron-down"></i></a></li>
                             <li><a href="#">HelpLine<i class="fas fa-chevron-down"></i></a></li>

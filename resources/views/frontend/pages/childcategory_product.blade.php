@@ -8,11 +8,23 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('frontend') }}/styles/shop_responsive.css">
 @endsection
 
-@section('content')
-
+@section('nav')
     {{-- main nav --}}
     @include('layouts.frontend_partial.main_nav')
     {{-- main nav --}}
+@endsection
+
+@section('content')
+    <!-- Home -->
+    <div class="home">
+        <div class="home_background parallax-window" data-parallax="scroll" data-image-src="images/shop_background.jpg"></div>
+        <div class="home_overlay"></div>
+        <div class="home_content d-flex flex-column align-items-center justify-content-center">
+            @isset($child_category->childcategory_name)
+                <h2 class="home_title">{{ $child_category->childcategory_name }}</h2>
+            @endisset
+        </div>
+    </div>
 
     <div class="brands">
 		<div class="container">
@@ -23,15 +35,13 @@
 						<!-- Brands Slider -->
 
 						<div class="owl-carousel owl-theme brands_slider">
-
-							<div class="owl-item"><div class="brands_item d-flex flex-column justify-content-center"><img src="images/brands_1.jpg" alt=""></div></div>
-							<div class="owl-item"><div class="brands_item d-flex flex-column justify-content-center"><img src="images/brands_2.jpg" alt=""></div></div>
-							<div class="owl-item"><div class="brands_item d-flex flex-column justify-content-center"><img src="images/brands_3.jpg" alt=""></div></div>
-							<div class="owl-item"><div class="brands_item d-flex flex-column justify-content-center"><img src="images/brands_4.jpg" alt=""></div></div>
-							<div class="owl-item"><div class="brands_item d-flex flex-column justify-content-center"><img src="images/brands_5.jpg" alt=""></div></div>
-							<div class="owl-item"><div class="brands_item d-flex flex-column justify-content-center"><img src="images/brands_6.jpg" alt=""></div></div>
-							<div class="owl-item"><div class="brands_item d-flex flex-column justify-content-center"><img src="images/brands_7.jpg" alt=""></div></div>
-							<div class="owl-item"><div class="brands_item d-flex flex-column justify-content-center"><img src="images/brands_8.jpg" alt=""></div></div>
+                            @foreach ($brands as $item)
+                                <div class="owl-item">
+                                    <div class="brands_item d-flex flex-column justify-content-center">
+                                        <img src="{{ asset('admin/brand_img/'.$item->brand_logo) }}" alt="{{ $item->brand_name }}" width="80" height="50">
+                                    </div>
+                                </div>
+                            @endforeach
 
 						</div>
 
@@ -55,7 +65,11 @@
 						<div class="sidebar_section">
 							<div class="sidebar_title">Categories</div>
 							<ul class="sidebar_categories">
-								<li><a href="#">Computers & Laptops</a></li>
+                                @foreach ($category as $item)
+                                    <li>
+                                        <a href="{{ route('category_wise.product',$item->id) }}">{{ $item->category_name }}</a>
+                                    </li>
+                                @endforeach
 							</ul>
 						</div>
 						<div class="sidebar_section filter_by_section">
@@ -81,7 +95,11 @@
 						<div class="sidebar_section">
 							<div class="sidebar_subtitle brands_subtitle">Brands</div>
 							<ul class="brands_list">
-								<li class="brand"><a href="#">Apple</a></li>
+                                @foreach ($brands as $item)
+                                    <li class="brand">
+                                        <a href="{{ route('brand_wise.product',$item->id) }}">{{ $item->brand_name }}</a>
+                                    </li>
+                                @endforeach
 							</ul>
 						</div>
 					</div>
@@ -94,7 +112,7 @@
 
 					<div class="shop_content">
 						<div class="shop_bar clearfix">
-							<div class="shop_product_count"><span>186</span> products found</div>
+							<div class="shop_product_count"><span>{{ count($products) }}</span> products found</div>
 							<div class="shop_sorting">
 								<span>Sort by:</span>
 								<ul>
@@ -114,35 +132,52 @@
 							<div class="product_grid_border"></div>
 
 							<!-- Product Item -->
-							<div class="product_item is_new">
-								<div class="product_border"></div>
-								<div class="product_image d-flex flex-column align-items-center justify-content-center"><img src="images/new_5.jpg" alt=""></div>
-								<div class="product_content">
-									<div class="product_price">$225</div>
-									<div class="product_name"><div><a href="#" tabindex="0">Philips BT6900A</a></div></div>
-								</div>
-								<div class="product_fav"><i class="fas fa-heart"></i></div>
-								<ul class="product_marks">
-									<li class="product_mark product_discount">-25%</li>
-									<li class="product_mark product_new">new</li>
-								</ul>
-							</div>
+                            @foreach ($products as $item)
+                                <div class="product_item is_new">
+                                    <div class="product_border"></div>
+                                    <div class="product_image d-flex flex-column align-items-center justify-content-center">
+                                        <img src="{{ asset('admin/product-img/'.$item->thumbnail) }}" alt="{{ $item->name }}" height="120px">
+                                    </div>
+                                    <div class="product_content">
+                                        <div class="product_price">
+                                            @if ($item->discount_price == null)
+                                                {{ $web_settings->currency }} {{ $item->selling_price }}
+                                            @else
+                                                {{ $web_settings->currency }} {{ $item->discount_price }}
+                                                <span>
+                                                    {{ $web_settings->currency }} {{ $item->selling_price }}
+                                                </span>
+                                            @endif
+                                        </div>
+                                        <div class="product_name">
+                                            <div>
+                                                <a href="{{ route('product.details',$item->slug) }}" tabindex="0">{{ $item->name }}</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <a href="{{ route('wishlist.add',$item->id) }}">
+                                        <div class="product_fav"><i class="fas fa-heart"></i></div>
+                                    </a>
+                                    <ul class="product_marks">
+                                        <a data-toggle="modal" class="quick_modal" id="{{ $item->id }}" data-target=".qick_modal">
+                                            <li class="product_mark product_discount"> <i class="fa fa-eye"></i></li>
+                                        </a>
+                                        
+                                    </ul>
+                                </div>
+                            @endforeach
 
 						</div>
 
 						<!-- Shop Page Navigation -->
 
 						<div class="shop_page_nav d-flex flex-row">
-							<div class="page_prev d-flex flex-column align-items-center justify-content-center"><i class="fas fa-chevron-left"></i></div>
-							<ul class="page_nav d-flex flex-row">
-								<li><a href="#">1</a></li>
-								<li><a href="#">2</a></li>
-								<li><a href="#">3</a></li>
-								<li><a href="#">...</a></li>
-								<li><a href="#">21</a></li>
-							</ul>
-							<div class="page_next d-flex flex-column align-items-center justify-content-center"><i class="fas fa-chevron-right"></i></div>
-						</div>
+                            <div class="page_prev d-flex flex-column align-items-center justify-content-center"><i class="fas fa-chevron-left"></i></div>
+                            <ul class="page_nav d-flex flex-row">
+                                {{ $products->links() }}
+                            </ul>
+                            <div class="page_next d-flex flex-column align-items-center justify-content-center"><i class="fas fa-chevron-right"></i></div>
+                        </div>
 
 					</div>
 
@@ -172,94 +207,33 @@
 						<div class="owl-carousel owl-theme viewed_slider">
 
 							<!-- Recently Viewed Item -->
-							<div class="owl-item">
-								<div class="viewed_item discount d-flex flex-column align-items-center justify-content-center text-center">
-									<div class="viewed_image"><img src="images/view_1.jpg" alt=""></div>
-									<div class="viewed_content text-center">
-										<div class="viewed_price">$225<span>$300</span></div>
-										<div class="viewed_name"><a href="#">Beoplay H7</a></div>
-									</div>
-									<ul class="item_marks">
-										<li class="item_mark item_discount">-25%</li>
-										<li class="item_mark item_new">new</li>
-									</ul>
-								</div>
-							</div>
+                            @foreach ($random_product as $random_products)
+                            <!-- Recently Viewed Item -->
+                            <div class="owl-item">
+                                <div class="viewed_item discount d-flex flex-column align-items-center justify-content-center text-center">
+                                    <div class="viewed_image"><img src="{{ asset('admin/product_img/'.$random_products->thumbnail) }}" alt="{{ $random_products->name }}" height="80%"></div>
+                                    <div class="viewed_content text-center">
+                                        @if ($random_products->discount_price==null)
+                                            <div class="product_price" style="margin-top: 20px">{{ $web_settings->currency }} {{ $random_products->selling_price }}</div>
+                                        @else
+                                            <div class="product_price" style="margin-top: 20px">
+                                                <del class="text-danger">{{ $web_settings->currency }}{{ $random_products->selling_price }}</del>
+                                                {{ $web_settings->currency }}{{ $random_products->discount_price }}
+                                            </div>
+                                        @endif
+                                        <div class="viewed_name"><a href="{{ route('product.details',$random_products->slug) }}">{{ Str::substr($random_products->name, 0, 30) }}</a></div>
+                                    </div>
+                                    <ul class="item_marks">
+                                        <a data-toggle="modal" class="quick_modal" id="{{ $random_products->id }}" data-target=".qick_modal">
+                                            <li class="item_mark item_discount">
+                                                <i class="fa fa-eye"></i>
+                                            </li>
+                                        </a>
+                                    </ul>
+                                </div>
+                            </div>
+                        @endforeach
 
-							<!-- Recently Viewed Item -->
-							<div class="owl-item">
-								<div class="viewed_item d-flex flex-column align-items-center justify-content-center text-center">
-									<div class="viewed_image"><img src="images/view_2.jpg" alt=""></div>
-									<div class="viewed_content text-center">
-										<div class="viewed_price">$379</div>
-										<div class="viewed_name"><a href="#">LUNA Smartphone</a></div>
-									</div>
-									<ul class="item_marks">
-										<li class="item_mark item_discount">-25%</li>
-										<li class="item_mark item_new">new</li>
-									</ul>
-								</div>
-							</div>
-
-							<!-- Recently Viewed Item -->
-							<div class="owl-item">
-								<div class="viewed_item d-flex flex-column align-items-center justify-content-center text-center">
-									<div class="viewed_image"><img src="images/view_3.jpg" alt=""></div>
-									<div class="viewed_content text-center">
-										<div class="viewed_price">$225</div>
-										<div class="viewed_name"><a href="#">Samsung J730F...</a></div>
-									</div>
-									<ul class="item_marks">
-										<li class="item_mark item_discount">-25%</li>
-										<li class="item_mark item_new">new</li>
-									</ul>
-								</div>
-							</div>
-
-							<!-- Recently Viewed Item -->
-							<div class="owl-item">
-								<div class="viewed_item is_new d-flex flex-column align-items-center justify-content-center text-center">
-									<div class="viewed_image"><img src="images/view_4.jpg" alt=""></div>
-									<div class="viewed_content text-center">
-										<div class="viewed_price">$379</div>
-										<div class="viewed_name"><a href="#">Huawei MediaPad...</a></div>
-									</div>
-									<ul class="item_marks">
-										<li class="item_mark item_discount">-25%</li>
-										<li class="item_mark item_new">new</li>
-									</ul>
-								</div>
-							</div>
-
-							<!-- Recently Viewed Item -->
-							<div class="owl-item">
-								<div class="viewed_item discount d-flex flex-column align-items-center justify-content-center text-center">
-									<div class="viewed_image"><img src="images/view_5.jpg" alt=""></div>
-									<div class="viewed_content text-center">
-										<div class="viewed_price">$225<span>$300</span></div>
-										<div class="viewed_name"><a href="#">Sony PS4 Slim</a></div>
-									</div>
-									<ul class="item_marks">
-										<li class="item_mark item_discount">-25%</li>
-										<li class="item_mark item_new">new</li>
-									</ul>
-								</div>
-							</div>
-
-							<!-- Recently Viewed Item -->
-							<div class="owl-item">
-								<div class="viewed_item d-flex flex-column align-items-center justify-content-center text-center">
-									<div class="viewed_image"><img src="images/view_6.jpg" alt=""></div>
-									<div class="viewed_content text-center">
-										<div class="viewed_price">$375</div>
-										<div class="viewed_name"><a href="#">Speedlink...</a></div>
-									</div>
-									<ul class="item_marks">
-										<li class="item_mark item_discount">-25%</li>
-										<li class="item_mark item_new">new</li>
-									</ul>
-								</div>
-							</div>
 						</div>
 
 					</div>
@@ -269,7 +243,25 @@
 	</div>
 
 
+   {{-- quick view modal  --}}
 
+   <div class="modal fade qick_modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Product Quick view</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="quick_view_body">
+
+            </div>
+
+        </div>
+    </div>
+</div>
 
 @endsection
 
@@ -277,3 +269,62 @@
     <script src="{{ asset('frontend') }}/js/product_custom.js"></script>
     <script src="{{ asset('frontend') }}/js/shop_custom.js"></script>
 @endsection
+
+@push('web_script')
+    <script>
+
+        let _token = "{{ csrf_token() }}";
+        $(document).on('click',".quick_modal",function (e) {
+            e.preventDefault();
+             let button_id = $(this).attr("id");
+            //alert(button_id);
+            $.ajax({
+                url: "{{ route('quick.view') }}",
+                type: "GET",
+                data: {_token:_token,button_id:button_id},
+                success: function (response) {
+                    //alert('ok');
+                    $("#quick_view_body").html(response);
+
+                }
+            });
+
+        });
+
+
+        $(document).on("submit",'form#cartForm',function(e) {
+            e.preventDefault();
+            $.ajax({
+                type: "post",
+                url: "{{ route('add.to.cart.quickview') }}",
+                data: new FormData(this),
+                contentType:false,
+                processData:false,
+                success: function(response) {
+                    toastr.success(response);
+                    $('form#cartForm')[0].reset();
+                    cardCount();
+
+                },
+                error: function (response) {
+                    toastr.error('Opps! cart not add');
+                }
+            });
+        });
+
+        function cardCount(){
+			$.ajax({
+				type: "post",
+				url: "{{ route('cart.reload') }}",
+                data: {_token:_token},
+				success: function (response) {
+                    $('#cartLoad').html(response.cartLoad);
+                    $('#cartCount').html(response.cartCount);
+
+				}
+			});
+		}
+
+
+    </script>
+@endpush

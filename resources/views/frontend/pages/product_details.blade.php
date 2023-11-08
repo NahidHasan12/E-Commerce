@@ -6,11 +6,13 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('frontend') }}/styles/product_responsive.css">
 @endsection
 
-@section('content')
-
+@section('nav')
     {{-- main nav --}}
     @include('layouts.frontend_partial.main_nav')
     {{-- main nav --}}
+@endsection
+
+@section('content')
 
     <div class="single_product">
 		<div class="container">

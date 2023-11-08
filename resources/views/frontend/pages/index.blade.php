@@ -31,22 +31,33 @@
         </div>
     </div>
 
-    <!-- Characteristics -->
+    <!-- Brands -->
 
-    <div class="characteristics">
+    <div class="brands">
         <div class="container">
             <div class="row">
-                <!-- Char. Item -->
-                @foreach ($brand as $item)
-                    <div style="border: 1px solid" class="col-lg-1 col-md-1 char_col">
-                        <div class="char_icon">
-                            <a href="#">
-                                <img width="70" height="60" src="{{ asset('admin/brand_img/'.$item->brand_logo) }}" alt="{{ $item->brand_name }}">
-                            </a>
-                        </div>
-                    </div>
-                @endforeach
+                <div class="col">
+                    <div class="brands_slider_container">
 
+                        <!-- Brands Slider -->
+
+                        <div class="owl-carousel owl-theme brands_slider">
+                            @foreach ($brand as $brand)
+                            <div class="owl-item">
+                                <div class="brands_item d-flex flex-column justify-content-center">
+                                    <img width="70" height="50" src="{{ asset('admin/brand_img/'.$brand->brand_logo) }}" alt="{{ $brand->brand_name }}">
+                                </div>
+                            </div>
+                            @endforeach
+
+                        </div>
+
+                        <!-- Brands Slider Navigation -->
+                        <div class="brands_nav brands_prev"><i class="fas fa-chevron-left"></i></div>
+                        <div class="brands_nav brands_next"><i class="fas fa-chevron-right"></i></div>
+
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -558,36 +569,83 @@
         </div>
     </div>
 
-    <!-- Brands -->
 
-    <div class="brands">
-        <div class="container">
-            <div class="row">
-                <div class="col">
-                    <div class="brands_slider_container">
 
-                        <!-- Brands Slider -->
 
-                        <div class="owl-carousel owl-theme brands_slider">
-                            @foreach ($brand as $brand)
-                            <div class="owl-item">
-                                <div class="brands_item d-flex flex-column justify-content-center">
-                                    <img width="70" height="50" src="{{ asset('admin/brand_img/'.$brand->brand_logo) }}" alt="{{ $brand->brand_name }}">
+
+	<!-- Reviews -->
+
+	<div class="reviews">
+		<div class="container">
+			<div class="row">
+				<div class="col">
+
+					<div class="reviews_title_container">
+						<h3 class="reviews_title">Latest Reviews</h3>
+						<div class="reviews_all ml-auto"><a href="#">view all <span>reviews</span></a></div>
+					</div>
+
+					<div class="reviews_slider_container">
+
+						<!-- Reviews Slider -->
+						<div class="owl-carousel owl-theme reviews_slider">
+
+							<!-- Reviews Slider Item -->
+                            @foreach ($website_review as $item)
+                                <div class="owl-item">
+                                    <div class="review d-flex flex-row align-items-start justify-content-start">
+                                        <div><div class="review_image"><img src="{{ asset('frontend/customer_profile_img/user.png') }}" alt="{{ $item->name }}-Profile img"></div></div>
+                                        <div class="review_content">
+                                            <div class="review_name">{{ $item->name }}</div>
+                                            <div class="review_rating_container">
+                                                <div class="rating_r rating_r_4 review_rating">
+                                                    @if ($item->rating == 1)
+                                                       <span class="fa fa-star text-warning"></span>
+                                                       <span class="fa fa-star "></span>
+                                                       <span class="fa fa-star "></span>
+                                                       <span class="fa fa-star "></span>
+                                                       <span class="fa fa-star "></span>
+                                                    @elseif ($item->rating == 2)
+                                                        <span class="fa fa-star text-warning"></span>
+                                                        <span class="fa fa-star text-warning"></span>
+                                                        <span class="fa fa-star "></span>
+                                                        <span class="fa fa-star "></span>
+                                                        <span class="fa fa-star "></span>
+                                                    @elseif ($item->rating == 3)
+                                                        <span class="fa fa-star text-warning"></span>
+                                                        <span class="fa fa-star text-warning"></span>
+                                                        <span class="fa fa-star text-warning"></span>
+                                                        <span class="fa fa-star "></span>
+                                                        <span class="fa fa-star "></span>
+                                                    @elseif ($item->rating == 4)
+                                                        <span class="fa fa-star text-warning"></span>
+                                                        <span class="fa fa-star text-warning"></span>
+                                                        <span class="fa fa-star text-warning"></span>
+                                                        <span class="fa fa-star text-warning"></span>
+                                                        <span class="fa fa-star "></span>
+                                                    @elseif ($item->rating == 5)
+                                                        <span class="fa fa-star text-warning"></span>
+                                                        <span class="fa fa-star text-warning"></span>
+                                                        <span class="fa fa-star text-warning"></span>
+                                                        <span class="fa fa-star text-warning"></span>
+                                                        <span class="fa fa-star text-warning"></span>
+                                                    @endif
+                                                </div>
+                                                <div class="review_time">2 days ago</div>
+                                            </div>
+                                            <div class="review_text"><p>{{ Str::limit($item->review, 100, '...') }}</p></div>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
                             @endforeach
+						</div>
+						<div class="reviews_dots"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
-                        </div>
-
-                        <!-- Brands Slider Navigation -->
-                        <div class="brands_nav brands_prev"><i class="fas fa-chevron-left"></i></div>
-                        <div class="brands_nav brands_next"><i class="fas fa-chevron-right"></i></div>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <!-- Newsletter -->
 
@@ -613,6 +671,8 @@
             </div>
         </div>
     </div>
+
+
 
 @endsection
 

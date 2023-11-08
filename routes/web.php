@@ -5,7 +5,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ajaxController;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use App\Http\Controllers\Website\cartController;
+use App\Http\Controllers\Website\customer_reviewController;
 use App\Http\Controllers\Website\indexController;
+use App\Http\Controllers\Website\profileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -61,7 +63,7 @@ Route::post('ajax/delete_data',[ajaxController::class, 'deleteData'])->name('aja
 Route::get('/', [indexController::class, 'index'])->name('website.index');
 Route::prefix('product_details')->name('product.')->group(function(){
     Route::get('/{slug}', [indexController::class, 'product_details'])->name('details');
-    // this route for product details page review
+    // this route for product review
     Route::post('/product/review', [indexController::class,'review'])->name('review.store');
 });
 
@@ -96,3 +98,10 @@ Route::get('childcategorywise/product/{id}',[indexController::class, 'childCateg
 Route::get('brandwise/product/{id}',[indexController::class, 'brandWise_product'])->name('brand_wise.product');
 
 
+// Customer
+Route::get('customer/dashboard',[customer_reviewController::class, 'customer'])->name('customer.dashboard');
+Route::get('profile/setting', [customer_reviewController::class,'profile_setting'])->name('profile.setting');
+
+// Review for website
+Route::get('write/review',[customer_reviewController::class,'write_review'])->name('write.review');
+Route::post('website/review/store',[customer_reviewController::class,'website_review_store'])->name('website.review.sotre');

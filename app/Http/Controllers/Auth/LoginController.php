@@ -46,10 +46,12 @@ class LoginController extends Controller
         ]);
 
         if(auth()->attempt(array('email'=>$request->email, 'password'=>$request->password))){
-           if(auth()->user()->is_admin == 1){
-              return redirect()->route('admin.home');
-           }else{
-            return redirect()->route('home');
+            if(auth()->user()->is_admin == 1){
+                return redirect()->route('admin.home');
+            }elseif(auth()->user()->is_admin == 2){
+                return redirect()->route('customer.dashboard');
+            }else{
+                return redirect()->route('admin.login');
            }
         }else{
             return redirect()->back()->with('error','Invalid email os password');

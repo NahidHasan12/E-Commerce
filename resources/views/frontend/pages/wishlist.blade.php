@@ -1,12 +1,20 @@
 @extends('layouts.app')
 @section('title', 'Product Details')
 
+@section('main_nav_css_link')
+    <link rel="stylesheet" type="text/css" href="{{ asset('frontend') }}/styles/product_styles.css">
+    <link rel="stylesheet" type="text/css" href="{{ asset('frontend') }}/styles/product_responsive.css">
+    <link rel="stylesheet" type="text/css" href="{{ asset('frontend') }}/styles/cart_styles.css">
+    <link rel="stylesheet" type="text/css" href="{{ asset('frontend') }}/styles/cart_responsive.css">
+@endsection
 
-@section('content')
-
+@section('nav')
     {{-- main nav --}}
     @include('layouts.frontend_partial.main_nav')
     {{-- main nav --}}
+@endsection
+
+@section('content')
 
     <div class="cart_section">
         <div class="container">
@@ -75,6 +83,11 @@
     </div>
 
 
+@endsection
+
+@section('main_nav_js_link')
+    <script src="{{ asset('frontend') }}/js/product_custom.js">
+    </script><script src="{{ asset('frontend') }}/js/cart_custom.js"></script>
 @endsection
 
 @push('web_script')
