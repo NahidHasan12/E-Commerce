@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title','SuperAdmin- Category')
+@section('title','SuperAdmin- Page Management')
 @section('admin_content')
  <!-- BREADCRUMB-->
  <section class="au-breadcrumb m-t-75">
@@ -12,7 +12,7 @@
                             <span class="au-breadcrumb-span">You are here:</span>
                             <ul class="list-unstyled list-inline au-breadcrumb__list">
                                 <li class="list-inline-item active">
-                                    <a href="#">Category</a>
+                                    <a href="#">Page Management</a>
                                 </li>
                                 <li class="list-inline-item seprate">
                                     <span>/</span>

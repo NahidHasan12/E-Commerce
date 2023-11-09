@@ -14,14 +14,7 @@ class customer_reviewController extends Controller
         $this->middleware('auth');
     }
 
-    public function customer(){
-        return view('frontend.user.dashboard');
-    }
-
-    public function profile_setting(){
-        return view('frontend.user.setting');
-
-    }
+   
 
     // review for website
     public function write_review(){

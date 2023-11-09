@@ -2,23 +2,22 @@
 
 namespace App\Http\Controllers\Website;
 
+use App\Models\Page;
+use App\Models\Brand;
 use App\Models\Review;
 use App\Models\Product;
 use App\Models\category;
+use App\Models\SubCategory;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Models\Brand;
 use App\Models\Childcategory;
 use App\Models\Customer_review;
-use App\Models\SubCategory;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
 class indexController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
+
 
     public function index(){
         $category = category::get();
@@ -149,5 +148,26 @@ class indexController extends Controller
             'random_product',
             'category'
         ));
+    }
+
+    // Dynamic page show on website
+    public function viwe_pages($page_slug){
+        $page = Page::where('page_slug',$page_slug)->first();
+        return view('frontend.pages.page', compact('page'));
+    }
+
+    // store Newsletter
+    public function store_newsletter(Request $request){
+        $email = DB::table('newsletters')->where('email',$request->email)->first();
+        if ($email) {
+            $message = array('message'=>'Email already exist','alert-type'=>'error');
+            return redirect()->back()->with($message);
+        }else {
+            DB::table('newsletters')->insert([
+                'email' => $request->email
+            ]);
+            $message = array('message'=>'Thanks For Subscription','alert-type'=>'success');
+            return redirect()->back()->with($message);
+        }
     }
 }

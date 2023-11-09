@@ -26,6 +26,7 @@ Route::get('frontend/product', function () {
 });
 
 Auth::routes();
+
 Route::get('/', function(){
     return redirect()->to('/');
 })->name('login');
@@ -97,11 +98,20 @@ Route::get('subcategorywise/product/{id}',[indexController::class, 'subCategoryW
 Route::get('childcategorywise/product/{id}',[indexController::class, 'childCategoryWise_product'])->name('childCategory_wise.product');
 Route::get('brandwise/product/{id}',[indexController::class, 'brandWise_product'])->name('brand_wise.product');
 
+//======= Page Manageent from admin===========//
+//-------pages show on website---------//
+Route::get('pages/{page_slug}',[indexController::class,'viwe_pages'])->name('view.pages');
 
 // Customer
-Route::get('customer/dashboard',[customer_reviewController::class, 'customer'])->name('customer.dashboard');
-Route::get('profile/setting', [customer_reviewController::class,'profile_setting'])->name('profile.setting');
+Route::get('customer/dashboard',[profileController::class, 'customer'])->name('customer.dashboard');
+Route::get('profile/setting', [profileController::class,'profile_setting'])->name('profile.setting');
+Route::post('profile/shipping/store/{shipping_id}', [profileController::class,'profile_shipping_store'])->name('shipping.store');
+Route::post('customer/password/update', [profileController::class,'customer_pass_change'])->name('customer.password.change');
 
 // Review for website
 Route::get('write/review',[customer_reviewController::class,'write_review'])->name('write.review');
 Route::post('website/review/store',[customer_reviewController::class,'website_review_store'])->name('website.review.sotre');
+
+// Newsletters
+Route::post('store/newsletter',[indexController::class,'store_newsletter'])->name('store.newsletter');
+

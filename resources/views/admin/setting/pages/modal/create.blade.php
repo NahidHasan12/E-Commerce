@@ -27,8 +27,8 @@
                 <input type="text" name="page_title" id="page_title" class="form-control">
             </div>
             <div class="mb-3">
-                <label for="page_description" class="form-label">Page Description</label>
-                <textarea name="page_description" class="form-control" id="page_description" cols="5" rows="5"></textarea>
+                <label for="summernote" class="form-label">Page Description</label>
+                <textarea name="page_description" class="form-control" id="summernote" cols="5" rows="5"></textarea>
             </div>
             </div>
             <div class="modal-footer">

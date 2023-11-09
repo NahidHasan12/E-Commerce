@@ -69,64 +69,43 @@
           <div class="card-body">
             <h4>Write your valiable review based on our product quantity and service.</h4>
 
-            <form action="" method="post">
+            <form id="shipping" action="{{ route('shipping.store',$shipping->id) }}" method="post">
                 @csrf
                 <div class="form-group">
                     <label for="name">Shipping Name:</label>
-                    <input type="text" class="form-control" name="name">
-                    @error('name')
-                        <div class="text-danger">{{ $message }}</div>
-                    @enderror
+                    <input type="text" class="form-control" value="{{ $shipping->shipping_name }}" name="shipping_name">
                 </div>
                 <div class="row">
                     <div class="form-group col-lg-6">
-                        <label for="phone">Phone:</label>
-                        <input type="text" class="form-control" name="phone" required>
-                        @error('phone')
-                            <div class="text-danger">{{ $message }}</div>
-                        @enderror
+                        <label for="shipping_phone">Phone:</label>
+                        <input type="text" class="form-control" value="{{ $shipping->shipping_phone }}" name="shipping_phone" required>
                     </div>
                     <div class="form-group col-lg-6">
-                        <label for="email">Email:</label>
-                        <input type="email" class="form-control" name="email">
-                        @error('email')
-                            <div class="text-danger">{{ $message }}</div>
-                        @enderror
+                        <label for="shipping_email">Email:</label>
+                        <input type="email" class="form-control" value="{{ $shipping->shipping_email }}" name="shipping_email">
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="address">Shipping Address</label>
-                    <input type="text" class="form-control" name="address">
-                    @error('address')
-                        <div class="text-danger">{{ $message }}</div>
-                    @enderror
+                    <label for="shipping_address">Shipping Address</label>
+                    <input type="text" class="form-control" value="{{ $shipping->shipping_address }}" name="shipping_address">
                 </div>
                 <div class="row">
                     <div class="form-group col-lg-4">
-                        <label for="country">Country:</label>
-                        <input type="text" class="form-control" name="country">
-                        @error('country')
-                            <div class="text-danger">{{ $message }}</div>
-                        @enderror
+                        <label for="shipping_country">Country:</label>
+                        <input type="text" class="form-control" value="{{ $shipping->shipping_country }}" name="shipping_country">
                     </div>
                     <div class="form-group col-lg-4">
-                        <label for="city">City:</label>
-                        <input type="text" class="form-control" name="city">
-                        @error('city')
-                            <div class="text-danger">{{ $message }}</div>
-                        @enderror
+                        <label for="shipping_city">City:</label>
+                        <input type="text" class="form-control" value="{{ $shipping->shipping_city }}" name="shipping_city">
                     </div>
                     <div class="form-group col-lg-4">
-                        <label for="zipcode">Zipcode</label>
-                        <input type="text" class="form-control" name="zipcode">
-                        @error('zipcode')
-                            <div class="text-danger">{{ $message }}</div>
-                        @enderror
+                        <label for="shipping_zipcode">Zipcode</label>
+                        <input type="text" class="form-control" value="{{ $shipping->shipping_zipcode }}" name="shipping_zipcode">
                     </div>
                 </div>
 
-              <button type="submit" class="btn btn-primary">Save</button>
+              <button type="submit" class="btn btn-primary">Save & Change</button>
             </form>
 
           </div>
@@ -138,18 +117,18 @@
           <div class="card-body">
             <h4>Change Your Password</h4>
 
-            <form action="" method="post">
+            <form action="{{ route('customer.password.change') }}" method="post">
                 @csrf
                 <div class="form-group">
                     <label for="oldpassword">Old Password:</label>
-                    <input type="password" name="old_password" class="form-control" name="oldpassword" placeholder="old password">
+                    <input type="password" name="old_password" class="form-control" name="oldpassword" required placeholder="old password">
                     @error('oldpassword')
                         <div class="text-danger">{{ $message }}</div>
                     @enderror
                 </div>
                 <div class="form-group">
                     <label for="password">New Password:</label>
-                    <input type="password" class="form-control @error('password') is-invalid @enderror" name="password" placeholder="mew password">
+                    <input type="password" class="form-control @error('password') is-invalid @enderror" name="password" required placeholder="mew password">
                     @error('password')
                         <div class="text-danger">{{ $message }}</div>
                     @enderror
@@ -162,9 +141,7 @@
                     @enderror
                 </div>
 
-
-
-              <button type="submit" class="btn btn-primary">Save</button>
+              <button type="submit" class="btn btn-primary">Update Password</button>
             </form>
 
           </div>
