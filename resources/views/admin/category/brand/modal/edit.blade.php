@@ -30,7 +30,7 @@
             </div>
             <div class="mb-3">
                 <label for="brand_logo" class="form-label">Brand Logo</label>
-                <input type="file" name="brand_logo" id="brand_logo" class="form-control">
+                <input type="file" name="brand_logo" id="brand_logo" class="form-control dropyfy">
             </div>
             <div id="brand_logo"></div>
             </div>

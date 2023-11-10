@@ -28,7 +28,7 @@ Route::get('frontend/product', function () {
 Auth::routes();
 
 Route::get('/', function(){
-    return redirect()->to('/');
+    return redirect()->route('admin.login');
 })->name('login');
 
 // Route::get('/register', function(){

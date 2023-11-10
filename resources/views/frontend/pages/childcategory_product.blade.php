@@ -136,7 +136,7 @@
                                 <div class="product_item is_new">
                                     <div class="product_border"></div>
                                     <div class="product_image d-flex flex-column align-items-center justify-content-center">
-                                        <img src="{{ asset('admin/product-img/'.$item->thumbnail) }}" alt="{{ $item->name }}" height="120px">
+                                        <img src="{{ asset('admin/product_img/'.$item->thumbnail) }}" alt="{{ $item->name }}" height="120px">
                                     </div>
                                     <div class="product_content">
                                         <div class="product_price">
@@ -162,7 +162,7 @@
                                         <a data-toggle="modal" class="quick_modal" id="{{ $item->id }}" data-target=".qick_modal">
                                             <li class="product_mark product_discount"> <i class="fa fa-eye"></i></li>
                                         </a>
-                                        
+
                                     </ul>
                                 </div>
                             @endforeach

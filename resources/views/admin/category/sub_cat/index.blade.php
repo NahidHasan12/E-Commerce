@@ -185,7 +185,7 @@
                     if(response.status == 'success'){
                         $("form")[0].reset();
                         $(".alert-message").append('<span class="alert alert-success d-block">'+response.message+'</span>');
-
+                        table.draw();
                     }else{
                         $(".alert-message").append('<span class="alert alert-danger d-block">'+response.message+'</span>');
                     }
@@ -248,7 +248,7 @@
                     if(response.status == 'success'){
                         $("form")[0].reset();
                         $(".edit_alert_sms").append('<span class="alert alert-success d-block">'+response.message+'</span>');
-                        fatchData();
+                        table.draw();
                     }else{
                         $(".edit_alert_sms").append('<span class="alert alert-danger d-block">'+response.message+'</span>');
                     }
@@ -267,6 +267,7 @@
             dataType:"json",
             data:{_token:_token,data_id:data_id},
             success:function(response){
+                table.draw();
                 $(".subcat_alert").append('<span class="alert alert-success d-block">'+response.message+'</span>');
 
             }

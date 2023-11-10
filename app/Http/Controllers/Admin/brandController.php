@@ -29,7 +29,7 @@ class brandController extends Controller
             ->addIndexColumn()
             ->addColumn('brand_logo', function($data){
                 $brand_logo='
-                 <img src="admin/brand_img/'.$data->brand_logo.'" width="50" height="45">
+                 <img src="admin/brand_img/'.$data->brand_logo.'" width="100px" height="70px">
                 ';
                 return $brand_logo;
             })

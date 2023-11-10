@@ -31,7 +31,7 @@
     <div class="card">
         <div class="childcat_alert"> </div>
         <div class="card-header d-flex justify-content-between">
-            <h3 class="card-title">Sub Category Data</h3>
+            <h3 class="card-title">Child Category Data</h3>
             <button class="btn btn-sm btn-primary" onclick="addBtn()" data-toggle="modal" data-target="#childCategoryStore">Add New</button>
         </div>
         <div class="card-body">

@@ -223,7 +223,7 @@
                     let img_src = "{{ asset('admin/brand_img/') }}/"+response.brand_logo;
                     $('form.edit_brand_form input[name="brand_name"]').val(response.brand_name);
                     $('form.edit_brand_form input[name="brand_slug"]').val(response.brand_slug);
-                    $('form.edit_brand_form #brand_logo').html('<img src="'+img_src+'" alt="'+response.brand_name+'" width="60px">');
+                    $('form.edit_brand_form #brand_logo').html('<img src="'+img_src+'" alt="'+response.brand_name+'" width="100px" height="70px">');
                     select_homePage_status(response.id);
                 }
             });
