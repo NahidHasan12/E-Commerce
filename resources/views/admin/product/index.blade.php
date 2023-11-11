@@ -3,11 +3,37 @@
 @section('title','SuperAdmin- SubCategory')
 @section('admin_content')
 
+ <!-- BREADCRUMB-->
+ <section class="au-breadcrumb m-t-75">
+    <div class="section__content section__content--p30">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="au-breadcrumb-content">
+                        <div class="au-breadcrumb-left">
+                            <span class="au-breadcrumb-span">You are here:</span>
+                            <ul class="list-unstyled list-inline au-breadcrumb__list">
+                                <li class="list-inline-item active">
+                                    <a href="{{ route('admin.home') }}">Home</a>
+                                </li>
+                                <li class="list-inline-item seprate">
+                                    <span>/</span>
+                                </li>
+                                <li class="list-inline-item"> Product List </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
 <div class="container">
     <div class="row">
         <div class="col-md-12">
             <div class="product_alert"></div>
-            <div class="card ">
+            <div class="card">
                 <div class="card-header p-3">
                     <h4 class="d-flex justify-content-between"> Product List
                         <a href="{{ route('product.create') }}" id=""  class="btn btn-outline-primary">Add</a>
