@@ -89,7 +89,7 @@
 
 						<div class="cart_buttons">
                             <a href="{{ route('cart.destroy') }}" type="button" class="btn btn-outline-danger ">Clear Cart</a>
-                            <a type="submit" href="" class="btn btn-outline-info">Chackout</a>
+                            <a type="submit" href="{{ route('checkout') }}" class="btn btn-outline-info">Chackout</a>
                         </div>
 					</div>
 				</div>
@@ -118,8 +118,8 @@
             async:false,
             data: {_token:_token,button_id:button_id},
             success: function (response) {
-                toastr.success(response);
                 location.reload();
+                toastr.success(response);
             }
         });
     });
@@ -133,8 +133,8 @@
             type: "POST",
             data: {_token:_token,qty:qty,cartId:cartId},
             success: function (response) {
-                toastr.success(response);
                 location.reload();
+                toastr.success(response);
             }
         });
     })
@@ -142,15 +142,14 @@
     $(document).on('change','.color',function() {
         let color = $(this).val();
         let cartId = $(this).data('id');
-         //alert($cartId);
 
         $.ajax({
             url: "{{ route('cart.color.update') }}",
             type: "POST",
             data: {_token:_token,color:color,cartId:cartId},
             success: function (response) {
-                toastr.success(response);
                 location.reload();
+                toastr.success(response);
             }
         });
     })
@@ -165,8 +164,8 @@
             type: "POST",
             data: {_token:_token,size:size,cartId:cartId},
             success: function (response) {
-                toastr.success(response);
                 location.reload();
+                toastr.success(response);
             }
         });
     })

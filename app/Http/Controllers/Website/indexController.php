@@ -156,7 +156,7 @@ class indexController extends Controller
         return view('frontend.pages.page', compact('page'));
     }
 
-    // store Newsletter
+    // store Newsletter from website home page
     public function store_newsletter(Request $request){
         $email = DB::table('newsletters')->where('email',$request->email)->first();
         if ($email) {

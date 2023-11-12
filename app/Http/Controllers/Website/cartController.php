@@ -12,11 +12,7 @@ use Illuminate\Support\Facades\Auth;
 
 class cartController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-    
+
     // Add to cart
     public function addToCartQv(Request $request){
         if($request->ajax()){

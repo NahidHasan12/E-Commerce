@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ajaxController;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use App\Http\Controllers\Website\cartController;
+use App\Http\Controllers\Website\checkoutController;
 use App\Http\Controllers\Website\customer_reviewController;
 use App\Http\Controllers\Website\indexController;
 use App\Http\Controllers\Website\profileController;
@@ -30,6 +31,8 @@ Auth::routes();
 Route::get('/', function(){
     return redirect()->route('admin.login');
 })->name('login');
+
+
 
 // Route::get('/register', function(){
 //     return redirect()->to('/');
@@ -80,6 +83,12 @@ Route::post('cart-qty/update', [cartController::class,'cartUpdateQty'])->name('c
 Route::post('cart-color/update', [CartController::class,'cartUpdateColor'])->name('cart.color.update');
 Route::post('cart-size/update', [CartController::class,'cartUpdateSize'])->name('cart.size.update');
 
+Route::post('cart/reload', [cartController::class,'cartReload'])->name('cart.reload');
+Route::get('/cart/destroy',[cartController::class,'cartDestroy'])->name('cart.destroy');
+Route::post('cart/remove', [cartController::class,'cartRemove'])->name('cart.remove');
+
+// Checkout
+Route::get('checkout', [checkoutController::class,'checkout'])->name('checkout');
 
 //WishList Route
 Route::get('wishlist', [cartController::class,'wishlist'])->name('wishlist');
@@ -87,10 +96,6 @@ Route::get('wishlist/add/{id}',[cartController::class, 'wishlistAdd'])->name('wi
 Route::get('wishlist/remove/{id}',[cartController::class, 'wishlistProduct_remove'])->name('wishlist.product.remove');
 Route::get('empty/wishlist',[cartController::class, 'empty_wishlist'])->name('wishlist.empty');
 
-
-Route::post('cart/reload', [cartController::class,'cartReload'])->name('cart.reload');
-Route::get('/cart/destroy',[cartController::class,'cartDestroy'])->name('cart.destroy');
-Route::post('cart/remove', [cartController::class,'cartRemove'])->name('cart.remove');
 
 // Category Wise Product show
 Route::get('categorywise/product/{id}',[indexController::class, 'categoryWise_product'])->name('category_wise.product');
@@ -112,6 +117,6 @@ Route::post('customer/password/update', [profileController::class,'customer_pass
 Route::get('write/review',[customer_reviewController::class,'write_review'])->name('write.review');
 Route::post('website/review/store',[customer_reviewController::class,'website_review_store'])->name('website.review.sotre');
 
-// Newsletters
+// store Newsletter from website home page
 Route::post('store/newsletter',[indexController::class,'store_newsletter'])->name('store.newsletter');
 
