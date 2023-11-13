@@ -89,6 +89,9 @@ Route::post('cart/remove', [cartController::class,'cartRemove'])->name('cart.rem
 
 // Checkout
 Route::get('checkout', [checkoutController::class,'checkout'])->name('checkout');
+Route::post('apply/coupon', [checkoutController::class,'apply_coupon'])->name('apply.coupon');
+Route::get('remove/coupon', [checkoutController::class,'remove_coupon'])->name('remove.coupon');
+Route::post('order/place', [checkoutController::class,'order_place'])->name('order.place');
 
 //WishList Route
 Route::get('wishlist', [cartController::class,'wishlist'])->name('wishlist');

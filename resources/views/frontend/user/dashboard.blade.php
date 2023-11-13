@@ -1,5 +1,5 @@
 @extends('layouts.app')
-
+@section('title', 'User Dashboard')
 @section('web_style')
     <style type="text/css" media="screen">
         .profile-image{
