@@ -25,7 +25,7 @@
             <a class="text-secondary text-decoration-none" href="{{ route('wishlist') }}"><i class="far fa-heart px-1"></i> Wishlist</a>
         </li>
         <li style="border-top:1px solid #f2f2f2" class="py-2">
-            <a class="text-secondary text-decoration-none" href=""><i class="fas fa-file-alt px-1"></i> My Order</a>
+            <a class="text-secondary text-decoration-none" href="{{ route('my.order') }}"><i class="fas fa-file-alt px-1"></i> My Order</a>
         </li>
         <li style="border-top:1px solid #f2f2f2" class="py-2">
             <a class="text-secondary text-decoration-none" href="{{ route('profile.setting') }}"><i class="fas fa-edit px-1"></i> Setting</a>

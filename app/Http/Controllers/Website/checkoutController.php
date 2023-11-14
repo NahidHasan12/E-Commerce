@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers\Website;
 
+use App\Models\Order;
 use App\Models\Coupon;
+use App\Models\OrderDetail;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Mail\InvoiceMail;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use Gloudemans\Shoppingcart\Facades\Cart;
 
@@ -88,7 +92,32 @@ class checkoutController extends Controller
             $data['subtotal'] = Cart::subtotal();
             $data['total'] = Cart::total();
         }
+        // dd($data);
 
-        dd($data);
+        $order_id = Order::create($data)->id;
+        // Send mail to order placed gmail
+        Mail::to($request->c_email)->send(new InvoiceMail($data));
+
+        // Order Details
+        $cart_content = Cart::content();
+        $details = array();
+
+        foreach($cart_content as $item){
+            $details['order_id'] = $order_id;
+            $details['product_id'] = $item->id;
+            $details['product_name'] = $item->name;
+            $details['color'] = $item->options->color;
+            $details['size'] = $item->options->size;
+            $details['quantity'] = $item->qty;
+            $details['single_price'] = $item->price;
+            $details['subtotal_price'] = $item->price*$item->qty;
+            OrderDetail::create($details);
+        }
+        Cart::destroy();
+        if(Session::has('coupon')){
+            Session::forget('coupon');
+        }
+        $message = array('message'=>'Successfully Order Placed', 'alert-type'=>'success');
+        return redirect()->back()->with($message);
     }
 }

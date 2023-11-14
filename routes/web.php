@@ -113,6 +113,7 @@ Route::get('pages/{page_slug}',[indexController::class,'viwe_pages'])->name('vie
 // Customer
 Route::get('customer/dashboard',[profileController::class, 'customer'])->name('customer.dashboard');
 Route::get('profile/setting', [profileController::class,'profile_setting'])->name('profile.setting');
+Route::get('my/order', [profileController::class,'my_order'])->name('my.order');
 Route::post('profile/shipping/store/{shipping_id}', [profileController::class,'profile_shipping_store'])->name('shipping.store');
 Route::post('customer/password/update', [profileController::class,'customer_pass_change'])->name('customer.password.change');
 

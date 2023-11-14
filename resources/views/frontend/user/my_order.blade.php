@@ -69,38 +69,7 @@
           <div class="card-body">
             <div class="row my-3">
 
-              <div class="card px-2 mx-4">
-                <div class="card-body text-success">
-                  <div class="card-title"> Total Order</div>
-                  <p style="color: rgb(44, 8, 8); font-weight:bold" class="card-text text-center">{{ $total_order }}</p>
-                </div>
-              </div>
-
-              <div class="card mx-4">
-                <div class="card-body text-success">
-                  <div class="card-title"> Complete Order</div>
-                  <p style="color: rgb(44, 8, 8); font-weight:bold" class="card-text text-center">{{ $complete_order }}</p>
-                </div>
-              </div>
-
-            <div class="card mx-4">
-                <div class="card-body text-warning">
-                <div class="card-title"> Return Order</div>
-                <p style="color: rgb(44, 8, 8); font-weight:bold" class="card-text text-center">{{ $return_order }}</p>
-                </div>
-            </div>
-
-              <div class="card mx-4">
-                <div class="card-body text-danger">
-                  <div class="card-title"> Cencel Order</div>
-                  <p style="color: rgb(44, 8, 8); font-weight:bold" class="card-text text-center">{{ $cancel_order }}</p>
-                </div>
-              </div>
-
-            </div>
-
-
-            <h5 class="card-title">Order History</h5>
+            <h4 class="card-title ml-2"> My Order History</h4>
             <table class="table table-striped">
               <thead>
                 <tr>
@@ -109,10 +78,11 @@
                   <th scope="col">Total</th>
                   <th scope="col">Payment Type</th>
                   <th scope="col">Status</th>
+                  <th scope="col">Action</th>
                 </tr>
               </thead>
                 <tbody>
-                    @foreach ($order as $item)
+                    @foreach ($orders as $item)
                         <tr>
                             <th>{{ $item->order_id }}</th>
                             <td>{{ date('d F, Y'),strtotime($item->order_id) }}</td>
@@ -132,6 +102,9 @@
                                 @elseif ($item->status == 5)
                                     <span class="badge badge-danger">Order Cancel</span>
                                 @endif
+                            </td>
+                            <td>
+                                <a href="#" class="btn btn-sm btn-primary" title="View Order"> <i class="fa fa-eye"></i></a>
                             </td>
                         </tr>
                     @endforeach

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Website;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Order;
 use App\Models\Shipping;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -17,7 +18,16 @@ class profileController extends Controller
     }
 
     public function customer(){
-        return view('frontend.user.dashboard');
+        $order = Order::where('user_id',Auth::id())->orderBy('id','DESC')->take(10)->get();
+        // Total Order
+        $total_order = Order::where('user_id',Auth::id())->count();
+        // Complete Order
+        $complete_order = Order::where('user_id',Auth::id())->where('status',3)->count();
+        // Return Order
+        $return_order = Order::where('user_id',Auth::id())->where('status',4)->count();
+        // Cancel Order
+        $cancel_order = Order::where('user_id',Auth::id())->where('status',5)->count();
+        return view('frontend.user.dashboard', compact('order','total_order','complete_order','return_order','cancel_order'));
     }
 
     public function profile_setting(){
@@ -65,6 +75,12 @@ class profileController extends Controller
             return redirect()->back()->with($message);
         }
 
+    }
+
+    // My Orders
+    public function my_order(){
+        $orders = Order::where('user_id',Auth::id())->orderBy('id','DESC')->take(10)->get();
+        return view('frontend.user.my_order', compact('orders'));
     }
 
 }
