@@ -21,6 +21,13 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('frontend') }}/plugins/slick-1.8.0/slick.css">
     <link rel="stylesheet" type="text/css" href="{{ asset('frontend') }}/styles/main_styles.css">
     <link rel="stylesheet" type="text/css" href="{{ asset('frontend') }}/styles/responsive.css">
+    
+    {{-- summernote link --}}
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+
+    {{-- drofify link --}}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/css/dropify.css" integrity="sha512-In/+MILhf6UMDJU4ZhDL0R0fEpsp4D3Le23m6+ujDWXwl3whwpucJG1PEmI3B07nyJx+875ccs+yX2CqQJUxUw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
 
     @yield('web_style')
 
@@ -283,8 +290,10 @@
     <script src="{{ asset('frontend') }}/plugins/easing/easing.js"></script>
     <script src="{{ asset('frontend') }}/js/custom.js"></script>
 
-
-
+    {{-- Dropify link --}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/js/dropify.min.js" integrity="sha512-8QFTrG0oeOiyWo/VM9Y8kgxdlCryqhIxVeRpWSezdRRAvarxVtwLnGroJgnVW9/XBRduxO/z1GblzPrMQoeuew==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    {{-- summer note js link --}}
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
 
 
 

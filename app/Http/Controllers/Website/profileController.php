@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\Shipping;
+use App\Models\Ticket;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -82,5 +83,7 @@ class profileController extends Controller
         $orders = Order::where('user_id',Auth::id())->orderBy('id','DESC')->take(10)->get();
         return view('frontend.user.my_order', compact('orders'));
     }
+
+    
 
 }

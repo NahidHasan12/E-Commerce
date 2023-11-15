@@ -101,6 +101,11 @@
                         <i class="fas fa-chart-bar"></i>Warehouse</a>
                     <span class="inbox-num">3</span>
                 </li>
+                <li>
+                    <a href="{{ route('ticket.index') }}">
+                        <i class="fas fa-chart-bar"></i>Ticket</a>
+                    <span class="inbox-num">3</span>
+                </li>
                 <li class="has-sub">
                     <a class="js-arrow" href="#">
                         <i class="fas fa-copy"></i>Settings

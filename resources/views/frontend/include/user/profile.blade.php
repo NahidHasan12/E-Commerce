@@ -31,7 +31,7 @@
             <a class="text-secondary text-decoration-none" href="{{ route('profile.setting') }}"><i class="fas fa-edit px-1"></i> Setting</a>
         </li>
         <li style="border-top:1px solid #f2f2f2" class="py-2">
-            <a class="text-secondary text-decoration-none" href=""><i class="fab fa-telegram-plane px-1"></i> Open Ticket</a>
+            <a class="text-secondary text-decoration-none" href="{{ route('open.ticket') }}"><i class="fab fa-telegram-plane px-1"></i> Open Ticket</a>
         </li>
         <li style="border-top:1px solid #f2f2f2" class="py-2">
             <a class="text-secondary text-decoration-none" href="{{ route('customer.logout') }}"><i class="fas fa-sign-out-alt px-1"></i> Logout</a>

@@ -9,6 +9,7 @@ use App\Http\Controllers\Website\checkoutController;
 use App\Http\Controllers\Website\customer_reviewController;
 use App\Http\Controllers\Website\indexController;
 use App\Http\Controllers\Website\profileController;
+use App\Http\Controllers\Website\ticketController;
 
 /*
 |--------------------------------------------------------------------------
@@ -110,13 +111,6 @@ Route::get('brandwise/product/{id}',[indexController::class, 'brandWise_product'
 //-------pages show on website---------//
 Route::get('pages/{page_slug}',[indexController::class,'viwe_pages'])->name('view.pages');
 
-// Customer
-Route::get('customer/dashboard',[profileController::class, 'customer'])->name('customer.dashboard');
-Route::get('profile/setting', [profileController::class,'profile_setting'])->name('profile.setting');
-Route::get('my/order', [profileController::class,'my_order'])->name('my.order');
-Route::post('profile/shipping/store/{shipping_id}', [profileController::class,'profile_shipping_store'])->name('shipping.store');
-Route::post('customer/password/update', [profileController::class,'customer_pass_change'])->name('customer.password.change');
-
 // Review for website
 Route::get('write/review',[customer_reviewController::class,'write_review'])->name('write.review');
 Route::post('website/review/store',[customer_reviewController::class,'website_review_store'])->name('website.review.sotre');
@@ -124,3 +118,16 @@ Route::post('website/review/store',[customer_reviewController::class,'website_re
 // store Newsletter from website home page
 Route::post('store/newsletter',[indexController::class,'store_newsletter'])->name('store.newsletter');
 
+// Customer / User Admin Route
+Route::post('profile/shipping/store/{shipping_id}', [profileController::class,'profile_shipping_store'])->name('shipping.store');
+Route::post('customer/password/update', [profileController::class,'customer_pass_change'])->name('customer.password.change');
+//user profile pages
+Route::get('customer/dashboard',[profileController::class, 'customer'])->name('customer.dashboard');
+Route::get('profile/setting', [profileController::class,'profile_setting'])->name('profile.setting');
+Route::get('my/order', [profileController::class,'my_order'])->name('my.order');
+
+//Suport Ticket
+Route::get('open/ticket', [ticketController::class,'open_ticket'])->name('open.ticket');
+Route::get('new/ticket', [ticketController::class,'new_ticket'])->name('new.ticket');
+Route::post('store/ticket', [ticketController::class,'store_ticket'])->name('store.ticket');
+Route::get('show/ticket/{id}', [ticketController::class,'show_ticket'])->name('show.ticket');

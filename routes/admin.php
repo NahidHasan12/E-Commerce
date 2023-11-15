@@ -5,15 +5,16 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Admin\adminController;
 use App\Http\Controllers\Admin\brandController;
-use App\Http\Controllers\Admin\campaingController;
-use App\Http\Controllers\Admin\categoryController;
-use App\Http\Controllers\Admin\childCategoryController;
 use App\Http\Controllers\Admin\couponController;
-use App\Http\Controllers\Admin\pickup_pointController;
+use App\Http\Controllers\Admin\ticketController;
 use App\Http\Controllers\Admin\productController;
 use App\Http\Controllers\Admin\settingController;
-use App\Http\Controllers\Admin\subCategoryController;
+use App\Http\Controllers\Admin\campaingController;
+use App\Http\Controllers\Admin\categoryController;
 use App\Http\Controllers\Admin\warehouseController;
+use App\Http\Controllers\Admin\subCategoryController;
+use App\Http\Controllers\Admin\pickup_pointController;
+use App\Http\Controllers\Admin\childCategoryController;
 
 Route::get('admin-login', [LoginController::class, 'adminLogin'])->name('admin.login');
 
@@ -157,4 +158,12 @@ Route::middleware(['is_admin','auth'])->group(function () {
         Route::post('status_active', [productController::class, 'status_active'])->name('status_active');
         Route::post('status_deactivate', [productController::class, 'status_deactivate'])->name('status_deactivate');
     });
+
+    // Suport Ticket
+    Route::prefix('ticket')->name('ticket.')->group(function(){
+        Route::get('/index', [ticketController::class,'index'])->name('index');
+        Route::post('/getDate', [ticketController::class,'getTicket'])->name('get_ticket');
+        Route::post('/show', [ticketController::class,'showTicket'])->name('show');
+    });
+
 });
