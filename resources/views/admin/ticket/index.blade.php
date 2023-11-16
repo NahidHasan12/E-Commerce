@@ -105,7 +105,7 @@
             ],
             pageLength: 25, //number of data show per page
             ajax: {
-                url: "{{ route('ticket.get_ticket') }}",
+                url: "{{ route('admin.ticket.get_ticket') }}",
                 type: "POST",
                 dataType: "JSON",
                 data: function(d) {

@@ -19,11 +19,14 @@ class ticketController extends Controller
     }
 
     public function getTicket(Request $request){
+
+        //dd($request->status);
+
         if($request->ajax()){
             $getData = Ticket::latest('id');
 
             if ($request->type) {
-                $getData->where('service',$request->type); // request coming from index page
+               $getData->where('service',$request->type); // request coming from index page
             }
 
             if ($request->date) {
@@ -38,7 +41,7 @@ class ticketController extends Controller
             ->addIndexColumn()
             ->addColumn('action', function($ticket){
                 $action = '
-                    <a href="'.route('ticket.show',$ticket->id).'"  id="view-btn" class="btn btn-info btn-sm"><i class="fa fa-eye text-white"> </i></a>
+                    <a href="'.route('admin.ticket.show',$ticket->id).'"  id="view-btn" class="btn btn-info btn-sm"><i class="fa fa-eye text-white"> </i></a>
                     <button data-id="'.$ticket->id.'" id="delete-btn" class="btn btn-danger btn-sm"><i class="fa fa-trash text-white"> </i></button>
                 ';
 
@@ -56,20 +59,19 @@ class ticketController extends Controller
             ->addColumn('status', function($ticket) {
 
                 if ($ticket->status ==0) {
-                    return '<span class="badge badge-warning"> Pending </span>';
-                }elseif($ticket->status ==1){
-                    return '<span class="badge bg-info"> Replied </span>';
-                }elseif($ticket->status ==2){
-                    return '<span class="badge badge-secondary"> Closed </span>';
-                }
+                return '<span class="badge badge-warning"> Pending </span>';
+               }elseif($ticket->status ==1){
+                return '<span class="badge bg-info"> Replied </span>';
+               }elseif($ticket->status ==2){
+                return '<span class="badge badge-secondary"> Closed </span>';
+               }
 
             })
 
-            ->rawColumns(['action','status'])
+            ->rawColumns(['action','status','name','date'])
             ->make(true);
 
         }
-
     }
 
 }

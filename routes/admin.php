@@ -160,7 +160,7 @@ Route::middleware(['is_admin','auth'])->group(function () {
     });
 
     // Suport Ticket
-    Route::prefix('ticket')->name('ticket.')->group(function(){
+    Route::prefix('ticket')->name('admin.ticket.')->group(function(){
         Route::get('/index', [ticketController::class,'index'])->name('index');
         Route::post('/getDate', [ticketController::class,'getTicket'])->name('get_ticket');
         Route::post('/show', [ticketController::class,'showTicket'])->name('show');

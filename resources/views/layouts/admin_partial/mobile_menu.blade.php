@@ -102,7 +102,7 @@
                     <span class="inbox-num">3</span>
                 </li>
                 <li>
-                    <a href="{{ route('ticket.index') }}">
+                    <a href="{{ route('admin.ticket.index') }}">
                         <i class="fas fa-chart-bar"></i>Ticket</a>
                     <span class="inbox-num">3</span>
                 </li>
