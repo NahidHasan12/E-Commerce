@@ -41,8 +41,8 @@ class ticketController extends Controller
             ->addIndexColumn()
             ->addColumn('action', function($ticket){
                 $action = '
-                    <a href="'.route('admin.ticket.show',$ticket->id).'"  id="view-btn" class="btn btn-info btn-sm"><i class="fa fa-eye text-white"> </i></a>
-                    <button data-id="'.$ticket->id.'" id="delete-btn" class="btn btn-danger btn-sm"><i class="fa fa-trash text-white"> </i></button>
+                    <a href="'.route('admin.ticket.show',$ticket->id).'" title="Show Ticket" id="view-btn" class="btn btn-info btn-sm"><i class="fa fa-eye text-white"> </i></a>
+                    <button data-id="'.$ticket->id.'" id="delete-btn" title="Delete Ticket" class="btn btn-danger btn-sm"><i class="fa fa-trash text-white"> </i></button>
                 ';
 
                 return $action;
@@ -72,6 +72,12 @@ class ticketController extends Controller
             ->make(true);
 
         }
+    }
+
+    // show admin ticket
+    public function showTicket($ticket_id){
+        $ticket = Ticket::where('id',$ticket_id)->first();
+        return view('admin.ticket.show_ticket', compact('ticket'));
     }
 
 }

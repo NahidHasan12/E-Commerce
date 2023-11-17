@@ -132,7 +132,10 @@
             padding-left: 15px
         }
 
+
     </style>
+
+    @yield('admin_style')
 
 </head>
 
@@ -142,17 +145,14 @@
         @guest()
 
         @else
-        @include('layouts.admin_partial.desktop_menu')
-        <!-- END MENU SIDEBAR-->
-        <!-- PAGE CONTAINER-->
-        <div class="page-container2">
+            @include('layouts.admin_partial.desktop_menu')
+            <!-- END MENU SIDEBAR-->
+            <!-- PAGE CONTAINER-->
+            <div class="page-container2">
             <!-- HEADER DESKTOP-->
             @include('layouts.admin_partial.header')
             @include('layouts.admin_partial.mobile_menu')
-
-
-
-            @endguest
+        @endguest
             <!-- END HEADER DESKTOP-->
             @yield('admin_content')
 
