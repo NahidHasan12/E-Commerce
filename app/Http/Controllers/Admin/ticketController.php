@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Ticket;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Reply;
 use Yajra\DataTables\Facades\DataTables;
 
 class ticketController extends Controller
@@ -78,6 +79,28 @@ class ticketController extends Controller
     public function showTicket($ticket_id){
         $ticket = Ticket::where('id',$ticket_id)->first();
         return view('admin.ticket.show_ticket', compact('ticket'));
+    }
+
+    // Reply store
+    public function replyStore(Request $request){
+        $request->validate([
+            'message'=> 'required',
+        ]);
+
+        $ticketData = [
+            'user_id' => 0,
+            'message' => $request->message,
+            'ticket_id' => $request->ticket_id,
+            'reply_date'  => date('Y-m-d'),
+        ];
+
+        if ($request->hasFile('image')) {
+            // Store the uploaded image in the appropriate directory
+            $ticketData['image'] = $this->file_upload($request->file('image'), 'frontend/ticket_img');
+        }
+        $ticket = Reply::create($ticketData);
+        $message = array('message'=>'Replied Done','alert-type'=>'success' );
+        return redirect()->back()->with($message);
     }
 
 }

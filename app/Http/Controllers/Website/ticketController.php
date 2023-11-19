@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Website;
 
+use App\Models\Reply;
 use App\Models\Ticket;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -51,5 +52,27 @@ class ticketController extends Controller
     public function show_ticket($id){
         $show_ticket = Ticket::where('id',$id)->first();
         return view('frontend.user.show_ticket', compact('show_ticket'));
+    }
+
+    // Ticket Reply
+    public function storeReply(Request $request){
+        $request->validate([
+            'message'=> 'required',
+        ]);
+
+        $ticketData = [
+            'user_id' => Auth::id(),
+            'message' => $request->message,
+            'ticket_id' => $request->ticket_id,
+            'reply_date'  => date('Y-m-d'),
+        ];
+
+        if ($request->hasFile('image')) {
+            // Store the uploaded image in the appropriate directory
+            $ticketData['image'] = $this->file_upload($request->file('image'), 'frontend/ticket_img');
+        }
+        $ticket = Reply::create($ticketData);
+        $message = array('message'=>'Replied Done','alert-type'=>'success' );
+        return redirect()->back()->with($message);
     }
 }

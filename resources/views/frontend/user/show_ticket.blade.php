@@ -161,7 +161,7 @@
                         dolorem maxime cupiditate officiis suscipit.
                         <span class="m_sms_time"> 1 November-2023, 05:30 PM</span>
                     </p>
-                    <h4 class="admin"><i class="fa fa-user"> </i> Admin</h4>
+                    <h4 class="admin"><i class="fa fa-user"> </i> {{ Auth::user()->name }}</h4>
                 </div>
                 {{-- Reply --}}
                 <div class="reply">
@@ -199,12 +199,13 @@
         <div class="card mt-2">
           <div class="card-body">
             <h5 class="card-title">Reply Message</h5>
-            <form action="{{ route('store.ticket') }}" method="post" enctype="multipart/form-data">
+            <form action="{{ route('store.ticket.reply') }}" method="post" enctype="multipart/form-data">
                 @csrf
 
               <div class="form-group">
                 <label for="message" class="form-label">Write Your Message</label>
                 <textarea name="message" class="form-control" id="message" cols="30" rows="3"></textarea>
+                <input type="hidden" name="ticket_id" value="{{ $show_ticket->id }}">
               </div>
               <div class="form-group">
                 <label for="image" class="form-label">Upload Image</label>

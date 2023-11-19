@@ -37,7 +37,7 @@
             width: 660px;
             min-height: 100px;
             border: 2px solid red;
-            margin: 10px 5px 10px 209px;
+            margin: 10px 5px 10px 320px;
             border-radius: 30px 30px 0px 30px;
         }
         .reply .r_sms{
@@ -123,7 +123,7 @@
                     dolorem maxime cupiditate officiis suscipit.
                     <span class="m_sms_time"> 1 November-2023, 05:30 PM</span>
                 </p>
-                <h4 class="admin"><i class="fa fa-user"> </i> Admin</h4>
+                <h4 class="admin"><i class="fa fa-user"> </i> Customer</h4>
             </div>
             {{-- Reply --}}
             <div class="reply">
@@ -133,7 +133,7 @@
                     dolorem maxime cupiditate officiis suscipit.
                     <span class="r_sms_time"> 1 November-2023, 05:30 PM</span>
                 </p>
-                <h4 class="customer">  Customer <i class="fa fa-user"></i></h4>
+                <h4 class="customer">  Admin <i class="fa fa-user"></i></h4>
             </div>
             {{-- message --}}
             <div class="message">
@@ -161,12 +161,12 @@
     <div class="card mt-2">
       <div class="card-body">
         <h5 class="card-title">Reply Message</h5>
-        <form action="{{ route('store.ticket') }}" method="post" enctype="multipart/form-data">
+        <form action="{{ route('admin.ticket.reply.store') }}" method="post" enctype="multipart/form-data">
             @csrf
-
           <div class="form-group">
             <label for="message" class="form-label">Write Your Message</label>
             <textarea name="message" class="form-control" id="message" cols="30" rows="3"></textarea>
+            <input type="hidden" name="ticket_id" value="{{ $ticket->id }}">
           </div>
           <div class="form-group">
             <label for="image" class="form-label">Upload Image</label>

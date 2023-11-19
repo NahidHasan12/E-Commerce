@@ -131,3 +131,4 @@ Route::get('open/ticket', [ticketController::class,'open_ticket'])->name('open.t
 Route::get('new/ticket', [ticketController::class,'new_ticket'])->name('new.ticket');
 Route::post('store/ticket', [ticketController::class,'store_ticket'])->name('store.ticket');
 Route::get('show/ticket/{id}', [ticketController::class,'show_ticket'])->name('show.ticket');
+Route::post('store/ticket/reply', [ticketController::class,'storeReply'])->name('store.ticket.reply');
