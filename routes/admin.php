@@ -165,6 +165,8 @@ Route::middleware(['is_admin','auth'])->group(function () {
         Route::post('/getDate', [ticketController::class,'getTicket'])->name('get_ticket');
         Route::get('/show/{id}', [ticketController::class,'showTicket'])->name('show');
         Route::post('/reply/store', [ticketController::class,'replyStore'])->name('reply.store');
+        Route::get('/close/ticket/{id}', [ticketController::class,'closeTicket'])->name('close');
+        Route::post('/ticket/delete', [ticketController::class,'destroyTicket'])->name('delete');
     });
 
 });

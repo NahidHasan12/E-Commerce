@@ -51,7 +51,8 @@ class ticketController extends Controller
     // Show Ticket
     public function show_ticket($id){
         $show_ticket = Ticket::where('id',$id)->first();
-        return view('frontend.user.show_ticket', compact('show_ticket'));
+        $reply = Reply::where('ticket_id', $show_ticket->id)->orderBy('id','ASC')->get();
+        return view('frontend.user.show_ticket', compact('show_ticket','reply'));
     }
 
     // Ticket Reply
@@ -72,6 +73,8 @@ class ticketController extends Controller
             $ticketData['image'] = $this->file_upload($request->file('image'), 'frontend/ticket_img');
         }
         $ticket = Reply::create($ticketData);
+
+        Ticket::where('id',$request->ticket_id)->update(['status' => 0]);
         $message = array('message'=>'Replied Done','alert-type'=>'success' );
         return redirect()->back()->with($message);
     }

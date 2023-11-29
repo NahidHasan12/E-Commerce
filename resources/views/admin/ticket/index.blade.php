@@ -189,6 +189,20 @@
             $('#ticket_table').DataTable().ajax.reload();
         });
 
+        $(document).on('click', 'button.delete-btn', function(){
+            let ticket_id = $(this).data('id');
+            $.ajax({
+                url: "{{ route('admin.ticket.delete') }}",
+                type: "post",
+                dataType:"json",
+                data:{_token:_token, ticket_id:ticket_id},
+                success:function(response){
+                    
+                    table.draw();
+                }
+            });
+        });
+
     </script>
 @endpush
 

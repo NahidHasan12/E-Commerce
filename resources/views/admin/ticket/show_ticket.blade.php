@@ -32,9 +32,10 @@
             color: #091a59;
             margin-left: 15px;
             font-size: 20px;
+            margin-bottom: 10px;
         }
         .reply{
-            width: 660px;
+            width: 600px;
             min-height: 100px;
             border: 2px solid red;
             margin: 10px 5px 10px 320px;
@@ -60,8 +61,17 @@
         .reply .customer{
             color: #ac2303;
             margin-right: 15px;
+            margin-bottom: 10px;
             font-size: 20px;
             text-align: right;
+        }
+        .ticket_img{
+            margin-left: 19px;
+            margin-top: 10px;
+            border-radius: 20px;
+            margin-bottom: -10px;
+            height: 150px;
+            width: 200px;
         }
     </style>
 @endsection
@@ -115,47 +125,23 @@
     <div class="card mt-3">
             <h4 class="card-title text-light pl-3 pt-2 pb-2 bg-dark">All Reply Message</h4>
         <div class="card-body" style="height:300px; overflow-y: scroll">
-            {{-- message --}}
-            <div class="message">
-                <p class="m_sms">
-                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Modi architecto nihil
-                    quia praesentium nam quasi saepe ut optio doloribus. Totam ipsa deserunt pariatur,
-                    dolorem maxime cupiditate officiis suscipit.
-                    <span class="m_sms_time"> 1 November-2023, 05:30 PM</span>
-                </p>
-                <h4 class="admin"><i class="fa fa-user"> </i> Customer</h4>
-            </div>
-            {{-- Reply --}}
-            <div class="reply">
-                <p class="r_sms">
-                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Modi architecto nihil
-                    quia praesentium nam quasi saepe ut optio doloribus. Totam ipsa deserunt pariatur,
-                    dolorem maxime cupiditate officiis suscipit.
-                    <span class="r_sms_time"> 1 November-2023, 05:30 PM</span>
-                </p>
-                <h4 class="customer">  Admin <i class="fa fa-user"></i></h4>
-            </div>
-            {{-- message --}}
-            <div class="message">
-                <p class="m_sms">
-                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Modi architecto nihil
-                    quia praesentium nam quasi saepe ut optio doloribus. Totam ipsa deserunt pariatur,
-                    dolorem maxime cupiditate officiis suscipit.
-                    <span class="m_sms_time"> 1 November-2023, 05:30 PM</span>
-                </p>
-                <h4 class="admin"><i class="fa fa-user"> </i> Admin</h4>
-            </div>
-            {{-- Reply --}}
-            <div class="reply">
-                <p class="r_sms">
-                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Modi architecto nihil
-                    quia praesentium nam quasi saepe ut optio doloribus. Totam ipsa deserunt pariatur,
-                    dolorem maxime cupiditate officiis suscipit.
-                    <span class="r_sms_time"> 1 November-2023, 05:30 PM</span>
-                </p>
-                <h4 class="customer">  Customer <i class="fa fa-user"></i></h4>
-            </div>
 
+        @isset($reply)
+            @foreach ($reply as $item)
+                {{-- Reply --}}
+                <div class="@if ($item->user_id==0) reply @else message @endif">
+                    @isset($item->image)
+                    <img class="ticket_img" src="{{ asset('frontend/ticket_img/'.$item->image) }}" alt="">
+                    @endisset
+
+                    <p class="@if ($item->user_id==0) r_sms @else m_sms @endif">
+                        {{ $item->message }}
+                        <span class="@if ($item->user_id==0) r_sms_time @else m_sms_time @endif">{{$item->reply_date}}</span>
+                    </p>
+                    <h4 class="@if ($item->user_id==0) customer @else admin @endif">  @if ($item->user_id==0) Admin @else {{ Auth::user()->name }} @endif <i class="fa fa-user"></i></h4>
+                </div>
+            @endforeach
+        @endisset
         </div>
     </div>
     <div class="card mt-2">
@@ -173,6 +159,7 @@
             <input type="file" class="form-control dropify" name="image">
           </div>
           <button type="submit" class="btn btn-primary">Submit Ticket</button>
+          <a href="{{ route('admin.ticket.close',$ticket->id) }}" class="btn btn-danger">Close Ticket</a>
         </form>
       </div>
     </div>

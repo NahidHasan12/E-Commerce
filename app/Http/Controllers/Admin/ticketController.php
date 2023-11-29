@@ -43,7 +43,7 @@ class ticketController extends Controller
             ->addColumn('action', function($ticket){
                 $action = '
                     <a href="'.route('admin.ticket.show',$ticket->id).'" title="Show Ticket" id="view-btn" class="btn btn-info btn-sm"><i class="fa fa-eye text-white"> </i></a>
-                    <button data-id="'.$ticket->id.'" id="delete-btn" title="Delete Ticket" class="btn btn-danger btn-sm"><i class="fa fa-trash text-white"> </i></button>
+                    <button type="submit" class="btn btn-sm btn-danger m-1 delete-btn" data-id="'.$ticket->id.'"> <i class="fa fa-trash" aria-hidden="true"></i> </button>
                 ';
 
                 return $action;
@@ -78,7 +78,8 @@ class ticketController extends Controller
     // show admin ticket
     public function showTicket($ticket_id){
         $ticket = Ticket::where('id',$ticket_id)->first();
-        return view('admin.ticket.show_ticket', compact('ticket'));
+        $reply = Reply::where('ticket_id', $ticket->id)->orderBy('id','ASC')->get();
+        return view('admin.ticket.show_ticket', compact('ticket','reply'));
     }
 
     // Reply store
@@ -99,8 +100,33 @@ class ticketController extends Controller
             $ticketData['image'] = $this->file_upload($request->file('image'), 'frontend/ticket_img');
         }
         $ticket = Reply::create($ticketData);
+
+        Ticket::where('id', $request->ticket_id)->update(['status'=>1]);
+
         $message = array('message'=>'Replied Done','alert-type'=>'success' );
         return redirect()->back()->with($message);
+    }
+
+    // close admin ticket
+    public function closeTicket($id){
+        Ticket::where('id', $id)->update(['status'=>2]);
+        $message = array('message'=>'Ticket Closed','alert-type'=>'success' );
+        return redirect()->route('admin.ticket.index')->with($message);
+    }
+
+    // Destroy Ticket
+    public function destroyTicket(Request $request){
+        if($request->ajax()){
+            $ticket = Ticket::findOrFail($request->ticket_id);
+
+            if(file_exists('../frontend/ticket_img/'.$ticket->image)){
+                unlink('../frontend/ticket_img/'.$ticket->image);
+            }
+
+            $ticket->delete();
+            $message = array('message'=>'Ticket Deleted','alert-type'=>'success' );
+            return redirect()->back()->with($message);
+        }
     }
 
 }

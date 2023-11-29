@@ -99,7 +99,6 @@
                             </td>
                             <td>
                                 <a href="{{ route('show.ticket', $item->id) }}" class="btn btn-sm btn-primary" title="View Ticket"> <i class="fa fa-eye"></i></a>
-                                <a href="#" class="btn btn-sm btn-danger" title="Delete Ticket"> <i class="fa fa-trash"></i></a>
                             </td>
                         </tr>
                     @endforeach
