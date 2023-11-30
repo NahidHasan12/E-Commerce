@@ -21,7 +21,7 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('frontend') }}/plugins/slick-1.8.0/slick.css">
     <link rel="stylesheet" type="text/css" href="{{ asset('frontend') }}/styles/main_styles.css">
     <link rel="stylesheet" type="text/css" href="{{ asset('frontend') }}/styles/responsive.css">
-    
+
     {{-- summernote link --}}
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
 
@@ -236,8 +236,8 @@
                         <div class="footer_column">
                             <div class="footer_title">Customer Care</div>
                             <ul class="footer_list">
-                                <li><a href="#">My Account</a></li>
-                                <li><a href="#">Order Tracking</a></li>
+                                <li><a href="{{ route('customer.dashboard') }}">My Account</a></li>
+                                <li><a href="{{ route('order.tracking') }}">Order Tracking</a></li>
                                 <li><a href="#">Wish List</a></li>
                                 <li><a href="#">Our Blog</a></li>
                                 <li><a href="#">Contact Us</a></li>

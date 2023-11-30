@@ -13,6 +13,8 @@ use App\Models\Childcategory;
 use App\Models\Customer_review;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Models\Order;
+use App\Models\OrderDetail;
 use Illuminate\Support\Facades\Auth;
 
 class indexController extends Controller
@@ -167,6 +169,23 @@ class indexController extends Controller
                 'email' => $request->email
             ]);
             $message = array('message'=>'Thanks For Subscription','alert-type'=>'success');
+            return redirect()->back()->with($message);
+        }
+    }
+
+    // Order Tracking
+    public function order_tracking(){
+        return view('frontend.tracking.order_tracking');
+    }
+    public function check_order(Request $request){
+        $check = Order::where('order_id', $request->order_id)->first();
+
+        if($check){
+            $order = Order::where('order_id',$request->order_id)->first();
+            $order_details = OrderDetail::where('order_id',$order->id)->get();
+            return view('frontend.tracking.tracking_details', compact('order','order_details'));
+        }else{
+            $message = array('message'=>'Invalid Order ID, Try Again','alert-type'=>'error');
             return redirect()->back()->with($message);
         }
     }

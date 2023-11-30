@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
+use App\Models\OrderDetail;
 use App\Models\Shipping;
 use App\Models\Ticket;
 use Illuminate\Support\Facades\Auth;
@@ -84,6 +85,12 @@ class profileController extends Controller
         return view('frontend.user.my_order', compact('orders'));
     }
 
-    
+    // View Order
+    public function view_order($id){
+        $order = Order::findOrFail($id);
+        $order_details = OrderDetail::where('order_id',$id)->get();
+        return view('frontend.user.order_details', compact('order','order_details'));
+    }
+
 
 }

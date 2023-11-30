@@ -125,6 +125,11 @@ Route::post('customer/password/update', [profileController::class,'customer_pass
 Route::get('customer/dashboard',[profileController::class, 'customer'])->name('customer.dashboard');
 Route::get('profile/setting', [profileController::class,'profile_setting'])->name('profile.setting');
 Route::get('my/order', [profileController::class,'my_order'])->name('my.order');
+Route::get('view/order/{id}', [profileController::class,'view_order'])->name('view.order');
+
+// Order Tracking
+Route::get('order/tracking', [indexController::class,'order_tracking'])->name('order.tracking');
+Route::post('check/order', [indexController::class,'check_order'])->name('check.order');
 
 //Suport Ticket
 Route::get('open/ticket', [ticketController::class,'open_ticket'])->name('open.ticket');

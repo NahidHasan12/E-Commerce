@@ -197,7 +197,6 @@
                 dataType:"json",
                 data:{_token:_token, ticket_id:ticket_id},
                 success:function(response){
-                    
                     table.draw();
                 }
             });
