@@ -94,6 +94,12 @@ Route::middleware(['is_admin','auth'])->group(function () {
         Route::post('/update_page', [settingController::class, 'update_page'])->name('update_page');
         Route::post('/delete', [settingController::class, 'pages_delete'])->name('delete');
     });
+    // Payment Gateway
+    Route::prefix('payment_gateway')->name('payment.')->group(function(){
+        Route::get('/', [settingController::class, 'payment_gateway'])->name('gateway');
+        Route::post('/update_aamarpay', [settingController::class, 'update_aamarpay'])->name('update.aamarpay');
+        Route::post('/update_shurjopay', [settingController::class, 'update_shurjopay'])->name('update.shurjopay');
+    });
 
     //Warehouse Route
     Route::prefix('warehouse')->name('warehouse.')->group(function(){
@@ -116,7 +122,7 @@ Route::middleware(['is_admin','auth'])->group(function () {
         Route::post('/update', [couponController::class, 'update'])->name('update');
         Route::post('/delete', [couponController::class, 'delete'])->name('delete');
     });
-    //Coupon Route
+    //Pickup Point Route
     Route::prefix('pickup_point')->name('pickup_point.')->group(function(){
         Route::get('/', [pickup_pointController::class, 'index'])->name('index');
         Route::post('/getData', [pickup_pointController::class, 'getData'])->name('getData');

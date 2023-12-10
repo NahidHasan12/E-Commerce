@@ -8,6 +8,7 @@ use App\Models\Smtp;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Payment_Getway;
 use App\Models\Web_setting;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -194,6 +195,38 @@ class settingController extends Controller
             $output=['status'=>'success','message'=>'data deleted successfully'];
             return response()->json($output);
         }
+    }
+
+    // Payment Gateway
+    public function payment_gateway(){
+        $aamarpay = Payment_Getway::first();
+        $shurjopay = Payment_Getway::skip(1)->first();
+        $ssl = Payment_Getway::skip(2)->first();
+        return view('admin.setting.payment_gateway.edit', compact('aamarpay','shurjopay','ssl'));
+    }
+
+    // Aamarpay Update
+    public function update_aamarpay(Request $request){
+        $aamarpay_id = Payment_Getway::findOrFail($request->id);
+        $aamarpay = $aamarpay_id->update([
+            'store_id'      => $request->store_id,
+            'signature_key' => $request->signature_key,
+            'status'        => $request->status
+        ]);
+        $message = array('message'=>'Amarpay Payment gateway updated','alert-type'=>'success' );
+        return redirect()->back()->with($message);
+    }
+
+    // Shurjopay Update
+    public function update_shurjopay(Request $request){
+        $shurjopay_id = Payment_Getway::findOrFail($request->id);
+        $shurjopay = $shurjopay_id->update([
+            'store_id'      => $request->store_id,
+            'signature_key' => $request->signature_key,
+            'status'        => $request->status
+        ]);
+        $message = array('message'=>'Shurjopay Payment gateway updated','alert-type'=>'success' );
+        return redirect()->back()->with($message);
     }
 
 }

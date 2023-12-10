@@ -130,6 +130,10 @@
                             <a href="{{ route('smtp.smtp') }}">
                                 <i class="far fa-check-square"></i>SMTP Setting</a>
                         </li>
+                        <li>
+                            <a href="{{ route('payment.gateway') }}">
+                                <i class="far fa-check-square"></i>Payment Gateway</a>
+                        </li>
                     </ul>
                 </li>
 
