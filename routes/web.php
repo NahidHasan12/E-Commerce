@@ -93,6 +93,10 @@ Route::get('checkout', [checkoutController::class,'checkout'])->name('checkout')
 Route::post('apply/coupon', [checkoutController::class,'apply_coupon'])->name('apply.coupon');
 Route::get('remove/coupon', [checkoutController::class,'remove_coupon'])->name('remove.coupon');
 Route::post('order/place', [checkoutController::class,'order_place'])->name('order.place');
+// Aamarpay Payment Gateway
+Route::post('success',[checkoutController::class,'success'])->name('success');
+Route::post('fail',[checkoutController::class,'fail'])->name('fail');
+Route::get('cancel',[checkoutController::class,'cancel'])->name('cancel');
 
 //WishList Route
 Route::get('wishlist', [cartController::class,'wishlist'])->name('wishlist');
@@ -130,6 +134,7 @@ Route::get('view/order/{id}', [profileController::class,'view_order'])->name('vi
 // Order Tracking
 Route::get('order/tracking', [indexController::class,'order_tracking'])->name('order.tracking');
 Route::post('check/order', [indexController::class,'check_order'])->name('check.order');
+
 
 //Suport Ticket
 Route::get('open/ticket', [ticketController::class,'open_ticket'])->name('open.ticket');
