@@ -142,9 +142,9 @@ class checkoutController extends Controller
                 $amount = "10";   //10 taka is the minimum amount for show card option in aamarPay payment gateway
 
                 //For live Store Id & Signature Key please mail to support@aamarpay.com
-                $store_id = $amarpay->store_id;
+                $store_id = $amarpay->store_id; // store ID
 
-                $signature_key = $amarpay->signature_key;
+                $signature_key = $amarpay->signature_key; // Signature key
 
 
                 $curl = curl_init();
