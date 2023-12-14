@@ -115,7 +115,7 @@ class checkoutController extends Controller
                 $details['subtotal_price'] = $item->price*$item->qty;
                 OrderDetail::create($details);
             }
-            Cart::destroy();
+            Cart::destroy(); // Crat deleted
             if(Session::has('coupon')){
                 Session::forget('coupon');
             }
