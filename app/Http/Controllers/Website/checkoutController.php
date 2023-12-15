@@ -101,7 +101,7 @@ class checkoutController extends Controller
             Mail::to($request->c_email)->send(new InvoiceMail($data));
 
             // Order Details
-            $cart_content = Cart::content();
+            $cart_content = Cart::content(); // cart all content catch
             $details = array();
 
             foreach($cart_content as $item){
