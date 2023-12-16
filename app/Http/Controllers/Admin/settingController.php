@@ -151,7 +151,7 @@ class settingController extends Controller
             return response()->json($data);
         }
     }
-
+    // select page pogition
     public function select_page_position(Request $request){
         if($request->ajax()){
             $pageData = Page::findOrFail($request->page_id);
