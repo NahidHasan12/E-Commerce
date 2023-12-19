@@ -168,7 +168,7 @@ class settingController extends Controller
             return response()->json($output);
         }
     }
-
+    // Pages Update
     public function update_page(Request $request){
         if($request->ajax()){
             $page = Page::findOrFail($request->update);
