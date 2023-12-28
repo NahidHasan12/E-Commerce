@@ -187,7 +187,7 @@ class settingController extends Controller
             return response()->json($output);
         }
     }
-    // pages delete
+    // pages deleted
     public function pages_delete(Request $request){
         if($request->ajax()){
             $brand = Page::findOrFail($request->brand_id);
