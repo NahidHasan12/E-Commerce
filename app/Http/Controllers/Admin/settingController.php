@@ -197,7 +197,7 @@ class settingController extends Controller
         }
     }
 
-    // Payment Gateway
+    // Payment Gateways
     public function payment_gateway(){
         $aamarpay = Payment_Getway::first();
         $shurjopay = Payment_Getway::skip(1)->first();
